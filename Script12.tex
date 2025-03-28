@@ -1,0 +1,801 @@
+\documentclass[11pt]{article}
+\usepackage{color}
+%\input{rgb}
+
+%----------Packages----------
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{amsrefs}
+%\usepackage{dsfont}
+\usepackage{mathrsfs}
+\usepackage{mathtools}
+%\usepackage{stmaryrd}
+%\usepackage[all]{xy}
+\usepackage[mathcal]{eucal} % changes meaning of \mathcal
+\usepackage{enumerate}
+\usepackage[shortlabels]{enumitem}
+\usepackage{verbatim} %%includes comment environment
+\usepackage{fullpage} %%smaller margins
+
+%----------Commands----------
+%%penalizes orphans
+\clubpenalty = 9999
+\widowpenalty = 9999
+
+%% blackboard bold math capitals
+\newcommand{\bbF}{\mathbb{F}}
+\newcommand{\bbN}{\mathbb{N}}
+\newcommand{\bbQ}{\mathbb{Q}}
+\newcommand{\bbR}{\mathbb{R}}
+\newcommand{\bbZ}{\mathbb{Z}}
+
+\renewcommand{\phi}{\varphi}
+\renewcommand{\emptyset}{\O}
+
+\renewcommand{\_}[1]{\underline{ #1 }}
+\DeclarePairedDelimiter{\abs}{\lvert}{\rvert}
+\DeclarePairedDelimiter{\norm}{\lVert}{\rVert}
+
+\DeclareMathOperator{\ext}{ext}
+\DeclareMathOperator{\bridge}{bridge}
+
+% Start for Sheet 14
+\newcommand{\vx}{\mathbf{x}}
+\newcommand{\vy}{\mathbf{y}}
+\newcommand{\vz}{\mathbf{z}}
+\newcommand{\va}{\mathbf{a}}
+% End for Sheet 14
+
+\newcommand{\head}[1]{
+	\begin{center}
+		{\large #1}
+		\vspace{.2 in}
+	\end{center}
+	
+	\bigskip 
+}
+\newcommand{\hint}[2][Hint]{
+	
+	(#1: #2)
+}
+
+%----------Theorems----------
+
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{examples}[theorem]{Examples}
+\newtheorem{example}[theorem]{Example}
+
+\newtheorem{axiom}{Axiom}
+
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem*{definition*}{Definition}
+\newtheorem{nondefinition}[theorem]{Non-Definition}
+\newtheorem{exercise}[theorem]{Exercise}
+\newtheorem{remark}[theorem]{Remark}
+\newtheorem{warning}[theorem]{Warning}
+\newtheorem{question}[theorem]{Question}
+
+\numberwithin{equation}{subsection}
+
+%----------Editting----------
+
+%\newcommand{\hide}[1]{} % for student version
+%\newcommand{\com}[1]{} % for student version
+%\newcommand{\meta}[1]{} % for removing meta comments in the script
+
+\newcommand{\hide}[1]{{\color{red} #1}} % for instructor version
+\newcommand{\com}[1]{{\color{blue} #1}} % for instructor version
+\newcommand{\meta}[1]{{\color{green} #1}} % for making notes about the script that are not intended to end up in the script
+
+\begin{document}
+	
+\head{MATH 162, Winter 2025\\
+SCRIPT 12: Derivatives}
+
+%%--- sheet number for theorem counter
+\setcounter{section}{12} 
+%\setcounter{theorem}{-1}
+
+
+Throughout this sheet, we let $f\colon A \to \bbR$ be a real valued function with domain $A \subset \bbR$. We also now assume the domain $A \subset \bbR$ is open. 
+\begin{definition}\label{deriv}
+	The \emph{derivative} of $f$ at a point $a \in A$ is the number $f'(a)$ defined by the following limit:
+	\[
+		f'(a) = \lim_{h \to 0} \frac{f(a + h) - f(a)}{h}, 
+	\]
+	provided the limit on the right hand side exists.
+	If $f'(a)$ exists, we say that $f$ is \emph{differentiable at $a$}. If $f$ is differentiable at all points of its domain, we say that $f$ is \emph{differentiable}. In this case, the values $f'(a)$ define a new function $f'\colon A \to \bbR$ called the \emph{derivative} of $f$.
+\end{definition}
+
+\begin{remark} If $A$ is not open the limit in Definition \ref{deriv} may not exist. For example, if $f\colon [a,b]\to \bbR$ then we cannot define the derivative at the endpoints. 
+ For any $c$ in the domain of $f,$ we define the {\em right-hand-derivative} $f'_{+}(c)$ and the {\em left-hand-derivative} $f'_{-}(c)$  by
+$$f'_{+}(c)=\lim_{h\to 0^+} \frac{f(c+h)-f(c)}{h}\qquad \text{and} \qquad f'_{-}(c)= \lim_{h\to 0^{-}}\frac{f(c+h)-f(c)}{h}.$$
+
+ We say that $f$ is differentiable on $[a,b]$ if $f$ is differentiable on $(a,b)$ and $f'_{+}(a)$ and  $f'_{-}(b)$ exist. 
+\end{remark}
+
+\begin{lemma}
+	Let $a \in \bbR$. Then 
+	\[
+		\lim\limits_{x \to a}f(x) = \lim\limits_{h \to 0}f(a + h),
+	\]
+	assuming that one of the two limits exists. (So if the limit on the left exists, so does the one on the right, and they are equal. Similarly, if the limit on the right exists, then so does the one on the left, and they are equal.)
+
+
+\begin{proof}
+If $\lim\limits_{x \to a}f(x)$ exists and equals $L$, then for all $\epsilon>0$, there exists $\delta>0$ such that if $0<|x-a|<\delta$ then $|f(x)-L|<\epsilon$. Setting $x=a+h$, we see that if $0<|h|<\delta$ then $|f(a+h)-L|<\epsilon$. Hence, the limit on the right exists and $\lim\limits_{x \to a}f(x)=L=\lim\limits_{h \to 0}f(a + h)$.
+
+If $\lim\limits_{h \to 0}f(a + h)$ exists and equals $L$, then for all $\epsilon>0$, there exists $\delta>0$ such that if $0<|h-0|<\delta$ then $|f(a+h)-L)|<\epsilon$. Setting $h=x-a$, we see that if $0<|x-a|<\delta$ then $|f(x)-L|<\epsilon$. Hence, the limit on the left exists and $\lim\limits_{x \to a}f(x)=L=\lim\limits_{h \to 0}f(a + h)$.
+
+This completes the proof.
+
+\renewcommand\qedsymbol{QED}
+\end{proof}
+
+
+\end{lemma} 
+
+Here is a useful reformulation of the definition of the derivative.
+
+\begin{theorem} Let $a\in \bbR.$
+Then	 $f$ is differentiable at $a$ if and only if  $\displaystyle \lim_{x \to a} \frac{f(x) - f(a)}{x - a}$ exists. Moreover, if $f$ is differentiable at $a,$ then the derivative of $f$ at $a$ is given by this limit:
+	\[
+		f'(a) = \lim_{x \to a} \frac{f(x) - f(a)}{x - a}.
+	\]
+    
+\begin{proof}
+Let $g(x)=\frac{f(x) - f(a)}{x - a}$. Then, by Lemma 12.3 and the definition of $g$, we see that $\lim_{x \to a} g(x)=\lim_{x \to a} \frac{f(x) - f(a)}{x - a}=\lim\limits_{h \to 0}\frac{f(a + h) - f(a)}{h} = f'(a)$. This completes the proof.
+
+
+\renewcommand\qedsymbol{QED}
+\end{proof}
+
+
+\end{theorem}
+
+\begin{theorem}
+	\label{thm:diffconta}
+	If $f$ is differentiable at $a$, then $f$ is continuous at $a$.
+    
+\begin{proof}
+Since $f$ is differentiable at $a$, we know that $f'(a)=\lim_{x \to a} \frac{f(x) - f(a)}{x - a}$. We can write $f(x)-f(a)=(x-a)\cdot \frac{f(x)-f(a)}{x-a}$. 
+
+Then, $\lim_{x \to a}(f(x)-f(a))=\lim_{x \to a}((x-a)\cdot \frac{f(x)-f(a)}{(x-a)}) = \lim_{x \to a} (x-a) \cdot \lim_{x \to a} (\frac{f(x)-f(a)}{(x-a)})=0\cdot f'(a)=0$. Hence, $\lim_{x \to a}(f(x)-f(a))=0$ implies $\lim_{x \to a}f(x)=f(a)$. This completes the proof.
+
+
+\renewcommand\qedsymbol{QED}
+\end{proof}
+
+
+\end{theorem}
+
+\begin{exercise}
+	Show that the converse of Theorem~\ref{thm:diffconta} is not true.
+    
+\begin{proof}
+We present a counterexample. Let $f(x)=|x|$, then we know that $f$ is continuous. For $x>0$, we have that $\lim_{x \to 0^+}=\frac{f(x)-f(0)}{x-0}=\frac{|x|-0}{x-0}=\frac{x}{x}=1$. However, for $x<0$, we have that $\lim_{x \to 0^-}=\frac{f(x)-f(0)}{x-0}=\frac{|x|-0}{x-0}=\frac{-x}{x}=-1$.
+
+Hence, $f$ is not differentiable at $0$. Thus, the converse of Theorem 12.5 is not true. 
+
+This completes the proof.
+
+\renewcommand\qedsymbol{QED}
+\end{proof}
+
+
+\end{exercise}
+
+\begin{exercise}\label{powerruleex}
+	Show that, for all $n\in\bbN$, 
+	\[
+		x^n - a^n = (x - a)(x^{n-1} + a x^{n-2} + a^2 x^{n-3} + \dotsb + a^{n-2} x + a^{n-1}),
+	\]
+	or equivalently,
+	\[
+		x^n - a^n = (x-a)\left(\sum_{i=0}^{n-1} x^{n-1-i} a^i\right).
+	\]
+    
+\begin{proof}
+For the base case, $n=1$, then $x^1-a^1=(x-a)$. 
+
+For the inductive step, 
+\begin{align*}
+x^{n+1} - a^{n+1} &= x^{n} - a^{n} + x^{n+1} - x^{n} - a^{n+1} + a^{n} \\
+&= x^{n} - a^{n} + x^{n}(x - 1) - a^{n}(a - 1) \\
+&= x^{n} - a^{n} + (x^{n} - a^{n})(x - 1) + a^{n}(x - a) \\
+&= (x^{n} - a^{n})x + a^{n}(x - a) \\
+&= (x - a)\left( \sum_{i=0}^{n-1} x^{n-i}a^{i} \right) + a^{n}(x - a) \\
+&= (x - a)\left( \sum_{i=0}^{n-1} x^{n-i}a^{i} + a^{n} \right) \\
+&= (x - a) \sum_{i=0}^{n} x^{n-i}a^{i}.
+\end{align*}
+
+This completes the proof.
+
+\renewcommand\qedsymbol{QED}
+\end{proof}
+
+
+\end{exercise}
+
+\begin{exercise}
+\begin{enumerate}
+\item[a)]Let $n\in \bbN.$ Suppose $f:\bbR\to\bbR$ is given by $f(x)=x^n.$ Use Exercise~\ref{powerruleex} to prove that $f'(a)=na^{n-1}$, for all $a\in \bbR.$
+
+\begin{proof}
+$\frac{f(x)-f(a)}{x-a}=\frac{x^n-a^n}{x-a}=x^{n-1}+ax^{n-2}+\dots+a^{n-2}x+a^{n-1}.$ Hence $f'(a)=\lim_{x \to a} \frac{f(x)-f(a)}{x-a} = a^{n-1} + a^{n-1}+\dots+a^{n-1} = na^{n-1}$. This completes the proof.
+
+
+
+\renewcommand\qedsymbol{QED}
+\end{proof}
+
+
+\item[b)] Let $k\in\bbR.$ Prove that if $f:\bbR\to\bbR$ is given by $f(x)=k,$ then $f'(a)=0,$ for all $a\in \bbR.$ 
+
+\begin{proof}
+$f'(a)=\lim_{h \to 0} \frac{f(a+h)-f(a)}{h} = \lim_{h \to 0} \frac{k-k}{h} = 0$. This completes the proof.
+
+
+
+\renewcommand\qedsymbol{QED}
+\end{proof}
+
+
+\end{enumerate}
+\end{exercise}
+
+
+\begin{exercise} 
+	Suppose that $f\colon A\to\bbR$ and $g\colon A\to\bbR$ are differentiable at $a\in A$. 
+	\begin{enumerate}[(a)]
+		\item Prove that $(f+g)$ is differentiable at $a$ and compute $(f + g)'(a)$ in terms of $f'(a)$ and $g'(a)$. 
+        
+\begin{proof}
+$(f+g)'(a) = \frac{(f+g)(x)-(f+g)(a)}{x-a}=\frac{f(x)-f(a)}{x-a}+\frac{g(x)-g(a)}{x-a}$. Hence $\lim_{x\to a} (f+g)'(a)=\lim_{x\to a} \frac{f(x)-f(a)}{x-a}+\lim_{x\to a} \frac{g(x)-g(a)}{x-a}=f'(a)+g'(a)$. This completes the proof.
+
+
+\renewcommand\qedsymbol{QED}
+\end{proof}
+
+
+		\item Prove that $(fg)$ is differentiable at $a$ and  compute $(fg)'(a)$ in terms of $f(a)$, $g(a)$, $f'(a)$ and $g'(a)$. 
+        
+\begin{proof}
+$\frac{(fg)(a+h)-(fg)(a)}{h}=g(a+h)\cdot \frac{f(a+h)-f(a)}{h}+f(a)\cdot \frac{g(a+h)-g(a)}{h}$. Hence $\lim_{h\to 0} \frac{(fg)(a+h)-(fg)(a)}{h}=g(a)f'(a)+f(a)g'(a)$. This completes the proof.
+
+
+
+\renewcommand\qedsymbol{QED}
+\end{proof}
+
+
+		\item Prove that $\frac{1}{g}$ is differentiable at $a$ (under an appropriate assumption) and compute $(\frac{1}{g})'(a)$ in terms of $g'(a)$ and $g(a)$. What assumption do you need to make? 
+        
+\begin{proof}
+$\frac{\frac{1}{g}(x)-\frac{1}{g}(a)}{x-a} = \frac{g(x)-g(a)}{(x-a)g(x)g(a)}
+=-\frac{1}{g(x)g(a)}\cdot \frac{g(x)-g(a)}{x-a}$. Hence $\lim_{x\to a} \frac{\frac{1}{g}(x)-\frac{1}{g}(a)}{x-a} = -\frac{1}{(g(a))^2} \cdot g'(a).$
+
+The assumption is that $g(a)\neq 0$. This completes the proof.
+
+\renewcommand\qedsymbol{QED}
+\end{proof}
+
+
+		\item Prove that $\frac{f}{g}$ is differentiable at $a$ (under an appropriate assumption) and compute $(\frac{f}{g})'(a)$ in terms of $f(a)$, $g(a)$, $f'(a)$ and $g'(a)$. What assumption do you need to make?
+        
+\begin{proof}
+$(\frac{f}{g})'(a)=(f\cdot \frac{1}{g})'(a)=f'(a)\cdot (\frac{1}{g})(a) + f(a)\cdot (\frac{1}{g})'(a) = \frac{f'(a)}{g(a)}-\frac{f(a)g'(a)}{(g(a))^2}= \frac{f'(a)g(a)-f(a)g'(a)}{(g(a))^2}$.
+
+The assumption is that $g(a)\neq 0$.This completes the proof.
+
+\renewcommand\qedsymbol{QED}
+\end{proof}
+
+
+	\end{enumerate}
+\end{exercise}
+
+One of the most important results concerning the differentiation of functions is the rule for the derivative of a composition of functions. Let $f\colon B \to \bbR$, $g\colon A \to \bbR$ be functions such that $g(A)\subset B$. The composition $(f \circ g)(x) = f(g(x))$ is defined for all $x \in A$. 
+
+
+
+\begin{theorem}
+
+	Let $a \in A$, $g\colon A\to\bbR$ and $f\colon I\to \bbR,$ where $I$ is an interval containing $g(A).$  Suppose that $g$ is differentiable at $a$ and $f$ is differentiable at $g(a)$.
+	Then $f \circ g$ is differentiable at $a$ and:
+	\[
+		(f \circ g)'(a) = f'(g(a)) \cdot g'(a).
+	\]
+
+
+{\em Hint: The following function could be useful: $\phi\colon I\to\bbR$ defined by \[
+		\phi(y) =
+		\begin{cases}
+			\dfrac{f(y) - f(g(a))}{y - g(a)} \quad &\text{if $y\neq g(a)$, } \\
+			f'(g(a)) \quad &\text{if $y = g(a)$.} 
+		\end{cases}
+	\] }
+
+
+
+\begin{proof}
+Case 1: $g(x)\neq g(a)$, that is $g(x)-g(a)\neq 0$. Then, $\frac{f(g(x))-f(g(a))}{x-a}=\frac{f(g(x))-f(g(a))}{g(x)-g(a)}\cdot \frac{g(x)-g(a)}{x-a}=\varphi(g(x))\cdot \frac{g(x)-g(a)}{x-a}$. Hence, $(f\circ g)'(a)= \lim_{x\to a} \frac{f(g(x))-f(g(a))}{x-a} = \lim_{x\to a} \varphi(g(x))\cdot \lim_{x\to a}\frac{g(x)-g(a)}{x-a} = f'(g(a))\cdot g'(a)$.
+
+Case 2: $g(x)=g(a)$. Then $\frac{f(g(x))-f(g(a))}{x-a}=0=varphi(g(x))\cdot \frac{g(x)-g(a)}{x-a}$. Hence, $(f\circ g)'(a)= \lim_{x\to a}\frac{f(g(x))-f(g(a))}{x-a}=\lim_{x\to a}\varphi(g(x))\cdot \lim_{x\to a} \frac{g(x)-g(a)}{x-a}=f'(g(a))\cdot g'(a)$.
+
+
+
+\renewcommand\qedsymbol{QED}
+\end{proof}
+
+\end{theorem}
+
+We now come to the most important theorem in differential calculus, Corollary~\ref{cor:mit}.
+
+\begin{definition}
+	Let $f\colon A \to \bbR$ be a function. If $f(a)$ is the last point of $f(A)$, then $f(a)$ is called the \emph{maximum value} of $f$. If $f(a)$ is the first point of $f(A)$, then $f(a)$ is the \emph{minimum value} of $f$. We say that $f(a)$ is a \emph{local maximum value} of $f$ if there exists a region $R$ containing $a$ such that $f(a)$ is the last point of $f(A \cap R)$. We say that $f(a)$ is a \emph{local minimum value} of $f$ if there exists a region $R$ containing $a$ such that $f(a)$ is the first point of $f(A \cap R)$.
+\end{definition}
+
+\begin{remark}
+	Equivalently, $f(a)$ is a \emph{local maximum} (resp.\ \emph{minimum}) \emph{value} of $f$ if there exists $U$ open \emph{in $A$} such that $f(a)$ is the last (resp.\ first) point of $f(U)$.
+	\end{remark}
+
+
+
+\begin{theorem}
+Let $f\colon A \to \bbR$ be differentiable at $a$. Suppose that $f(a)$ is a local maximum or local minimum value of $f$. Then $f'(a) = 0$.
+
+
+\begin{proof}
+Without loss of generality let $f(a)$ be a local maximum value of $f$.
+
+Let $R_a$ be a region containing $a$ such that $f(a)$ is the last point of $f(A \cap R_a)$. Let $x \in R_a$, then we see that $f(x)\leq f(a)$, hence $f(x)-f(a)\leq 0$. 
+
+If $x>a$, then $x-a>0$, hence $\lim_{x\to a^+} \frac{f(x)-f(a)}{x-a}\leq 0$. If $x<a$, then $x-a<0$, hence $\lim_{x\to a^-} \frac{f(x)-f(a)}{x-a}\geq 0$. Since $f$ is differentiable at $a$, we have that $0\leq \lim_{x\to a^-} \frac{f(x)-f(a)}{x-a}=\lim_{x\to a^+} \frac{f(x)-f(a)}{x-a} \leq 0$. Hence, $\lim_{x\to a} \frac{f(x)-f(a)}{x-a} = f'(a) = 0$.
+
+The reasoning for local minimum is analogous. This completes the proof.
+
+\renewcommand\qedsymbol{QED}
+\end{proof}
+
+
+\end{theorem}
+
+\begin{theorem}\label{Rolle}
+	Suppose that $f\colon [a, b] \to \bbR$ is continuous, differentiable on $(a, b)$ and that $f(a) = f(b)$. Then there exists a point $\lambda \in (a, b)$ such that $f'(\lambda) = 0$.
+    
+\begin{proof}
+Case 1: $f$ is a constant function. Then, select any $\lambda \in (a,b)$, then $f'(\lambda) =0$ and we are done.
+
+Case 2: $f$ is not a constant function. We know that $[a,b]$ is compact and $f$ is continuous, hence $f([a,b])$ is compact. Hence, $f([a,b])$ has a first and last point. Thus, there exist $c,d \in [a,b]$ such that for all $x\in [a,b]$, $f(c)\geq f(x)$ and $f(d)\leq f(x)$. Then, $f(c)$ is the global maximum and $f(d)$ is the global minimum.
+
+Let $f(a)=f(b)=k$. Since $f$ is not constant, there exists $y \in (a,b)$ such that $f(y) \neq k$. Suppose without loss of generality that $f(y)<k$, then $f(d)\leq f(y)<k$, hence $f(d) \neq k$. Thus, $d \neq a, d\neq b$, hence $d \in (a,b)$. Hence, $f(d)$ is the global minimum (hence, in particular it is a local minimum), and $f'(d)$ exists because $f$ is differentiable on $(a,b)$, hence $f'(d)=0$ by Theorem 12.13. The case where $f(y)>k$ is analogous.
+
+This completes the proof.
+
+\renewcommand\qedsymbol{QED}
+\end{proof}
+
+
+\end{theorem}
+
+\begin{corollary}
+	\label{cor:mit}
+	Suppose that $f\colon [a, b] \to \bbR$ is continuous on $[a, b]$ and differentiable on $(a, b)$. Then there exists a point $\lambda \in (a, b)$ such that:
+	\[
+		f(b) - f(a) = f'(\lambda) (b - a).
+	\]
+    
+\begin{proof}
+Define $g: [a,b] \rightarrow \bbR$ as $g(x)=f(x)-f(a)-(\frac{f(b)-f(a)}{b-a}\cdot (x-a))$. We know that $g$ is continuous on $[a,b]$ and differentiable on $(a,b)$.
+
+Then, $g(b) = f(b)-f(a)-(\frac{f(b)-f(a)}{b-a}\cdot (b-a))=0=f(a)-f(a)-(\frac{f(b)-f(a)}{b-a}\cdot (a-a))=g(a)$. Hence, $g(a)=g(b)$.
+
+Then, $g'(x)=f'(x)-\frac{f(b)-f(a)}{b-a}$. By Theorem 12.14, there exists $\lambda\in (a,b)$ such that $g'(\lambda) = 0$, and for this $\lambda$, we have that $f'(\lambda)=\frac{f(b)-f(a)}{b-a}$. 
+
+This completes the proof.
+
+\renewcommand\qedsymbol{QED}
+\end{proof}
+
+
+\end{corollary}
+
+
+
+\begin{corollary}
+	\label{cor:MVTapps}
+	Suppose that $f\colon [a, b] \to \bbR$ is continuous on $[a, b]$ and differentiable on $(a, b)$. Then,
+	\begin{enumerate}[(a)]
+		\item If $f'(x)>0$ for all $x \in (a, b), $ then $f$ is strictly increasing on $[a, b]$.
+        
+\begin{proof}
+Let $c,d\in [a,b]$ with $c<d$. Then, there exists $x \in [c,d]$ such that $f(d)-f(c)=f'(x)\cdot (d-c)$. We know that $f'(x)>0$ and $d-c>0$, hence the $\text{RHS} >0$. Thus, $\text{LHS}>0$, hence $f(d)-f(c)>0$, hence $f(d)>f(c)$. This completes the proof.
+
+
+\renewcommand\qedsymbol{QED}
+\end{proof}
+
+
+		\item If $f'(x)<0$ for all $x \in (a, b), $ then $f$ is strictly decreasing on $[a, b]$.
+        
+\begin{proof}
+Let $c,d\in [a,b]$ with $c<d$. Then, there exists $x \in [c,d]$ such that $f(d)-f(c)=f'(x)\cdot (d-c)$. We know that $f'(x)<0$ and $d-c>0$, hence the $\text{RHS} <0$. Thus, $\text{LHS}<0$, hence $f(d)-f(c)<0$, hence $f(d)<f(c)$. This completes the proof.
+
+
+
+\renewcommand\qedsymbol{QED}
+\end{proof}
+
+
+		\item If $f'(x) = 0$ for all $x \in (a, b), $ then $f$ is constant on $[a, b]$.
+        
+\begin{proof}
+
+Let $c,d\in [a,b]$ with $c<d$. Then, there exists $x \in [c,d]$ such that $f(d)-f(c)=f'(x)\cdot (d-c) =0$. Hence, $f(d)=f(c)$. This completes the proof.
+
+
+\renewcommand\qedsymbol{QED}
+\end{proof}
+
+
+	\end{enumerate}
+\end{corollary}
+
+\begin{remark}\label{remark10.15}
+	Corollary~\ref{cor:MVTapps} also holds if, throughout the statement of the result, $[a, b]$ is replaced by an interval $I$, and $(a, b)$ is replaced by the interior of $I$.
+\end{remark} 
+
+	
+\begin{corollary}
+	Suppose that $f\colon [a, b] \to \bbR$ and $g\colon [a, b] \to \bbR$ are continuous on $[a, b]$, differentiable on $(a, b)$, and $f'(x) = g'(x)$ for all $x \in (a, b)$. Then there is some $c\in\bbR$ such that for all $x \in [a, b]$, we have $f(x) = g(x) + c$.
+    
+\begin{proof}
+
+Define $h: [a,b] \rightarrow \bbR$ as $h(x)=f(x)-g(x)$. Then, $h'(x)=f'(x)-g'(x)=0$ for all $x\in (a,b)$. Hence, $h$ is a constant function, thus $h(x)=c$ for all $x\in [a,b]$ and some $c \in \bbR$. Hence, $f(x)-g(x)=c$ implies $f(x)=g(x)+c$ for all $x\in [a,b]$. This completes the proof.
+
+
+\renewcommand\qedsymbol{QED}
+\end{proof}
+
+
+\end{corollary} 
+
+
+
+\begin{corollary}	
+	Suppose that $f\colon [a, b] \to \bbR$ and $g\colon[a, b] \to \bbR$ are continuous on $[a, b]$ and differentiable on $(a, b)$. Then there is a point $\lambda \in (a, b)$ such that:
+	\[
+		(f(b)-f(a))g'(\lambda) = (g(b)-g(a))f'(\lambda).
+	\]
+    
+\begin{proof}
+
+We want to show that there exists $\lambda \in (a,b)$ such that $(f(b)-f(a))g'(\lambda) - (g(b)-g(a))f'(\lambda)=0$. The above is equivalent to the statement $f(b)g'(\lambda)-f(a)g'(\lambda) - g(b)f'(\lambda)+g(a)f'(\lambda)=0$.
+
+Define $h: [a,b] \rightarrow \bbR$ as $h(x)=f(b)g(x)-f(a)g(x)-g(b)f(x)+g(a)f(x)$. Then, we note that $h'(x)=f(b)g'(x)-f(a)g'(x) - g(b)f'(x)+g(a)f'(x)$. Hence, we want to show that there exists $\lambda \in (a,b)$ such that $h'(\lambda)=0$. 
+
+We have that $h(a)=f(b)g(a)-f(a)g(a)-g(b)f(a)+g(a)f(a)=f(b)g(a)-g(b)f(a)$. Also, $h(b)=f(b)g(b)-f(a)g(b)-g(b)f(b)+g(a)f(b)=g(a)f(b)-f(a)g(b)$. Hence, we see that $h(a)=h(b)$, hence there exists exists $\lambda \in (a,b)$ such that $h'(\lambda)=0$.
+
+This completes the proof.
+
+\renewcommand\qedsymbol{QED}
+\end{proof}
+
+
+\end{corollary}
+
+
+
+
+
+Finally, we prove another very important theorem that tells us about inverse functions and their derivatives. 
+
+\begin{theorem}\label{IFT}
+Suppose that $f:(a,b)\to\bbR$ is differentiable and that the derivative $f':(a,b)\to\bbR$ is continuous. Also suppose that there is a point $p\in(a,b)$ such that $f'(p)\neq 0$. 
+Then there exists a region $R\subset (a,b)$ such that $p\in R$ and $f$ with domain restricted to $R$ is injective. 
+Furthermore, $f^{-1}:f(R)\to R$ is differentiable at the point $f(p)$ and
+$$ (f^{-1})'(f(p))=\frac{1}{f'(p)} .$$
+
+
+
+{\em Hint:} Remark~\ref{remark10.15} and Lemma~11.8 should be useful.\medskip
+
+\begin{proof}
+We have that $f'$ is continuous, hence $\lim_{x\to p}f'(x)=f'(p)\neq 0$. Then, by Lemma 11.8, there exists $\delta>0$ such that for all $x\in (p-\delta, p+\delta)$, $f'(x)>\frac{f'(p)}{2}>0$. 
+
+Let $R=(a,b)\cap (p-\delta, p+\delta)$, then $R$ is a region containing $p$. For all $x\in R, f'(x)>0$, hence $f(x)$ is strictly increasing on $R$, hence $f|_{R}$ is injective. Hence $f^{-1}: f(R)\rightarrow R$ is differentiable at the point $f(p)$.
+
+Also, $(f^{-1}\circ f)(x)=f^{-1}(f(x))=x$. Taking derivatives of both sides, we see that $(f^{-1}\circ f)'(x)=1$. In particular, this also holds for $x=p$, hence $(f^{-1}\circ f)'(p)=1=(f^{-1})'(f(p))\cdot f'(p)$ where the last equality follows from the chain rule for composition of functions.
+
+Thus, $(f^{-1})'(f(p)) = \frac{1}{f'(p)}$.
+
+\renewcommand\qedsymbol{QED}
+\end{proof}
+
+
+\end{theorem} 
+
+
+\begin{exercise}
+Consider the function $f(x)=x^n$ for a fixed $n\in\bbN$.  Show that if $n$ is even, then $f$ is strictly increasing
+on the set of non-negative real numbers and that if $n$ is odd, then $f$ is strictly increasing on all of $\bbR$.
+For a given $n$, let $A$ be the aforementioned set on which $f$ is strictly increasing.  Define the
+inverse function $f^{-1}:f(A)\rightarrow A$ by $f^{-1}(x)=\sqrt[n]{x}$, which we sometimes also
+denote $f^{-1}(x)=x^{1/n}$.  Use Theorem\ \ref{IFT} to find the points $y\in f(A)$ at
+which $f^{-1}$ is differentiable, and determine $(f^{-1})'(y)$ at these points.
+
+\begin{proof}
+We have that $f'(x)=nx^{n-1}$. If $n$ is even and $x$ is non-negative, then $n>0$ and $x^{n-1}>0$ implies $f'(x)>0$, hence $f$ is strictly increasing on the set of non-negative real numbers. If $n$ is odd, then $n-1$ is even, hence $x^{n-1}>0$ for all $x\in \bbR$ and $n>0$, hence $f'(x)>0$ for all $x\in \bbR$, hence $f$ is strictly increasing on $\bbR$.
+
+We have that $f^{-1}(y)=\sqrt[n]{y}$, hence $(f^{-1})'(y)=\frac{1}{f'(f^{-1}(y))}=\frac{1}{n (f^{-1}(y))^{n-1}} = \frac{1}{n(\sqrt[n]{y})^{n-1}}$.
+
+
+\renewcommand\qedsymbol{QED}
+\end{proof}
+
+
+\end{exercise}
+\bigskip
+
+\begin{center}
+{\em Additional Exercises}
+\end{center}
+
+{\em  In these exercises you may assume familiarity with the trigonometric functions and the logarithmic/exponential functions and their derivatives.}
+
+\begin{enumerate}
+\item
+Use Rolle's Theorem (\ref{Rolle}) to show that a polynomial of degree $n\geq 1$ has at most $n$ distinct roots.
+
+
+\begin{proof}
+We show this by induction on $n$.
+
+For the base case, $n=1$, hence the polynomial is of the form $f(x)=ax+b$ with $a\neq 0$. Then $f(x)=0$ implies $ax+b=0$, hence $ax=-b$ and $x=\frac{-b}{a}$ is the only possible root. 
+
+For the inductive step, consider a polynomial of degree $n+1$, that is, $f(x)=\sum_{i=1}^{n+1} a_i x^i$. Then, by Exercise 12.8, $f'(x)$ is a polynomial of degree $n$, that is $f(x)=\sum_{i=1}^{n} b_i x^i$. By the inductive hypothesis, $f'(x)$ has at most $n$ distinct roots.
+
+By Rolle's Theorem, between any two roots of $f(x)$ there exists at least one root of $f'(x)$. Since $f'(x)$ has at most $n$ distinct roots, this implies $f(x)$ that has at most $n+1$ distinct roots. 
+
+This completes the proof.
+
+\renewcommand\qedsymbol{QED}
+\end{proof}
+
+
+
+\item Suppose that $f$ is differentiable on an interval $[x_1,x_2]$ for $0<x_1<x_2.$ Prove that there exists a point $t \in (x_1,x_2),$ such that
+$$
+\frac{x_1f(x_2)-x_2f(x_1)}{x_1-x_2}=f(t)-tf'(t).
+$$ 
+
+\item 
+\begin{enumerate}
+\item Suppose $f\colon [a,b]\to \bbR,$ $x_0\in (a,b),$  $f',f''$ exist and are continuous on some interval containing $x_0,$ and $f'(x_0)=0,$ but $f''(x_0)\neq 0.$ 
+Prove that 
+\begin{enumerate}
+\item[i)]if $f''(x_0)>0$ then $f$ has a local minimum at $x_0;$ 
+
+\begin{proof}
+Let $(p,q)$ be an interval containing $x_0$ such that $f',f''$ exist and are continuous on $(p,q)$. 
+
+We have that $f''(x_0)=\lim_{y \to x_0} \frac{f'(y)-f'(x_0)}{y-x_0} = \lim_{y \to x_0} \frac{f'(y)}{y-x_0}$, since $f'(x_0)=0$. Thus, $\lim_{y \to x_0} \frac{f'(y)}{y-x_0}>0$. 
+
+Then, $\lim_{y \to x_0+} \frac{f'(y)}{y-x_0}>0$. Since $y-x_0>0$, therefore $f'(y)>0$. Hence, $f'(z)>0$ for all $z\in (x_0,q)$, then by Corollary 12.16, $f$ is strictly increasing on $[x_0,q]$. Thus, for all $z\in (x_0,q)$, we have that $f(z)>f(x_0)$. 
+
+Similarly, $\lim_{y \to x_0-} \frac{f'(y)}{y-x_0}>0$. Since $y-x_0<0$, therefore $f'(y)<0$. Hence, $f'(z)<0$ for all $z\in (p,x_0)$, then by Corollary 12.16, $f$ is strictly decreasing on $[p,x_0]$. Thus, for all $z\in (p,x_0)$, we have that $f(z)>f(x_0)$.
+
+Hence, for all $k \in (p,q)$, we have that $f(k)\geq f(x_0)$, hence $f$ has a local minimum at $x_0$. This completes the proof.
+
+\renewcommand\qedsymbol{QED}
+\end{proof}
+
+
+\item[ii)] if $f''(x_0)<0$ then $f$ has a local maximum at $x_0.$ 
+
+\begin{proof}
+This proof is analogous to the above.
+
+Let $(p,q)$ be an interval containing $x_0$ such that $f',f''$ exist and are continuous on $(p,q)$. 
+
+We have that $f''(x_0)=\lim_{y \to x_0} \frac{f'(y)-f'(x_0)}{y-x_0} = \lim_{y \to x_0} \frac{f'(y)}{y-x_0}$, since $f'(x_0)=0$. Thus, $\lim_{y \to x_0} \frac{f'(y)}{y-x_0}<0$. 
+
+Then, $\lim_{y \to x_0+} \frac{f'(y)}{y-x_0}<0$. Since $y-x_0>0$, therefore $f'(y)<0$. Hence, $f'(z)<0$ for all $z\in (x_0,q)$, then by Corollary 12.16, $f$ is strictly decreasing on $[x_0,q]$. Thus, for all $z\in (x_0,q)$, we have that $f(z)<f(x_0)$. 
+
+Similarly, $\lim_{y \to x_0-} \frac{f'(y)}{y-x_0}<0$. Since $y-x_0<0$, therefore $f'(y)>0$. Hence, $f'(z)>0$ for all $z\in (p,x_0)$, then by Corollary 12.16, $f$ is strictly increasing on $[p,x_0]$. Thus, for all $z\in (p,x_0)$, we have that $f(z)<f(x_0)$.
+
+Hence, for all $k \in (p,q)$, we have that $f(k)\leq f(x_0)$, hence $f$ has a local maximum at $x_0$. This completes the proof.
+
+
+
+\renewcommand\qedsymbol{QED}
+\end{proof}
+
+
+\end{enumerate}
+
+\item
+{\bf Bernoulli's inequality} Prove that for $x \geq -1$ and $\alpha \geq 1$
+$$(1+x)^{\alpha}\geq 1 + \alpha x.$$
+and for $x\geq -1$ and $0\leq \alpha\leq 1,$
+
+$$(1+x)^{\alpha}\leq 1 + \alpha x.$$
+
+\begin{proof}
+Consider the function $f: [-1, \infty) \rightarrow \bbR$ defined as $f(x)= (1+x)^\alpha - 1- \alpha x$. Then, we have that $f'(x) =\alpha (1+x)^{\alpha -1} - \alpha$. Also, $f''(x) = \alpha (\alpha-1)(1+x)^{\alpha-2}$. 
+
+We note that $f(0)=(1+0)^\alpha - 1- (\alpha\cdot 0)=1-1=0$ and $f'(0)=\alpha (1+0)^{\alpha -1} - \alpha = \alpha-\alpha=0$. For $x\geq -1$, we have that $1+x\geq 0$.  
+
+Case 1: $\alpha\geq 1$. 
+
+For $x \in [-1,0)$, we have that $0\leq 1+x <1$. Then, $f'(x)=\alpha (1+x)^{\alpha -1} - \alpha< \alpha (1)^{\alpha -1} - \alpha < 0$. We note that $f(-1)=-1-(\alpha\cdot -1)=\alpha-1 \geq 0$. Hence, $f$ is strictly decreasing on $[-1,0)$ and attains its minimum value of $0$ at $x=0$. 
+
+For $x \in [0,\infty)$, we have that $1+x \geq 1$. Then, $f'(x)=\alpha (1+x)^{\alpha -1} - \alpha> \alpha (1)^{\alpha -1} - \alpha > 0$. As we have noted above, $f(0)=0$. Hence, $f$ is strictly increasing on $[0,\infty)$ and attains its minimum value of $0$ at $x=0$. 
+
+Thus, $f(x)\geq 0$, that is, $(1+x)^\alpha \geq 1+ \alpha x$ for all $x\in [-1, \infty)$.
+
+Case 2: $0\leq \alpha \leq 1$.
+
+For $x \in [-1,0)$, we have that $0\leq 1+x <1$. Then, $f'(x)=\alpha (1+x)^{\alpha -1} - \alpha \geq 0$. We note that $f(-1)=-1-(\alpha\cdot -1)=\alpha-1 \leq 0$. As we have noted above, $f(0)=0$. Hence, $f$ is non-decreasing on $[-1,0)$ and attains its maximum value of $0$ at $x=0$. 
+
+For $x \in [0,\infty)$, we have that $1+x \geq 1$. Then, $(1+x)^{\alpha -1}\leq 1$, hence $f'(x)=\alpha (1+x)^{\alpha -1} - \alpha \leq \alpha - \alpha = 0$. As we have noted above, $f(0)=0$. Hence, $f$ is non-increasing on $[0,\infty)$ and attains its maximum value of $0$ at $x=0$. 
+
+Thus, $f(x)\leq 0$, that is, $(1+x)^\alpha \leq 1+ \alpha x$ for all $x\in [-1, \infty)$.
+
+This completes the proof.
+
+\renewcommand\qedsymbol{QED}
+\end{proof}
+
+
+
+\item Prove that 
+$\displaystyle 
+x-\frac{x^3}{6}<sin(x)<x, 
+$
+for $x>0.$
+
+\begin{proof}
+Taylor series.
+
+
+
+\renewcommand\qedsymbol{QED}
+\end{proof}
+
+
+
+\end{enumerate}
+
+\item
+Let $f:[0,1]\longrightarrow [0,1]$ be a continuous function.
+\begin{enumerate}
+\item[i)] Show that there is at least one $x\in[0,1]$ such that $f(x)=x.$ 
+
+\begin{proof}
+Let $g(x)=f(x)-x$, then we want to show that there exists $x\in [0,1]$ such that $g(x)=0$. Note that since both $x$ and $f(x)$ are continuous on $[0,1]$, so is $g(x)$.
+
+Since $0 \leq f(0)\leq 1$ and $0 \leq f(1)\leq 1$, we have that $0 \leq g(0)\leq 1$ and $-1 \leq g(1)\leq 0$. If either $g(0)=0$ or $g(1)=0$ (or both) then we are done. 
+
+If $g(0)\neq 0, g(1)\neq 0$, then we have that $g(1)<0<g(0)$. By Intermediate Value Theorem, there exists $m\in (0,1)$ such that $g(m)=0$, and we are done.
+
+This completes the proof.
+
+\renewcommand\qedsymbol{QED}
+\end{proof}
+
+
+\item[ii)] Show that if $f$ is differentiable on $(0,1)$ and $f'(x)\neq 1,$ for all $x\in (0,1),$ then there 
+is a unique $x_0\in[0,1]$ such that $f(x_0)=x_0.$ 
+
+\begin{proof}
+We have already shown that there is at least one such $x_0$. Now, we want to show that there is at most one such $x_0$.
+
+Suppose for sake of contradiction that there exist $y,z\in [0,1]$ such that $f(y)=y$ and $f(z)=z$. Then, $f(y)-f(z)=y-z$. By Mean Value Theorem, there exists $m\in (0,1)$ such that $f'(m)=\frac{f(y)-f(z)}{y-z}=\frac{y-z}{y-z}=1$. This contradicts the assumption that $f'(x)\neq 1$ for all $x\in (0,1)$.
+
+This completes the proof.
+
+\renewcommand\qedsymbol{QED}
+\end{proof}
+
+
+\end{enumerate}
+
+
+\item
+\begin{enumerate}
+\item Prove that if $f$ is differentiable on $[a,b]$ and $f_{+}'(a)<0,$ then there is a point $x\in (a,b)$ with $f(x)<f(a).$ Similarly, if $f_{-}'(b)>0,$ there is a point $y\in (a,b)$ with $f(y)<f(b).$
+\item Prove that if $f$ is differentiable on $[a,b]$ and $f_{+}'(a)<0<f_{-}'(b)$, then there is a point $c\in (a,b)$ with $f'(c)=0.$ 
+
+\begin{proof}
+
+$f'$ is continuous so apply Intermediate Value Theorem due to change of sign.
+
+
+\renewcommand\qedsymbol{QED}
+\end{proof}
+
+
+\item  Prove that if $f$ is differentiable on $[a,b],$  then for any $\alpha $ between $f_{+}'(a)$ and $f_{-}'(b)$ there is some $c\in\bbR$ such that $f'(c)=\alpha.$ 
+\end{enumerate}
+
+\item 
+\begin{enumerate}
+\item Suppose that $f$ and $g$ are continuous on $[a,b],$ differentiable on $(a,b)$, that $f(a)=g(a)=0$ and $g(x)\neq 0, g'(x)\neq 0$ for $x\in (a,b).$ Prove that 
+$$\text{if } \lim_{x\to a}\frac{f'(x)}{g'(x)}=L,\quad \text{then } \lim_{x\to a}\frac{f(x)}{g(x)}=L.$$
+
+\begin{proof}
+Let $x \in (a,b)$ and define $h: [a,x] \rightarrow \bbR$ as $h(m)=f(m)-\frac{f(x)}{g(x)}\cdot g(m)$. Then, we know that $h$ is continuous on $[a,x]$ and differentiable on $(a,x)$. We note that $h(a)=f(a)-\frac{f(x)}{g(x)}\cdot g(a) = 0$ and $h(x)=f(x)-\frac{f(x)}{g(x)}\cdot g(x) = f(x)-f(x)=0$.  
+
+Then, $h'(m)=f'(m)-\frac{f(x)}{g(x)}\cdot g'(m)$. By Rolle's Theorem, there exists $k\in (a,x)$ such that $h'(k)=0$, then $f'(k)-\frac{f(x)}{g(x)}\cdot g'(k)=0$. As $x\to a, k\to a$, hence $f'(k)-\frac{f(x)}{g(x)}\cdot g'(k)=0$ implies $\lim_{k\to a} \frac{f'(k)}{g'(k)}=\lim_{x\to a} \frac{f(x)}{g(x)}$.
+
+This completes the proof.
+
+\renewcommand\qedsymbol{QED}
+\end{proof}
+
+
+
+\item Compute  the following limits:
+\begin{enumerate}
+\item[i)] \[ \lim_{x\to0} \dfrac{\tan{x}-x}{\sin{x}-x},\]
+
+\item[ii)] \[ \lim_{x\to0} \dfrac{\tan{3x}}{\tan{x}},\]
+
+\item[iii)] \[ \lim_{x\to0} \dfrac{1-\cos(x^2)}{x^2\sin{x^2}},\]
+
+\item[iv)] \[ \lim_{x\to0} \dfrac{\cos(\sin{x})-\cos{x}}{x^4},\]
+
+\item[v)] \[ \lim_{x\to0} \dfrac{\cos{x}-e^{-\frac{x^2}{2}}}{x^4}.\]
+\end{enumerate}
+
+\end{enumerate}
+
+
+\item 
+\begin{enumerate}
+\item Let $n\in\bbN$ and let $f\colon [a,b]\to\bbR$ be such that $f,f',f'',\cdots, f^{(n)}$ are continuous on $[a,b]$ and $f^{(n+1)}$ exists on $(a,b).$ Suppose that $f(a)=f(b)$ and $f'(a)=f''(a)=\cdots =f^{(n)}(a)=0.$ Prove that there is some $c\in (a,b)$ such that $f^{(n+1)}(c)=0.$
+
+
+\item Let $n\in\bbN$ and let $f\colon [a,b]\to\bbR$ be such that $f,f',f'',\cdots, f^{(n)}$ are continuous on $[a,b]$ and $f^{(n+1)}$ exists on $(a,b).$ Prove that if $x_0\in [a,b]$, then for any  $x\in [a,b]$ there is some $\lambda $ between $x_0$ and $x$ such that
+
+\begin{eqnarray*}
+f(x) &  = &   f(x_0)+(x-x_0)f'(x_0)+\frac{(x-x_0)^2}{2!} f''(x_0)+\cdots+\frac{(x-x_0)^n}{n!} f^{(n)}(x_0) \\
+& & \quad +\frac{(x-x_0)^{n+1}}{(n+1)!}        f^{(n+1)}(c).
+\end{eqnarray*}
+
+
+\item 
+\begin{enumerate}
+\item[i)] Expand $\tan(x)$ up to the term $x^5$ at $x=0$,
+\item[ii)] Expand $\sin{(\sin{x})}$ up to the term $x^3$ at $x=0$.
+\item[iii)] Expand $e^x$ up to the term $x^4$ at $x=0.$
+\end{enumerate}
+\end{enumerate}
+
+
+\item  Compute the derivatives of the following functions:
+
+a) $y=x+x^x+x^{x^x},$
+
+
+b) $y=\arctan(\tan^2(x)),$
+
+c) $y=\sqrt{x+\sqrt{x+\sqrt{x}}},$
+
+d) $y=\ln{\dfrac{x^2-1}{x^2+1}},$
+
+e) $y=\ln{(x+\sqrt{x^2+1})},$
+
+f) $y=\ln{\sqrt{\dfrac{1-\sin{x}}{1+\sin{x}}}},$
+
+g) $y=\arctan{\left ( \dfrac{\sin{x}+\cos{x}}{\sin{x}-\cos{x}} \right )}.$
+\end{enumerate}
+
+\end{document}

@@ -1,0 +1,576 @@
+\documentclass[11pt]{article}
+\usepackage{color}
+%\input{rgb}
+
+%----------Packages----------
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{amsrefs}
+%\usepackage{dsfont}
+\usepackage{mathrsfs}
+%\usepackage{stmaryrd}
+%\usepackage[all]{xy}
+\usepackage[mathcal]{eucal} % changes meaning of \mathcal
+\usepackage{enumerate}
+\usepackage[shortlabels]{enumitem}
+\usepackage{verbatim}  %%includes comment environment
+\usepackage{fullpage}  %%smaller margins
+
+%----------Commands----------
+%%penalizes orphans
+\clubpenalty=9999
+\widowpenalty=9999
+
+%% blackboard bold math capitals
+\newcommand{\bbF}{\mathbb{F}}
+\newcommand{\bbN}{\mathbb{N}}
+\newcommand{\bbQ}{\mathbb{Q}}
+\newcommand{\bbR}{\mathbb{R}}
+\newcommand{\bbZ}{\mathbb{Z}}
+
+\renewcommand{\phi}{\varphi}
+\renewcommand{\emptyset}{\O}
+
+\newcommand{\abs}[1]{\lvert #1 \rvert}
+\newcommand{\norm}[1]{\lVert #1 \rVert}
+
+\newcommand{\sarr}{\rightarrow}
+\newcommand{\arr}{\longrightarrow}
+
+\DeclareMathOperator{\ext}{ext}
+\DeclareMathOperator{\ho}{hole}
+
+%----------Theorems----------
+
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{examples}[theorem]{Examples}
+\newtheorem{example}[theorem]{Example}
+
+\newtheorem{axiom}{Axiom}
+
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem*{definition*}{Definition}
+\newtheorem{nondefinition}[theorem]{Non-Definition}
+\newtheorem{exercise}[theorem]{Exercise}
+\newtheorem{remark}[theorem]{Remark}
+\newtheorem{warning}[theorem]{Warning}
+\newtheorem{question}[theorem]{Question}
+
+
+\newcommand{\head}[1]{
+	\begin{center}
+		{\large #1}
+		\vspace{.2 in}
+	\end{center}
+	
+	\bigskip
+}
+\newcommand{\hint}[2][Hint]{
+	
+	(#1: #2)
+}
+
+\numberwithin{equation}{section}
+
+%----------Editting----------
+
+%\newcommand{\hide}[1]{} % for student version
+%\newcommand{\com}[1]{} % for student version
+%\newcommand{\meta}[1]{} % for removing meta comments in the script
+
+\newcommand{\hide}[1]{{\color{red} #1}} % for instructor version
+\newcommand{\com}[1]{{\color{blue} #1}} % for instructor version
+\newcommand{\meta}[1]{{\color{green} #1}} % for making notes about the script that are not intended to end up in the script
+
+\begin{document}
+
+\head{MATH 162, Winter 2025\\
+SCRIPT 8: Intervals} 
+
+
+
+%%---  sheet number for theorem counter
+\setcounter{section}{8}   
+
+Now that we have constructed $\bbR$ and proved the fundamental facts about it, we will  work with the real numbers $\bbR$ instead of an arbitrary continuum $C$. We will leave behind Dedekind cuts and think of elements of $\bbR$ as numbers. Accordingly,  from now on we will use lower-case letters like $x$ for real numbers and will write $+$ and $\cdot$ for $\oplus$ and $\otimes$. We will also now use the standard notation $(a, b)$ for the region $\underline{ab} = \{x \in \bbR \mid a < x < b\}$. Even though the notation is the same, this is \emph{not} the same object as the ordered pair $(a, b)$.
+
+More generally, we adopt the following standard notation:
+\begin{eqnarray}
+(a, b) & = & \{x\in \bbR\mid a<x<b\} \nonumber \\
+\left[a,b\right)  & = & \{x\in \bbR\mid a\leq x<b\} \nonumber\\
+\left(a,b\right] & =& \{x\in \bbR\mid a<x\leq b\}  \nonumber  \\
+\left[a,b\right] & =& \{x\in \bbR\mid a\leq x\leq b\}  \label{*}\\
+\left(a,\infty\right) & =& \{x\in \bbR\mid a<x\} \nonumber  \\
+\left[a,\infty\right) & =& \{x\in \bbR\mid a\leq x\} \nonumber  \\
+\left(-\infty,b\right) & =& \{x\in \bbR\mid x<b\} \nonumber  \\
+\left(-\infty, b\right] & = & \{x\in \bbR\mid x\leq b\} \nonumber .
+\end{eqnarray}
+Notice that if $a=b,$ then $(a,b), [a,b)$ and $(a,b]$ are all empty, but $[a,b]=\{a\}.$ We call $[a,a]=\{a\}$ a ``degenerate'' interval. 
+
+\begin{exercise} Identify the sets in \eqref{*} that are open/closed/neither. (Don't forget to justify your answer but you should try to be as efficient as possible in so doing.)
+
+
+\begin{proof}
+$(a,b)$ is open and not closed.
+
+$[a,b)$ is neither open nor closed.
+
+$(a,b]$ is neither open nor closed.
+
+$[a,b]$ is closed and not open.
+
+$(a,\infty)$ is open and not closed.
+
+$[a, \infty)$ is closed and not open.
+
+$(-\infty,b)$ is open and not closed.
+
+$(-\infty, b]$ is closed and not open.
+
+
+\renewcommand\qedsymbol{QED}
+\end{proof}
+
+
+\end{exercise}
+
+
+\begin{definition}
+A nonempty set $I\subset \bbR$ is an {\em interval} if, for all $x,y\in I,$ with $x<y,$ $[x,y]\subset I.$
+\end{definition}
+
+\begin{lemma}
+A nonempty proper set $I\subset \bbR$ is an {\em interval} if, and only if, it takes one of the eight forms in \eqref{*} above.
+
+
+\begin{proof}
+Note that every set in 8.1 is of the form $\{x \in \bbR \mid a \leftrightarrow x \Leftrightarrow b\}$ where $a \in \bbR \cup \{-\infty\}, b\in \bbR \cup \{\infty\}$, and $\leftrightarrow, \Leftrightarrow \in \{<, \leq\}$.
+
+If $x,y \in I$ with $x<y$ and $z \in [x,y]$, then $a \leftrightarrow x \Leftrightarrow b$ and $a \leftrightarrow y \Leftrightarrow b$. Then, $a \leftrightarrow z \Leftrightarrow b$, hence $z \in I$. This completes the backward direction.
+
+For the forward direction, let $a = \inf I$ and let $b=\sup I$. Then, we want to show that for all $x \in (a,b), x \in I$.
+
+Since $a = \inf I$, we know that if $x>a$, then $x$ is not a lower bound, so there exists $y \in I$ such that $y<x$. 
+
+Similarly, since $x<b=\sup I$, there exists $z \in I$ such that $x<z$. Since $I$ is an interval, $x \in I$.  
+
+We claim that if $x \in \bbR$ and $(x<a \text{ or } b<x)$ then $x \notin I$. This is evident since $a = \inf I$ and $b=\sup I$.
+
+Thus, depending on whether or not $a,b \in I$, we get the following possibilities.
+
+If $a,b \in I$, then $I=[a,b]$.
+
+If $a,b \notin I$, then $I=(a,b)$.
+
+If $a\in I, b \notin I$, then $I=[a,b)$.
+
+If $a\notin I, b \in I$, then $I=(a,b]$.
+
+This casework also holds if $a =-\infty$ or $b = \infty$. This completes the proof.
+
+
+\renewcommand\qedsymbol{QED}
+\end{proof}
+
+\end{lemma}
+
+
+It can be useful to express bounded intervals symmetrically about their center. To do this it is natural to introduce {\em absolute value}.
+
+\begin{definition}
+	The \emph{absolute value} of a real number $x$ is the non-negative number $\abs{x}$ defined by
+	\[
+		\abs{x} = \begin{cases}
+			x \quad &\text{if $x \geq 0$,} \\
+			-x \quad &\text{if $x < 0$.} 
+		\end{cases}
+	\]
+\end{definition}
+
+\begin{exercise}
+Show that $\abs{x}=\abs{-x},$ for $x\in \bbR.$  (Note that this also means that $\abs{x-y}=\abs{y-x}$ for any $x,y\in \bbR.$ )
+
+
+\begin{proof}
+We have that $\abs{-x}=\begin{cases}
+			-x \quad &\text{if $-x \geq 0$,} \\
+			-(-x) \quad &\text{if $-x < 0$.} 
+		\end{cases}$ = $\begin{cases}
+			-x \quad &\text{if $x \leq 0$,} \\
+			x \quad &\text{if $x > 0$.} 
+		\end{cases}$ = $\abs{x}$.
+
+Note that $x-y=-(y-x)$, hence $\abs{x-y}=\abs{-(y-x)}=\abs{y-x}$. 
+
+
+\renewcommand\qedsymbol{QED}
+\end{proof}
+
+\end{exercise}
+
+\begin{definition} 
+	\label{defn:distance}
+	The \emph{distance} between $x \in \bbR$ and $y \in \bbR$ is defined to be $\abs{x - y}$. 
+\end{definition}
+
+\begin{remark}
+It follows from Definition \ref{defn:distance} that $|x|$ is the distance between $x$ and $0.$
+\end{remark}
+
+\begin{exercise} Prove that, if $x,y$ are real numbers then
+\begin{enumerate}
+\item[a)] $|xy|=|x|\cdot |y|$
+
+\begin{proof}
+Case 1: $xy = 0$. Then, $|xy|=0$. We know that at least one of $x$ and $y$ must be zero, hence $|x|\cdot |y|=0=|xy|$.
+
+Case 2: $xy > 0$. 
+
+Subcase 2a: $x> 0, y > 0$. Then, $|xy|=xy, |x|=x$ and $|y|=y$. Hence, $|xy|=xy=|x|\cdot |y|$. 
+
+Subcase 2b: $x< 0, y < 0$. Then, $|xy|=xy, |x|=-x$ and $|y|=-y$. Hence, $|xy|=xy=-x\cdot -y=|x|\cdot |y|$. 
+
+Case 3: $xy<0$. Then, $|xy|=-xy$ and exactly one of $x$ and $y$ must be negative. Suppose without loss of generality that $x<0,y>0$. Then, $|x|=-x, |y|=y$. Then, $|xy|=-xy=-x \cdot y=|x|\cdot |y|$.
+
+
+\renewcommand\qedsymbol{QED}
+\end{proof}
+
+\item[b)] $x\leq |x|$ and $-x\leq |x|.$
+
+
+\begin{proof}
+Case 1: $x=0$. Then, $x=-x=|x|=0$ and we are done.
+
+Case 2: $x<0$. Then, $|x|=-x$, where $-x>0$, hence $x < -x$ since $x<0<-x$. Also, $-x=|x|$ hence $-x \leq |x|$.
+
+Case 3: $x>0$. Then, $|x|=x$, hence $x\leq |x|$. Also, $-x<|x|$ since $-x<0<x$. 
+
+
+\renewcommand\qedsymbol{QED}
+\end{proof}
+
+\end{enumerate}
+\end{exercise}
+
+The following lemma is very useful in proofs involving inequalities.
+
+\begin{lemma}
+	For any real numbers $x$, $y$, and $z$, we have 
+		\begin{enumerate}[(a)]
+		\item \quad $\abs{x + y} \leq \abs{x} + \abs{y}$
+        
+
+\begin{proof}
+Case 1: $x,y \geq 0$. Then, $|x+y|=x+y=|x|+|y|$.
+
+Case 2: $x\geq 0, y<0$. 
+
+Subcase 2a: $|x|\leq |y|$, then $x\leq -y$, then $x+y<0$. Then, $y<y+x\leq 0$, hence $|x+y|=-(x+y)\leq -y=|y|$. 
+
+Subcase 2b: $|x|>|y|$. Then, $x\geq -y$, then $x\geq x+y\geq 0$. Hence, $|x+y|=x+y\leq x=|x|$. 
+
+If $x<0, y\geq 0$, then the proof is analogous to case 2.
+
+If $x<0,y<0$, then the proof is analogous to case 1.
+
+\renewcommand\qedsymbol{QED}
+\end{proof}
+
+		\item \quad $\abs{x - z} \leq \abs{x - y} + \abs{y - z}$
+        
+
+\begin{proof}
+$|(x-y)+(y-z)|\leq |x-y|+|y-z|$. 
+
+
+\renewcommand\qedsymbol{QED}
+\end{proof}
+		\item \quad $\abs{\abs{x} - \abs{y}} \leq \abs{x-y}$.
+        
+
+\begin{proof}
+It suffices to show that $|x|-|y|\leq |x-y|$ and $-(|x|-|y|)\leq |x-y|$. 
+
+By part a), $|x|=|x-y+y|\leq |x-y| + |y|$. Hence, $|x|-|y| \leq |x-y|$. 
+
+Similarly, $|y|=|y-x+x|\leq |y-x|+|x|$. Hence, $|y|-|x|\leq |y-x|$. We know that $|y-x|=|x-y|$, hence $|y|-|x|\leq |x-y|$. Thus, $-(|x|-|y|)=|y|-|x|\leq |x-y|$.
+
+This completes the proof.
+
+
+\renewcommand\qedsymbol{QED}
+\end{proof}
+
+	\end{enumerate}
+
+	\hint[Hint for (b) and (c)]{Use (a).}
+\end{lemma}
+\medskip
+
+Mathematicians often use the letters $\delta$ (delta) and $\epsilon$ (epsilon) to denote small positive numbers. 
+
+\begin{exercise}
+	Let $a, \delta \in \bbR$ with $\delta > 0$. Prove that
+	\[
+	(a - \delta, a + \delta) = \{x \in \mathbb{R} \mid \abs{x - a} < \delta \}.
+	\]
+
+
+\begin{proof}
+Let $p \in (a - \delta, a + \delta)$, then $a - \delta <p< a + \delta$, hence $- \delta <p-a< \delta$. Hence, $|p-a|<\delta$. 
+
+Let $|p-a|<\delta$, then $- \delta <p-a< \delta$, then $a - \delta <p< a + \delta$, hence $p \in (a - \delta, a + \delta)$.
+
+This completes the proof.
+
+
+\renewcommand\qedsymbol{QED}
+\end{proof}
+
+\end{exercise}
+
+\begin{lemma}
+	Let $I$ be an open set containing the point $p \in \bbR$. Then
+\begin{enumerate}
+\item[i)] there exists a number $\delta > 0$ such that $(p - \delta, p + \delta) \subset I$
+\begin{proof}
+Since $I$ is open, there exists a region $(a,b)$ such that $p \in (a,b)$ and $(a,b) \subset I$. 
+
+Let $\delta = \min(p-a,b-p)$, where $p-a>0$ and $b-p>0$, thus $\delta>0$. Hence, $a\leq p-\delta$ and $p+\delta \leq b$.
+
+Then, $(p-\delta, p+\delta)\subset (a,b) \subset I$. This completes the proof.
+
+
+\renewcommand\qedsymbol{QED}
+\end{proof}
+\item[ii)]  there exists a natural number $N$ such that for all natural numbers $k \geq N$ we have $(p - \frac1k, p + \frac1k) \subset I$.
+\begin{proof}
+We know that there exists $N \in \bbN$ such that $\frac{1}{N}<\delta$. Then, for all $k\geq N, \frac{1}{k}\leq \frac{1}{N}< \delta$. 
+
+Hence $p-\frac{1}{k}>p-\delta$ and $p+\frac{1}{k}<p+\delta$. 
+
+Then, $(p-\frac{1}{k}, p+\frac{1}{k})\subset (p-\delta, p+\delta) \subset I$. 
+
+
+\renewcommand\qedsymbol{QED}
+\end{proof}
+\end{enumerate}
+\end{lemma}
+
+We now discuss the relationship between connectedness and intervals. First however we need to introduce the subspace topology.
+
+
+\begin{definition} Let $A\subset X\subset \bbR$. 
+We say that $A$ is {\em  open in $X$} 
+if it is the intersection of $X$ with an open set,
+and {\em closed in $X$} if it is the intersection of $X$ with a closed set. (This is called the subspace topology on $X$).
+\end{definition}
+
+
+\begin{remark}  $A\subset \bbR$ open, as defined in Script 3, is equivalent to $A$  open in $\bbR$.
+\end{remark}
+
+\begin{exercise} Let $A\subset X\subset \bbR$. Show that $X\setminus A$ is closed in $X$ if, and only if, $A$ is open in $X$.
+\begin{proof}
+$X \setminus A = X \cap M$ for some closed set $M$. Then, $X\setminus (X \setminus A)=X \setminus(X \cap M)$. Hence, $A= X \setminus M$, then $A = X \cap (\bbR \setminus M)$, where $\bbR \setminus M$ is open. Thus, $A$ is open in $X$.
+
+The opposite direction is analogous.
+
+
+\renewcommand\qedsymbol{QED}
+\end{proof}
+\end{exercise}
+
+\begin{exercise}
+\renewcommand{\theenumi}{\alph{enumi}}
+\begin{enumerate}
+\item[a)] Let $[a,b]\subset \bbR$. Give an example of a set $A\subset [a,b]$ such that $A$ is open in $[a,b]$ but not in $\bbR$.
+\begin{proof}
+Let $A = [a,b)$ and let $c \in \bbR$ such that $c<a$. Then, $A = [a,b] \cap (c,b)$, hence $A$ is open in $[a,b]$ but not in $\bbR$.
+
+
+\renewcommand\qedsymbol{QED}
+\end{proof}
+\item[b)] Give an example of sets $A\subset X\subset \bbR$ such that $A$ is closed in $X$ but not in $\bbR$.
+\begin{proof}
+Let $X=(a,b)$ and let $A =[c,b)$ such that $c>a$. Then, $A=(a,b) \cap [c,b]$, hence $A$ is closed in $X$ but not in $\bbR$.
+
+
+\renewcommand\qedsymbol{QED}
+\end{proof}
+\end{enumerate}
+\end{exercise}
+
+
+
+Now that we have defined the subspace topology, Definition 4.22 tells us that a set $X\subset \bbR$ is {\em connected} 
+if it cannot be written as the union $X = A \cup B$ of disjoint, non-empty sets $A$ and $B$ that are open in $X$.
+
+\begin{theorem}
+Let $X\subset \bbR$. Then $X$ is connected if, and only if, $X$ is an interval.
+\begin{proof}
+Suppose $X$ is connected such that $x,y \in X$ with $x<y$ and $[x,y]$ is an interval. 
+
+Suppose, for a contradiction, that $[x,y] \not \subset X$. Then, there exists $z \in [x,y]$ such that $z \notin X$.
+
+Let $A=\{a\in X \mid a<z\}$ and $B=\{b\in X \mid b>z\}$. Since $z \notin X$, it follows that $X=A \cup B$. 
+
+By trichotomy of the ordering, it is easy to see that $A\cap B = \emptyset$ (suppose $m\in A \cap B$, then $m<z<m$ which is a contradiction).  
+
+We know that $z\in [x,y]$ for $x,y \in X$, hence $x<z$ implies $x \in A$ and $y>z$ implies $y \in B$. Thus, $A\neq \emptyset$ and $B \neq \emptyset$.
+
+We have that $A = X \cap (-\infty,z)$ hence $A$ is open in $X$ and $B = X \cap (z,\infty)$ hence $B$ is open in $X$.
+
+Thus, $A\cup B = X$ where $A$ and $B$ are disjoint, non-empty and open in $X$. This contradicts our assumption that $X$ is connected. This completes the first direction (if $X$ is connected then $X$ is an interval).
+
+For the opposite direction, we want to show that if $X$ is an interval then $X$ is connected. Suppose $X$ is an interval and suppose for a contradiction that $X$ is disconnected. Then, we can write $X = A\cup B$ where $A$ and $B$ are disjoint, non-empty and open in $X$. 
+
+Pick some $a\in A$ and define $Z=\{z \geq a \mid  [a,z)  \subset A \}$. We have that $a \in Z$, hence $Z \neq \emptyset$. 
+
+Case 1: If $Z$ is bounded above, then $\sup Z$ exists. Then, let $z_0 = \sup Z$. We claim that $z_0$ is in neither $A$ nor $B$.
+
+Suppose $z_0 \in A$, then there exists an interval $I=(z_0-\delta, z_0+\delta)$ such that $I \subset A$ (since $A$ is open in $X$). Then, there exists $m \in I$ such that $m=z_0+\epsilon$ for $\epsilon<\delta$. Then, $m>z_0$ which implies $m \notin A$, hence $m \in B$, contradicting the assumption that $I \subset A$.
+
+Similarly, if $z_0 \in B$, then there exists an interval $I=(z_0-\delta, z_0+\delta)$ such that $I \subset B$ (since $B$ is open in $X$). Then, there exists $m \in I$ such that $m=z_0-\epsilon$ for $\epsilon<\delta$. Then, $m<z_0$, hence  $m \in A$, contradicting the assumption that $I \subset B$.
+
+Case 2: if $Z$ is not bounded above, then $[a,\infty) \subset A$. Then, pick some $b \in B$ and consider $M = \{m \geq b \mid [b,m) \subset B\}$. Since $[a,\infty) \subset A$, we know that $M$ is bounded above. Then, we repeat the same argument as above. 
+
+We know that $b \in M$, hence $M \neq \emptyset$. We also know that $M$ is bounded above. Hence, $\sup M$ exists. Let $m_0 = \sup M$. We claim that $m_0$ is in neither $A$ nor $B$.
+
+Suppose $m_0 \in A$, then there exists an interval $I=(m_0-\delta, m_0+\delta)$ such that $I \subset A$ (since $A$ is open in $X$). Then, there exists $k \in I$ such that $k=m_0-\epsilon$ for $\epsilon<\delta$. Then, $k<m_0$ which implies $k \in B$, hence $k \notin A$, contradicting the assumption that $I \subset A$.
+
+Similarly, if $m_0 \in B$, then there exists an interval $I=(m_0-\delta, m_0+\delta)$ such that $I \subset B$ (since $B$ is open in $X$). Then, there exists $k \in I$ such that $k=m_0+\epsilon$ for $\epsilon<\delta$. Then, $k>m_0$, hence  $k \in A$, contradicting the assumption that $I \subset B$.
+
+This completes the proof.
+
+\renewcommand\qedsymbol{QED}
+\end{proof}
+
+\end{theorem}
+
+
+Finally, we briefly explore functions on intervals. 
+
+\begin{definition}
+Let $I$ be an interval and let $f:I\to\bbR.$ 
+\begin{enumerate}
+\item[a)] We say that $f$ is {\em increasing} on $I$ if, whenever $x,y\in I,$ with $x<y,$ $f(x)\leq f(y).$
+\item[b)] We say that $f$ is {\em decreasing} on $I$  if, whenever $x,y\in I,$ with $x<y,$ $f(x)\geq f(y).$
+\item[c)] We say that $f$ is {\em strictly increasing} on $I$ if, whenever $x,y\in I,$ with $x<y,$ $f(x)< f(y).$
+\item[d)] We say that $f$ is {\em strictly decreasing} on $I$  if, whenever $x,y\in I,$ with $x<y,$ $f(x)> f(y).$
+\end{enumerate}
+\end{definition}
+
+
+
+
+Note that ``strictly increasing'' means the same thing as ``order preserving.''
+
+\begin{lemma} If $f$ is strictly increasing or strictly decreasing on an interval $I$ then $f$ is injective on $I.$
+\begin{proof}
+Suppose $f$ is not injective. Then, there exist $x,y \in I$ such that $x \neq y$ and $f(x)=f(y)$. Since $x \neq y$, without loss of generality suppose that $x<y$. 
+
+Then, if $f$ is strictly increasing, we have that $f(x)<f(y)$ which implies $f(x) \neq f(y)$ and this is a contradiction. Similarly, if $f$ is strictly decreasing, we have that $f(x)>f(y)$ which implies $f(x) \neq f(y)$ and this is a contradiction.
+
+This completes the proof.
+
+
+\renewcommand\qedsymbol{QED}
+\end{proof}
+
+\end{lemma}
+
+
+\bigskip
+
+\begin{center}
+{\em Additional Exercises}
+\end{center}
+
+\begin{enumerate}
+
+\item Let $X\subset \bbR.$ Prove that $X$ is both open and closed in $X.$
+
+\begin{proof}
+$X = X \cap \bbR$. $\bbR$ is closed, hence $X$ is closed in $X$. $\bbR$ is open, hence $X$ is open in $X$. 
+
+
+\renewcommand\qedsymbol{QED}
+\end{proof}
+
+\item 
+\begin{enumerate}
+\item Let $X\subset \bbR$ be a closed set. Show that $A\subset X$ is closed in $X$ if and only if $A$ is closed in $\bbR.$ 
+\begin{proof}
+If $A$ is closed in $\bbR$, then $A = X \cap A$, hence $A$ is closed in $X$. 
+
+If $A$ is closed in $X$, then $A = X \cap C$ for some closed set $C$. Then, $A$ is the intersection of two closed sets, hence $A$ is closed in $\bbR$. 
+
+
+\renewcommand\qedsymbol{QED}
+\end{proof}
+\item Let $X\subset \bbR$ be an open set. Show that $A\subset X$ is open in $X$ if and only if $A$ is open in $\bbR.$
+\begin{proof}
+If $A$ is open in $\bbR$, then $A = X \cap A$, hence $A$ is open in $X$. 
+
+If $A$ is open in $X$, then $A = X \cap O$ for some open set $O$. Then, $A$ is the intersection of two open sets, hence $A$ is open in $\bbR$. 
+
+
+\renewcommand\qedsymbol{QED}
+\end{proof}
+
+\end{enumerate}
+
+\item
+Suppose that $A, B\subset \bbR$ are connected.
+\begin{enumerate}
+	\item Show that $A\cap B$ is connected.
+\begin{proof}
+We know that $A,B$ are intervals. We have already shown that a set is connected if and only if it is an interval. Hence, we want to show that $A \cap B$ is an interval.
+
+Case 1: $A \cap B = \emptyset$. Then, we can write $A \cap B =(m,m)$ for some $m \in R$, which is an empty degenerate interval, then we are done.
+
+Case 2: $|A \cap B|=1$. Then, let $m$ be the only element in $A \cap B$. Then, $A \cap B =[m,m]$ is a degenerate interval and we are done.
+
+Case 3: $|A \cap B| \geq 2$. Then, let $x,y \in A \cap B$ with $x<y$ without loss of generality. Since $x,y \in A$, and we know that $A$ is an interval, we have that $[x,y] \subset A$. Similarly, since $x,y \in B$, and we know that $B$ is an interval, we have that $[x,y] \subset B$. Then, $[x,y] \subset A \cap B$, hence $A \cap B$ is an interval, and we are done.
+
+\renewcommand\qedsymbol{QED}
+\end{proof}
+
+	\item Give a non-trivial\footnote{I.e.~you may not use the condition $A = B$ or the condition that either $A$ or $B$ is empty.} condition on $A$ and $B$ so that $A\cup B$ is connected.
+\begin{proof}
+We claim that if $A \cap B \neq \emptyset$, then $A \cup B$ is connected.
+
+Let $j,k \in A \cup B$, then we want to show that $[j,k] \subset A \cup B$. If $j,k \in A$ or $j,k \in B$ then $[j,k] \subset A$ or $[j,k] \subset B$ respectively. In either case $[j,k] \subset A \cup B$, and we are done.
+
+For the other case, suppose, without loss of generality, that $j \in A\setminus B$ and $k \in B \setminus A$. Also suppose, without loss of generality, that $j < k$. 
+
+By assumption, $A \cap B \neq \emptyset$, hence there exists $m\in A\cap B$. Suppose $m<j$, then $m \in A$ implies $[m,j] \subset A$, and $m \in B$ implies $[m,k] \subset B$. But $m<j<k$ implies $j \in [m,k] \subset B$ which contradicts the assumption that $j \in A \setminus B$. 
+
+Similarly, suppose $m>k$, then $m \in B$ implies $[k,m] \subset B$, and $m \in A$ implies $[j,m] \subset A$. But $j<k<m$ implies $k \in [j,m] \subset A$ which contradicts the assumption that $k \in B \setminus A$. 
+
+Thus, we know that $j<m<k$. We know that $m \in A$ implies $[j,m] \subset A$ and $m \in B$ implies $[m,k] \subset B$. Then, $[j,m] \cup [m,k] = [j,k] \subset A \cup B$. 
+
+This completes the proof.
+
+\renewcommand\qedsymbol{QED}
+\end{proof}
+
+\end{enumerate}
+
+
+\end{enumerate}
+
+\end{document}
+
+
+
+
+
+

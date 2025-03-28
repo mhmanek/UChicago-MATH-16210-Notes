@@ -1,0 +1,817 @@
+\documentclass[11pt]{article}
+
+\usepackage{color}
+%\input{rgb}
+%----------Packages----------
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{amsrefs}
+\usepackage{dsfont}
+\usepackage{mathrsfs}
+\usepackage{stmaryrd}
+\usepackage[mathcal]{eucal}
+\usepackage[all]{xy}
+\usepackage{verbatim}  %%includes comment environment
+\usepackage{fullpage}  %%smaller margins
+%----------Commands----------
+
+%%penalizes orphans
+\clubpenalty=9999
+\widowpenalty=9999
+
+
+
+
+
+%% bold math capitals
+\newcommand{\bA}{\mathbf{A}}
+\newcommand{\bB}{\mathbf{B}}
+\newcommand{\bC}{\mathbf{C}}
+\newcommand{\bD}{\mathbf{D}}
+\newcommand{\bE}{\mathbf{E}}
+\newcommand{\bF}{\mathbf{F}}
+\newcommand{\bG}{\mathbf{G}}
+\newcommand{\bH}{\mathbf{H}}
+\newcommand{\bI}{\mathbf{I}}
+\newcommand{\bJ}{\mathbf{J}}
+\newcommand{\bK}{\mathbf{K}}
+\newcommand{\bL}{\mathbf{L}}
+\newcommand{\bM}{\mathbf{M}}
+\newcommand{\bN}{\mathbf{N}}
+\newcommand{\bO}{\mathbf{O}}
+\newcommand{\bP}{\mathbf{P}}
+\newcommand{\bQ}{\mathbf{Q}}
+\newcommand{\bR}{\mathbf{R}}
+\newcommand{\bS}{\mathbf{S}}
+\newcommand{\bT}{\mathbf{T}}
+\newcommand{\bU}{\mathbf{U}}
+\newcommand{\bV}{\mathbf{V}}
+\newcommand{\bW}{\mathbf{W}}
+\newcommand{\bX}{\mathbf{X}}
+\newcommand{\bY}{\mathbf{Y}}
+\newcommand{\bZ}{\mathbf{Z}}
+
+%% blackboard bold math capitals
+\newcommand{\bbA}{\mathbb{A}}
+\newcommand{\bbB}{\mathbb{B}}
+\newcommand{\bbC}{\mathbb{C}}
+\newcommand{\bbD}{\mathbb{D}}
+\newcommand{\bbE}{\mathbb{E}}
+\newcommand{\bbF}{\mathbb{F}}
+\newcommand{\bbG}{\mathbb{G}}
+\newcommand{\bbH}{\mathbb{H}}
+\newcommand{\bbI}{\mathbb{I}}
+\newcommand{\bbJ}{\mathbb{J}}
+\newcommand{\bbK}{\mathbb{K}}
+\newcommand{\bbL}{\mathbb{L}}
+\newcommand{\bbM}{\mathbb{M}}
+\newcommand{\bbN}{\mathbb{N}}
+\newcommand{\bbO}{\mathbb{O}}
+\newcommand{\bbP}{\mathbb{P}}
+\newcommand{\bbQ}{\mathbb{Q}}
+\newcommand{\bbR}{\mathbb{R}}
+\newcommand{\bbS}{\mathbb{S}}
+\newcommand{\bbT}{\mathbb{T}}
+\newcommand{\bbU}{\mathbb{U}}
+\newcommand{\bbV}{\mathbb{V}}
+\newcommand{\bbW}{\mathbb{W}}
+\newcommand{\bbX}{\mathbb{X}}
+\newcommand{\bbY}{\mathbb{Y}}
+\newcommand{\bbZ}{\mathbb{Z}}
+
+%% script math capitals
+\newcommand{\sA}{\mathscr{A}}
+\newcommand{\sB}{\mathscr{B}}
+\newcommand{\sC}{\mathscr{C}}
+\newcommand{\sD}{\mathscr{D}}
+\newcommand{\sE}{\mathscr{E}}
+\newcommand{\sF}{\mathscr{F}}
+\newcommand{\sG}{\mathscr{G}}
+\newcommand{\sH}{\mathscr{H}}
+\newcommand{\sI}{\mathscr{I}}
+\newcommand{\sJ}{\mathscr{J}}
+\newcommand{\sK}{\mathscr{K}}
+\newcommand{\sL}{\mathscr{L}}
+\newcommand{\sM}{\mathscr{M}}
+\newcommand{\sN}{\mathscr{N}}
+\newcommand{\sO}{\mathscr{O}}
+\newcommand{\sP}{\mathscr{P}}
+\newcommand{\sQ}{\mathscr{Q}}
+\newcommand{\sR}{\mathscr{R}}
+\newcommand{\sS}{\mathscr{S}}
+\newcommand{\sT}{\mathscr{T}}
+\newcommand{\sU}{\mathscr{U}}
+\newcommand{\sV}{\mathscr{V}}
+\newcommand{\sW}{\mathscr{W}}
+\newcommand{\sX}{\mathscr{X}}
+\newcommand{\sY}{\mathscr{Y}}
+\newcommand{\sZ}{\mathscr{Z}}
+
+
+\renewcommand{\phi}{\varphi}
+
+\renewcommand{\emptyset}{\O}
+
+\providecommand{\abs}[1]{\lvert #1 \rvert}
+\providecommand{\norm}[1]{\lVert #1 \rVert}
+
+
+\providecommand{\ar}{\rightarrow}
+\providecommand{\arr}{\longrightarrow}
+
+\renewcommand{\_}[1]{\underline{ #1 }}
+
+
+\DeclareMathOperator{\ext}{ext}
+
+
+
+%----------Theorems----------
+
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
+
+
+\newtheorem*{axiom4}{Axiom 4}
+
+
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{nondefinition}[theorem]{Non-Definition}
+\newtheorem{exercise}[theorem]{Exercise}
+\newtheorem{remark}[theorem]{Remark}
+\newtheorem{warning}[theorem]{Warning}
+
+\newtheorem{exercise*}{Exercise 3.26}
+\newtheorem{manualtheoreminner}{Theorem}
+\newenvironment{manualtheorem}[1]{%
+  \renewcommand\themanualtheoreminner{#1}%
+  \manualtheoreminner
+}{\endmanualtheoreminner}
+
+\newcommand{\head}[1]{
+	\begin{center}
+		{\large #1}
+		\vspace{.2 in}
+	\end{center}
+	
+	\bigskip 
+}
+\newcommand{\hint}[2][Hint]{
+	
+	(#1: #2)
+}
+
+
+\numberwithin{equation}{subsection}
+
+
+%----------Title-------------
+
+
+\begin{document}
+
+\head{MATH 162, Winter 2025\\
+ SCRIPT 10: Compactness} 
+
+
+
+
+
+
+\setcounter{section}{10}   
+
+
+\begin{definition}
+	We say that a function $f\colon A \to \bbR$ is \emph{bounded} if $f(A)$ is a bounded subset of $\bbR$. We say that $f$ is bounded above if $f(A)$ is bounded above and that $f$ is bounded below if $f(A)$ is bounded below. 
+	
+	If  $f\colon A \to \bbR$ is bounded above we say that $f$ {\em attains} its least upper bound if there is some $a\in A$ such that $f(a)=\sup f(A).$ Similarly, if $f\colon A \to \bbR$ is bounded below we say that $f$ {\em attains} its greatest lower bound if there is some $a\in A$ such that $f(a)=\inf f(A).$ 
+	
+\end{definition}
+
+\begin{exercise} If possible, find examples of each of the following; a picture suffices. 
+\begin{enumerate}
+\item[a)] A continuous function on $[1,\infty)$ that is not bounded above.
+
+\begin{proof}
+Let $f(x)=x$. As $x \rightarrow \infty$, $f(x) \rightarrow \infty$, hence $f$ is not bounded above.
+
+
+
+\renewcommand\qedsymbol{QED}
+\end{proof}
+
+
+
+\item[b)] A continuous function on $[1,\infty)$ that is bounded above but does not attain its least upper bound.
+
+\begin{proof}
+Let $f(x) = 1 - \frac{1}{x}$. As $x \rightarrow \infty$, $f(x) \rightarrow 1$, hence $f$ is bounded above. $\sup f([1,\infty))=1$ but for $x \in [1, \infty), \frac{1}{x}>0$, hence $f(x)<1$, hence $f$ does not attain its least upper bound.
+
+
+
+\renewcommand\qedsymbol{QED}
+\end{proof}
+
+
+\item[c)] A continuous function on $(0,1)$ that is not bounded below.
+
+\begin{proof}
+
+Let $f(x) = \frac{1}{x-1}$. As $x \rightarrow 1$, $f(x) \rightarrow - \infty$, hence $f$ is not bounded above.
+
+
+\renewcommand\qedsymbol{QED}
+\end{proof}
+
+
+\item[d)]  A continuous function on $(0,1)$ that is bounded below but does not attain its greatest lower bound.
+
+\begin{proof}
+
+Let $f(x) = x$. Then, $\inf f((0,1))=0$, but for $x \in (0,1), 0<f(x)<1$, hence $f$ does not attain its greatest lower bound.
+
+
+\renewcommand\qedsymbol{QED}
+\end{proof}
+
+
+\end{enumerate}
+\end{exercise}
+
+
+We will see below that if the domain of a continuous function is {\em both} closed and bounded, then its image is bounded and attains its bounds. First, we introduce a new concept:
+ compactness. 
+
+
+\begin{definition}  Let $X$ be a subset of $\bbR$ and let $\mathcal{G} = \{ G_{\lambda} \}_{\lambda \in \Lambda}$ be a collection of subsets of~$\bbR$.  We say that $\mathcal{G}$ is a \emph{cover} of $X$ if every point of $X$ is in some $G_{\lambda}$, or in other words:
+\[
+X \subset \bigcup_{\lambda \in \Lambda} G_{\lambda}.
+\]
+We say that the collection $\mathcal{G}$ is an \emph{open cover} if each $G_{\lambda}$ is open.
+\end{definition}
+
+\begin{definition}  Let $X$ be a subset of $\bbR$.  $X$ is \emph{compact} if for every open cover $\mathcal{G}$ of $X$, there exists a finite subset $\mathcal{G}' \subset \mathcal{G}$ that is also an open cover.
+\end{definition}
+
+\noindent  A good summary of the definition of compactness is ``every open cover contains a finite subcover''.
+
+
+\begin{exercise}
+Show that all finite subsets of $\bbR$ are compact.
+
+\begin{proof}
+Let $S$ be a finite subset of $\bbR$ and let $\mathcal{M}$ be an open cover of $S$. Then, we can write $\mathcal{M}=\{M_i\}_{i\in I}$ and $S \subset \bigcup_{i \in I} M_i$. 
+
+Since $S$ is finite, we can write $S = \{s_1, s_2, \dots, s_n\}$. For each $s_i$ with $i \in [n]$, let $M_i$ be such that $M_i \in \mathcal{M}$ and $s_i \in M_i$. Then, we claim that $\mathcal{M'}=\bigcup_{i=1}^n M_i$ is a finite subcover.
+
+It is easy to see that $\mathcal{M'}$ is finite, because it is a union from $i=1$ to $i=n$. We also know that for all $s_i \in S, s_i \in M_i \subset \bigcup_{i=1}^n M_i = \mathcal{M'}$. Additionally, each $M_i$ is open, by definition of $\mathcal{M}$ being an open cover. Hence, $\mathcal{M'}$ is a finite open subcover. 
+
+This completes the proof.
+
+
+\renewcommand\qedsymbol{QED}
+\end{proof}
+
+
+
+\end{exercise} 
+
+\begin{lemma}
+No finite collection of regions covers $\bbR$.
+
+\begin{proof}
+Suppose for sake of contradiction that $\mathcal{G}$ is a finite collection of regions covering $\bbR$. Then, $\mathcal{G} \neq \emptyset$ and we can list $\mathcal{G} = \{(a_1,b_1),(a_2,b_2),\dots,(a_n,b_n)\}$. Consider the set $M = \{a_1,a_2,\dots,a_n\}$. We know that $M$ has a first point, and let us call this $a_{min}$.
+
+Since $\bbR$ has no first point, there exists $x \in \bbR$ such that $x<a_{min}$. Since $\mathcal{G}$ is an open cover of $\bbR$, there must exist some $(a_j,b_j) \in \mathcal{G}$ such that $a_j<x<b_j$. However, we have that $x<a_{min}\leq a_j<b_j$ for all $j \in [n]$, and this contradicts trichotomy of the ordering.
+
+This completes the proof.
+
+\renewcommand\qedsymbol{QED}
+\end{proof}
+
+
+
+\end{lemma}
+
+\begin{theorem}  
+$\bbR$ is not compact.
+
+\begin{proof}
+We want to show that there exists an open cover of $\bbR$ such that there is no finite subcover.
+
+Consider the set $\mathcal{G} = \{(x-1,x+1) \mid x \in \bbR\}$. We know that $\bigcup_{x \in \bbR} (x-1,x+1) = \bbR$, hence $\mathcal{G}$ is a cover. $\mathcal{G}$ is also a union of open sets, hence it is open. Thus, $\mathcal{G}$ is an open cover.
+
+By Lemma 10.6, there does not exist any finite collection of regions that covers $\bbR$. Hence, there does not exist any finite subcover of $\mathcal{G}$.
+
+This completes the proof.
+
+\renewcommand\qedsymbol{QED}
+\end{proof}
+
+
+\end{theorem}
+
+
+\begin{exercise}
+Show that regions are not compact.
+
+\begin{proof}
+Let $(a,b)$ be a region and let $\mathcal{G} = \{(a,c) \mid c\in (a,b)\}$. We claim that $\mathcal{G}$ is an open cover that has no finite subcover.
+
+For all $x \in (a,b)$, there exists $\delta>0$ such that $(x- \delta, x+ \delta) \subset (a,b)$, because $(a,b)$ is open. In particular, there exists $\delta>0$ such that $x+ \delta <b$.  Let $c = x + \delta$, then $x \in (a,c) \in \mathcal{G}$. This shows that $\mathcal{G}$ is a cover of $(a,b)$. Since all regions are open, every $(a,c) \in \mathcal{G}$ is open, hence $\mathcal{G}$ is an open cover.
+
+Suppose $\mathcal{H} \subset \mathcal{G}$ is a finite subcover. Then, we can write $\mathcal{H} = \{(a,c_1), (a,c_2), \dots, (a,c_n)\}$. Consider the set $\{c_1, c_2, \dots, c_n\}$ and let $c_{max}$ be the last point of the set.
+
+Then, $a<c_i\leq c_{max}$ for all $i \in [n]$. Thus, $c_{max} \notin (a,c_i)$ for any $i \in [n]$, hence $c_{max} \notin \mathcal{H}$, contradicting the assumption that $\mathcal{H}$ is a cover.
+
+This completes the proof.
+
+
+\renewcommand\qedsymbol{QED}
+\end{proof}
+
+
+\end{exercise} 
+
+\begin{theorem}  \label{compactimpliesbounded} If $X$ is compact, then $X$ is bounded. Moreover, if $X$ is also nonempty, then
+ $\sup X$ and $\inf X$ exist and are contained in $X.$
+ 
+\begin{proof}
+Let $\mathcal{G} = \{(x-1,x+1) \mid x \in X\}$. Note that $X = \bigcup_{x\in X}\{x\} \subseteq \bigcup_{x\in X} \{(x-1,x+1)\}$. Hence, $\mathcal{G}$ is an open cover.
+
+Since $X$ is compact, there exists a finite subcover. Let this finite subcover be $\mathcal{G'} = \{(x_1-1,x_1+1), (x_2-1,x_2+1), \dots, (x_n-1,x_n+1)\}$.
+
+Let $a = \min \{0, x_1, x_2, \dots, x_n\}$ and let $b = \max \{0, x_1, x_2, \dots, x_n\}$. Note that $\bigcup_{i=1}^n (x_i-1,x_i+1) \subseteq (a-1,b+1)$. Thus, $X$ is bounded.
+
+For the second part of the proof, assume $X \neq \emptyset.$ Thus, $X$ is non-empty and bounded, hence $\sup X$ exists, so let $s = \sup X$. Suppose for a contradiction that $s \notin X$. Then, we note that $x<s$ for all $x \in X$.
+
+For all $x \in X$, there exists $c_x \in X$ such that $x<c_x<s$. Let $\mathcal{H} = \{(-\infty, c_x) \mid x \in X\}$. Note that $X = \bigcup_{x\in X} \{x\} \subseteq \bigcup_{x\in X} (-\infty, c_x)=\mathcal{H}$, thus $\mathcal{H}$ is an open cover.
+
+Since $X$ is compact, there exists a finite subcover of $\mathcal{H}$, let us call this $\mathcal{H'}$. Then, $\mathcal{H'} = \{(-\infty, c_{x_1}), (-\infty, c_{x_2}), \dots, (-\infty, c_{x_n})\}$. Let $m = \max \{c_{x_1}, c_{x_2}, \dots, c_{x_n}\}$ and let $i$ be such that $m = c_{x_i}$, so $c_{x_i}<s$. 
+
+Since $s$ is the supremum, it is the least upper bound, thus $c_{x_i}$ cannot be an upper bound, hence there exists $y\in X$ such that $c_{x_i}<y$. Every $c_j\leq c_{x_i}<y$, so $y$ is not covered by $\mathcal{H'}$, and this is a contradiction.
+
+This completes the proof.
+
+
+\renewcommand\qedsymbol{QED}
+\end{proof}
+
+
+\end{theorem} 
+
+We can now discuss the relationship between continuity and compactness. We will then turn to showing how compact sets are related to closed, bounded sets.
+
+\begin{theorem}  Suppose that $f\colon X\to \bbR$ is continuous.  If $X$ is compact, then $f(X)$ is compact.
+
+\begin{proof}
+Let $\mathcal{G}$ be an open cover of $f(X)$. For each $G \in \mathcal{G}$, since $f$ is continuous, $f^{-1}(G)$ is open in $X$. Hence, there exists an open set $V_G$ such that $f^{-1}(G)=V_G \cap X$.
+
+Let $\mathcal{H}=\{V_G \mid G \in \mathcal{G}\}$. Note that for all $x \in X$, we know that $f(x) \in f(X)$, so there exists $G \in \mathcal{G}$ with $f(x) \in G$. Thus, $x \in f^{-1}(G)=V_G \cap X$. So $x \in V_G$, hence $\mathcal{H}$ is an open cover of $X$.
+
+Since $X$ is compact, $\mathcal{H}$ has a finite subcover, and let this be $\mathcal{H'}$. Then, we can write $\mathcal{H'}=\{V_{G_1}, V_{G_2}, \dots, V_{G_n}\}$. Let $\mathcal{G'}=\{G_1, G_2, \dots, G_n\}$. By construction, it is clear that $\mathcal{G'}\subseteq \mathcal{G}$ and $\mathcal{G'}$ is finite.
+
+Let us show that $f(X) \subseteq \bigcup_{i=1}^n G_i$. Take $y \in f(X)$, so there exists $x \in X$ such that $y=f(x)$. Since $\mathcal{H'}$ is a cover of $X$, there exists $i \in [n]$ such that $x \in V_{G_i}$. Since $f^{-1}(G_i)=V_{G_i}\cap X$ and $x \in V_{G_i}\cap X$ (thus $x \in f^{-1}(G_i))$, we get that $y \in G_i$.
+
+Thus, $\mathcal{G'}$ is a finite subcover of $\mathcal{G}$. Hence, $f(X)$ is compact. This completes the proof.
+
+
+
+\renewcommand\qedsymbol{QED}
+\end{proof}
+
+
+\end{theorem}
+
+\begin{corollary} \label{EVT} If $X \subset \bbR$ is non-empty, compact
+and $f\colon X \arr \bbR$ is continuous, then 
+$f(X)$ has a first and last point.
+
+\begin{proof}
+
+Since $f$ is continuous and $X$ is compact, we have that $f(X)$ is compact. Since $X \neq \emptyset$, we have that $f(X) \neq \emptyset$. 
+
+By Theorem 10.9, $f(X)$ is bounded, and since $f(X)\neq \emptyset$, we have that $\sup f(X)$ and $\inf f(X)$ exist and are contained in $f(X)$. Hence, $f(X)$ has a first and last point.
+
+This completes the proof.
+
+
+\renewcommand\qedsymbol{QED}
+\end{proof}
+
+
+\end{corollary}
+
+
+  We now give a characterization of compact sets. We have already seen (in Theorem~\ref{compactimpliesbounded}) that they are bounded. We will now prove that boundedness together with closedness are defining characteristics. This is in Theorem~\ref{HB}; first we need some preliminary results. 
+
+\begin{lemma}   Let $X\subset \bbR$ and $p\in \bbR\setminus X.$ Then
+\[
+\mathcal{G} = \{ \ext(\_{ab}) \mid p\in \_{ab}  \}
+\]
+is an open cover of $X.$ 
+
+\begin{proof}
+Let $x \in X$ and fix $p \in \bbR \setminus X$. Then, for every region $(a,b)$ that contains $p$, there exists a region $(c,d)$ such that $x \in (c,d)$ and $(a,b) \cap (c,d) =\emptyset$. 
+
+Since $(a,b)$ and $(c,d)$ are disjoint, we see that $(c,d) \subset \ext((a,b))$. Hence, $x \in (c,d) \subset \ext((a,b))$. Therefore, $\mathcal{G}$ covers $X$. We also know that the exterior of a region is open, hence $\mathcal{G}$ is an open cover of $X$. 
+
+This completes the proof.
+
+
+
+\renewcommand\qedsymbol{QED}
+\end{proof}
+
+
+\end{lemma}
+
+
+
+\begin{theorem} \label{compactimpliesclosed} If $X$ is compact, then $X$ is closed.
+
+\begin{proof}
+For the first case, if $X = \emptyset$, then we know that $X$ is closed and we are done.
+
+For the second case, assume $X \neq \emptyset$ and suppose for sake of a contradiction that $X$ is not closed. Then, there exists $p \in LP(X)$ such that $p \notin X$, then $p \in \bbR \setminus X$.
+
+Then, $\mathcal{G} = \{ \ext((a,b)) \mid p\in (a,b)  \}$ is an open cover of $X$ by Lemma 10.12. Since $X$ is compact, there exists a finite subcover $\mathcal{G'}$.
+
+Then, we can write $\mathcal{G'}=\{\ext(a_1,b_1), \ext(a_2,b_2), \dots, \ext(a_n,b_n)\}$. Let $j = \max\{a_1, a_2, \dots, a_n\}$ and let $k = \min\{b_1,b_2, \dots, b_n\}$. 
+
+Then, $X \subset \bigcup_{G \in \mathcal{G'}} G$, hence for all $x \in X$, $x \in \ext(j,k)$. Hence, $p \notin X$ implies $p \notin \ext(j,k)$, hence $p \in (j,k)$. 
+
+Then, $(j,k)$ is a region containing $p$ such that $(j,k) \cap X \setminus \{p\} = (j,k) \cap X = \emptyset$, because $p \notin X$ and $X \subset \ext(j,k)$ and $\ext(j,k) \cap (j,k) = \emptyset$. This contradicts the assumption that $p$ is a limit point of $X$.
+
+This completes the proof.
+
+
+\renewcommand\qedsymbol{QED}
+\end{proof}
+
+
+\end{theorem}
+
+
+
+\newcommand\cG{\mathcal G}
+
+For the next three results, fix points $a,b\in \bbR$ and suppose $\cG$ is an open cover of $[a,b]$.
+
+\begin{lemma}
+\label{lem2}
+For all $s\in[a,b]$, there exist $G\in\cG$ and $p,q\in \bbR$ such that $p<s<q$ and $[p,q]\subset G$.
+
+\begin{proof}
+Since $\cG$ is an open cover, we know that every $G \in \cG$ is open. Then, for all $s \in [a,b]$, there exists $G_s \in \cG$ with $G_s$ open such that $s \in G_s$, because $\cG$ covers $[a,b]$.  
+
+Hence, there exists $\delta >0$ such that $(s-\delta, s+\delta) \subset G_s$. Then, there exists $\epsilon$ such that $0<\epsilon<\delta$ and $[s-\delta+\epsilon, s+\delta-\epsilon] \subset G_s$. Then, let $p = s-\delta+\epsilon$ and let $q = s+\delta-\epsilon$, then we are done.
+
+This completes the proof.
+
+
+\renewcommand\qedsymbol{QED}
+\end{proof}
+
+
+\end{lemma}
+
+\begin{lemma} Let $X$ be the set of all $x\in \bbR$ that are \emph{reachable from $a$}, by which we mean the following: there exist $n\in\bbN\cup\{0\}$, $x_0,\ldots,x_n\in \bbR$ and $G_1,\ldots,G_n\in\cG$ such that $a=x_0<x_1<\ldots<x_{n-1}<x_n=x$ and $[x_{i-1},x_i]\subset G_i$ for $i=1,\ldots,n$.
+
+(Note in particular that $a\in X$, by choosing $n=0$.)
+
+Then the point $b$ is not an upper bound for $X$.
+
+(Hint: suppose $b$ is an upper bound, and apply Lemmas~\ref{lem2} and 5.10 to $s=\sup X$.)
+
+
+\begin{proof}
+Suppose for sake of a contradiction that $b$ is an upper bound for $X$. We know that $a \in X$, hence $X \neq \emptyset$. Then, $X$ is non-empty and bounded above, so $s = \sup X$ exists.
+
+Since $b$ is an upper bound, $s \leq b$, hence $s \in [a,b]$. By Lemma 10.14, there exist $G\in\cG$ and $p,q\in \bbR$ such that $p<s<q$ and $[p,q]\subset G$. Since $p<s=\sup X$, we have that $p$ is not an upper bound of $X$.
+
+Hence, there exists $x \in X$ such that $p<x\leq s$. Since $x \in X$, there exist $x_0, \dots, x_n \in \bbR$ and $G_1, \dots, G_n \in \mathcal{G}$ such that $a=x_0<x_1<\dots<x_n=x$ and for all $i \in [n]$, $[x_{i-1},x_i] \subset G_i$. 
+
+Set $G_{n+1}=G$ and $x_{n+1}=q$, then we note that $[x_n, x_{n+1}]=[x,q]\subset [p,q] \subset G = G_{n+1}$. Then, $q$ is reachable, namely $q \in X$ with $q>s$. This contradicts the assumption that $s$ is the supremum of $X$.
+
+This completes the proof.
+
+
+\renewcommand\qedsymbol{QED}
+\end{proof}
+
+
+
+\end{lemma}
+
+
+\begin{theorem}\label{closedintervalsarecompact}
+The set $[a, b]$ is compact.
+
+\begin{proof}
+By Lemma 10.15, $b$ is not an upper bound for $X$. Hence, there exists $x>b$ with $x \in X$, namely $x$ is reachable. Then, there exist $x_0, \dots, x_n$ and $G_1, \dots, G_n \in \mathcal{G}$ such that $a=x_0<x_1<\dots<x_n=x$ and for all $i \in [n]$, $[x_{i-1}, x_i] \subset G_i$. 
+
+Then, $[a,b] \subset [x_0, x_n] \subset \bigcup_{i=1}^n G_i$. Hence, $\mathcal{G'} = \{G_1, \dots, G_n\}$ is a finite subcover. Since $\mathcal{G}$ was an arbitrary open cover, we know that for every open cover there exists a finite subcover. Thus, $[a,b]$ is compact.
+
+This completes the proof.
+
+\renewcommand\qedsymbol{QED}
+\end{proof}
+
+
+\end{theorem}
+
+
+\begin{corollary} If $f \colon [a,b] \arr \bbR$ is continuous, then there exists a point $c \in [a, b]$ such that $f(c) \geq f(x)$ for all $x \in [a, b]$.  Similarly, there exists a point $d \in [a, b]$ such that $f(d) \leq f(x)$ for all $x \in [a, b]$.
+
+
+\begin{proof}
+We know that $a \in [a,b]$ hence $[a,b] \neq \emptyset$. We know by Theorem 10.16 that $[a,b]$ is compact. By assumption, $f: [a,b] \rightarrow \bbR$ is continuous. Then, by Corollary 10.11, $f([a,b])$ has a first and last point.
+
+Let $c'$ be the last point of $f([a,b])$. Then, $c' \geq f(x)$ for all $x \in [a,b]$. Also, $c' \in f([a,b])$ implies that there exists $c \in [a,b]$ such that $c'=f(c)$.  
+
+Let $d'$ be the first point of $f([a,b])$. Then, $d' \leq f(x)$ for all $x \in [a,b]$. Also, $d' \in f([a,b])$ implies that there exists $d \in [a,b]$ such that $d'=f(d)$.
+
+This completes the proof.
+
+\renewcommand\qedsymbol{QED}
+\end{proof}
+
+
+\end{corollary}
+
+Theorem~\ref{closedintervalsarecompact} is a key ingredient for the proof of the Heine-Borel theorem. We need just one more theorem first.
+
+\begin{theorem}
+A closed subset $Y$ of a compact set $X \subset \bbR$ is compact.
+
+{\em (Question: Does it matter whether $Y$ is closed in $X$ or in $\bbR$?)}
+
+\begin{proof}
+Let $\cG$ be an open cover of $Y$, then we want to show that there exists a finite subcover $\cG'$. 
+
+Let $\mathcal{H} = \cG \cup \{\bbR \setminus Y\}$, then $\mathcal{H}$ is the union of two open sets (because $Y$ is closed hence $\bbR \setminus Y$ is open), hence $\mathcal{H}$ is open. Then, $\mathcal{H}$ is an open cover of $X$. Since $X$ is compact, there exists a finite subcover $\mathcal{H'} \subset \mathcal{H}$. 
+
+Then, we can write $\mathcal{H'}=\{G_1, G_2, \dots, G_n\} \cup \bbR \setminus Y$. We have that $\mathcal{H'}$ covers $X$, hence it also covers $Y$. 
+
+Then, let $\mathcal{G'}=\mathcal{H'} \setminus (\bbR \setminus Y) = \{G_1, G_2, \dots, G_n\}$. Since $Y \cap (\bbR \setminus Y) = \emptyset$ and $\mathcal{H'}$ covers $Y$, hence $\mathcal{H'}\setminus (\bbR \setminus Y)$ must cover $Y$. Thus, $\mathcal{G'}$ is a finite subcover of $\mathcal{G}$. Hence, $Y$ is compact.
+
+This completes the proof.
+
+Since $X$ is compact, we know that $X$ is closed. Hence, if $Y$ is closed in $X$, we know that $X$ is closed, hence this is equivalent to saying that $Y$ is closed in $\bbR$. 
+
+\renewcommand\qedsymbol{QED}
+\end{proof}
+
+
+\end{theorem}
+
+\begin{theorem}\label{HB} Let $X \subset \bbR$.  $X$ is compact if and only if $X$ is closed and bounded.
+
+\begin{proof}
+By Theorems 10.9 and 10.13, we know that if $X$ is compact, then $X$ is closed and bounded. This completes the first direction.
+
+For the second direction, suppose that $X$ is closed and bounded. Since $X \subset \bbR$ is bounded, there exist $a,b \in \bbR$ such that $X \subset [a,b]$. We know that $X$ is closed and $[a,b]$ is compact, hence $x \subset [a,b]$ is compact.
+
+This completes the proof.
+
+\renewcommand\qedsymbol{QED}
+\end{proof}
+
+
+\end{theorem}
+
+As a consequence we obtain a version of a theorem dating back to Bolzano in 1817 (though our proof is very different).  First, though, a lemma which can be proved straight from the definition of compactness.
+
+\begin{lemma}
+A compact set $X \subset \bbR$ with no limit points must be finite.
+
+\begin{proof}
+Suppose $X$ has no limit points. Then for all $x \in X$, there exists a region $R_x$ such that $x\in R_x$ and $X \cap R_x \setminus \{x\} = \emptyset$.  
+
+Then let $\cG = \{R_x\}_{x \in X}$, and since regions are open, we have that $\cG$ is an open cover of $X$. Since $X$ is compact, there exists a finite subcover $\cG'$, then we can write $\cG'=\{R_{x_1}, R_{x_2}, \dots, R_{x_n}\}$. We know that for all $i\in [n], R_{x_i} \cap X \setminus \{x_i\} = \emptyset$. Hence, for all $i \in [n], x_i$ is the only element of $X$ contained in $R_{x_i}$. 
+
+Thus, $|X|=|\cG'|=n$ which is finite. This completes the proof.
+
+\renewcommand\qedsymbol{QED}
+\end{proof}
+
+
+\end{lemma}
+
+\begin{theorem} Every bounded infinite subset of $\bbR$ has at least one limit point.
+
+\begin{proof}
+The contrapositive of Lemma 10.20 says that if $M \subset \bbR$ is infinite and compact, then it has at least one limit point. 
+
+Let $X$ be a bounded infinite subset of $\bbR$. Then, we claim that $\overline{X}$ is closed, bounded and infinite. We know that $\overline{X}$ is closed. Let $a$ be a lower bound for $X$ and let $b$ be an upper bound for $X$. Then, $X \subset [a,b]$, then $\overline{X} \subset \overline{[a,b]}=[a,b]$ (since $[a,b]$ is closed), hence $\overline{X}$ is bounded. Since $\overline{X}=X \cup LP(X) \supset X$, we see that $\overline{X}$ is infinite. Thus, $\overline{X}$ is compact and infinite, hence $LP(\overline{X}) \neq \emptyset$.
+
+Thus, $\emptyset \neq LP(\overline{X}) = LP(X \cup LP(X)) = LP(X) \cup LP(LP(X)) \subset LP(X)$. Hence, $LP(X) \neq \emptyset$. (Above we use that $LP(LP(X)) \subset LP(X)$, and limit points are commutative over finite unions). 
+
+This completes the proof.
+
+
+\renewcommand\qedsymbol{QED}
+\end{proof}
+
+
+\end{theorem}
+
+
+
+\bigskip
+
+
+\begin{center}
+{\em Additional Exercises}
+\end{center}
+
+
+
+\begin{enumerate}
+
+
+
+
+\item
+Prove that a set $X\subset \bbR$ is compact if, and only if, every open cover made up only of regions has a finite subcover.
+
+
+\begin{proof}
+If $X$ is compact, then every open cover has a finite subcover, hence every open cover made up only of regions has a finite subcover. This completes the first direction.
+
+For the second direction, let $\cG=\{G_i\}_{i\in I}$ be an open cover of $X$. Then, for all $x \in X$, there exists $G_x \in \cG$ such that $x \in G_x$. Since $G_x$ is open, we can find a region $R_x \subset G_x$ such that $x \in R_x$. Then, we can write $\mathcal{H}=\{R_x\}_{x\in X}$ and we see that $\mathcal{H} \subset \cG$ is an open cover of $X$ made up only of regions. 
+
+Since every open cover made up only of regions has a finite subcover, there exists a finite subcover $\mathcal{H'}\subset H \subset \cG$. Thus, $\mathcal{H'}$ is a finite subcover of $\cG$. Hence, $X$ is compact.
+
+This completes the proof.
+
+\renewcommand\qedsymbol{QED}
+\end{proof}
+
+
+
+\item
+
+
+
+For each of the following sets  give an open cover that has no finite subcover. Justify your answers.
+
+\begin{enumerate}
+\item $\{\frac{1}{n}\mid n\in\bbN\}$
+
+
+\item $\{x\in\bbQ\mid x\leq 2\}.$
+
+\end{enumerate}
+
+
+
+
+
+
+\item 
+\begin{enumerate}
+\item
+	 Suppose that $X$ and $Y$ are compact subsets of $\bbR$.  Show that $X\cup Y$ is compact  and $X\cap Y$ are compact. 
+
+     
+\begin{proof}
+We know that $X,Y$ are bounded, hence $X \subset [a,b]$ and $Y \subset [c,d]$ for some $a,b,c,d\in \bbR$. Let $j = \min (a,c)$ and let $k = \max(b,d)$, then $X \cup Y \subset [j,k]$. Hence, $X \cup Y$ is bounded. 
+
+$X,Y$ are closed and a finite union of closed sets is closed, hence $X \cup Y$ is closed. Then, $X\cup Y$ is closed and bounded, hence it is compact.
+
+By the same reasoning as above, $X \cap Y \subset [j,k]$, hence $X \cap Y$ is bounded. $X,Y$ are closed and the intersection of closed sets is closed, hence $X \cap Y$ is closed. Then, $X\cap Y$ is closed and bounded, hence it is compact.
+
+
+
+\renewcommand\qedsymbol{QED}
+\end{proof}
+
+
+
+\item
+	 If $X_1$, $X_2$, $\dots$ are compact sets, are the following compact:
+	\[ \bigcap_{n=1}^\infty X_n\quad  \text{and/or}\quad 	 \bigcup_{n=1}^\infty X_n?\]
+
+\begin{proof}
+The infinite intersection of closed sets is closed, hence $\bigcap_{n=1}^\infty X_n$ is closed. We see that $[\bigcap_{n=1}^\infty X_n] \subset X_1$ and since $X_1$ is compact, it is bounded, and the subset of a bounded set is bounded, hence $\bigcap_{n=1}^\infty X_n$ is bounded. Thus, $\bigcap_{n=1}^\infty X_n$ is closed and bounded, hence it is compact.
+
+For a counterexample to the case with unions, let $X_n = [-n,n]$ for all $n$, which we know is closed and bounded. Then, $\bigcup_{n=1}^\infty X_n = \bbR$ is not compact.
+
+
+
+\renewcommand\qedsymbol{QED}
+\end{proof}
+
+
+
+\end{enumerate}
+
+
+\item
+\begin{enumerate}
+\item Let $X_1,X_2, X_3\cdots,$ be nonempty compact subsets of $\bbR$ such that 
+$X_1\supset X_2\supset X_3\supset\cdots .$
+Prove that $$\bigcap_{i=1}^\infty X_i\neq \emptyset.$$ 
+
+{\it Hint: Proof by contradiction.}
+
+\begin{proof}
+
+Suppose for sake of contradiction that $\bigcap_{i=1}^\infty X_i = \emptyset$. 
+
+We see that for all $x \in X_1$, there exists $X_j$ such that $x \notin X_j$, then $x \in X_1 \setminus X_j$, hence $X_1 \subset \bigcup_{i=2}^\infty (X_1 \setminus X_j)$. Moreover, every $X_j$ is closed (because it is compact), hence $X_1 \setminus X_j = X_1 \cap \bbR \setminus X_j$ where $\bbR \setminus X_j$ is open, hence $X_1 \setminus X_j$ is open in $X_1$. Thus, $\{X_1 \setminus X_j\}_{j \in (1,\infty)}$ is an open cover of $X_1$. For simplicity of notation, we write this as $\{{X_j}^c\}_{j \in (1, \infty)}$ (the $c$ denotes complement with respect to $X_1$). 
+
+Since $X_1$ is compact, there exists a finite subcover $\cG \subset \{{X_j}^c\}_{j \in (1, \infty)}$. Hence, we can write $\cG = \{{X_{j_1}}^c, {X_{j_2}}^c, \dots, {X_{j_n}}^c\}$. 
+
+Since the sets are nested, we see that $X_1 \setminus X_k \subset X_1 \setminus X_{k+1}$ for all $k$. Hence, let $m = \max \{j_1, j_2, \dots, j_n\}$. Then, for all $G \in \cG$, we have that $G \subset {X_{m}}^c$.
+
+Then, $X_1 \subset \bigcup_{G \in \cG} G \subset {X_{m}}^c$. Thus, $X_1 \subset X_1 \setminus X_m$, which implies that $X_m = \emptyset$. This contradicts the assumption that all $X_i$ are non-empty.
+
+This completes the proof.
+
+
+\renewcommand\qedsymbol{QED}
+\end{proof}
+
+
+
+\item Consider a sequence of nonempty closed intervals $I_k \subset \mathbb{R}, k\in \mathbb{N}$ such that 
+$I_{k+1} \subset I_k$ and $|I_k| <\frac{1}{k},$ for all $k.$ (Here $|I_k|$ denotes the length of the interval.) Prove that 
+the intersection $$\bigcap_{k=1}^\infty I_k$$ consists of exactly one point. 
+
+
+\begin{proof}
+Let $I_k = [a_k,b_k]$ be a closed interval, then we know by Theorem 10.16 that $I_k$ is compact. Since we are given that each $I_k$ is non-empty, we have by part (a) that $\bigcap_{k=1}^\infty I_k \neq \emptyset$. Then, suppose for a contradiction that $\bigcap_{k=1}^\infty I_k$ has more than one point.
+
+Then, suppose $x,y \in \bigcap_{k=1}^\infty I_k$. Since we assume $x\neq y$, then $|x-y|>0$. Then, $0<|x-y|\leq |I_k| < \frac{1}{k}$ for all $k \in \bbN$. By the Archimedean Property, there exists $n \in \bbN$ such that $0<\frac{1}{n}< |x-y|$.
+
+Then, for this $n$, we have that $\frac{1}{n}<|x-y|$ and also $|x-y|<\frac{1}{n}$ (since $x,y \in I_n$), and this contradicts trichotomy of the ordering.
+
+This completes the proof.
+
+\renewcommand\qedsymbol{QED}
+\end{proof}
+
+
+\end{enumerate}
+
+
+\item
+Prove that $\bbR$ is uncountable. 
+
+{\it Hint: Suppose that $f:\bbN\longrightarrow \bbR$ is a bijection. You need to find a point in $\bbR$ that is not in $f(\bbN).$ To do this, start by recursively defining closed intervals $X_i$ such that $X_i\subset X_{i-1}$ and $f(i)\not\in X_i$ and use Problem 4.}
+
+
+
+
+\item 
+
+
+\begin{definition}
+	Define the set $\bbR_{\rm ext}$ to be the set of {\em extended Dedekind cuts}.  These are those sets which satisfy 6.1(b) and 6.1(c).  In other words $\bbR_{\rm ext} = \bbR \cup \{\emptyset, \bbQ\}$.  We give $\bbR_{\rm ext}$ the same order as $\bbR$.  Namely, if $A, B \in \bbR_{\rm ext}$ then $A < B$ if and only if $A \subsetneq B$.
+\end{definition}
+
+\begin{enumerate}
+\item
+	Which of Axioms 1-4 does $\bbR_{\rm ext}$ satisfy?
+
+
+\begin{definition}
+	Any subset $\mathcal{R}%% This would usually be \mathcal{R}; See Line 116
+		 \subset \bbR_{\rm ext}$ is a region if:
+	\begin{enumerate}
+		\item $\mathcal{R} = \underline{AB}$, or
+		\item $\mathcal{R} = \{E \in \bbR_{\rm ext}| E < A\}$, or
+		\item $\mathcal{R} = \{E \in \bbR_{\rm ext}| E > A\}$,
+	\end{enumerate}
+	for some $A, B \in \bbR$.
+\end{definition}
+
+\item
+	Show that a set $\mathcal{V} \subset \bbR_{\rm ext}$ is open if and only if for every $A \in \mathcal{V}$, there exists a region $\mathcal{R} \subset \mathcal{V}$ such that $A \in \mathcal{R}$.
+
+
+\item
+	Suppose that $\mathcal{E} \subset \bbR_{\rm ext}$ is bounded away from $\emptyset$ and $\bbQ$ in the sense that, there exists $A, B \in \bbR$ such that $A \leq E \leq B$ for all $E \in \mathcal{E}$.
+	\begin{enumerate}
+		\item Show that $\emptyset, \bbQ\notin \mathcal{E}$.
+		\item Show that if $\mathcal{V} \subset \bbR_{\rm ext}$ is open, then there exists a an open set $\mathcal{W} \subset \bbR$ such that $\mathcal{E} \cap \mathcal{V} =\mathcal{E} \cap \mathcal{W}$.
+	\end{enumerate}
+
+
+\item
+Show that $\bbR_{\rm ext}$ is compact.
+What do $\emptyset$ and $\bbQ$ represent in terms of concepts you have seen before?
+\end{enumerate}
+
+
+\end{enumerate}
+
+
+\end{document}

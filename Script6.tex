@@ -1,0 +1,793 @@
+\documentclass[11pt]{article}
+\usepackage{color}
+%\input{rgb}
+
+%----------Packages----------
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{amsrefs}
+\usepackage{dsfont}
+\usepackage{mathrsfs}
+\usepackage{stmaryrd}
+\usepackage[all]{xy}
+\usepackage[mathcal]{eucal}
+\usepackage{enumerate}
+\usepackage[shortlabels]{enumitem}
+\usepackage{verbatim}  %%includes comment environment
+\usepackage{fullpage}  %%smaller margins
+
+%----------Commands----------
+%%penalizes orphans
+\clubpenalty=9999
+\widowpenalty=9999
+
+%% bold math capitals
+\newcommand{\bA}{\mathbf{A}}
+\newcommand{\bB}{\mathbf{B}}
+\newcommand{\bC}{\mathbf{C}}
+\newcommand{\bD}{\mathbf{D}}
+\newcommand{\bE}{\mathbf{E}}
+\newcommand{\bF}{\mathbf{F}}
+\newcommand{\bG}{\mathbf{G}}
+\newcommand{\bH}{\mathbf{H}}
+\newcommand{\bI}{\mathbf{I}}
+\newcommand{\bJ}{\mathbf{J}}
+\newcommand{\bK}{\mathbf{K}}
+\newcommand{\bL}{\mathbf{L}}
+\newcommand{\bM}{\mathbf{M}}
+\newcommand{\bN}{\mathbf{N}}
+\newcommand{\bO}{\mathbf{O}}
+\newcommand{\bP}{\mathbf{P}}
+\newcommand{\bQ}{\mathbf{Q}}
+\newcommand{\bR}{\mathbf{R}}
+\newcommand{\bS}{\mathbf{S}}
+\newcommand{\bT}{\mathbf{T}}
+\newcommand{\bU}{\mathbf{U}}
+\newcommand{\bV}{\mathbf{V}}
+\newcommand{\bW}{\mathbf{W}}
+\newcommand{\bX}{\mathbf{X}}
+\newcommand{\bY}{\mathbf{Y}}
+\newcommand{\bZ}{\mathbf{Z}}
+
+%% blackboard bold math capitals
+\newcommand{\bbA}{\mathbb{A}}
+\newcommand{\bbB}{\mathbb{B}}
+\newcommand{\bbC}{\mathbb{C}}
+\newcommand{\bbD}{\mathbb{D}}
+\newcommand{\bbE}{\mathbb{E}}
+\newcommand{\bbF}{\mathbb{F}}
+\newcommand{\bbG}{\mathbb{G}}
+\newcommand{\bbH}{\mathbb{H}}
+\newcommand{\bbI}{\mathbb{I}}
+\newcommand{\bbJ}{\mathbb{J}}
+\newcommand{\bbK}{\mathbb{K}}
+\newcommand{\bbL}{\mathbb{L}}
+\newcommand{\bbM}{\mathbb{M}}
+\newcommand{\bbN}{\mathbb{N}}
+\newcommand{\bbO}{\mathbb{O}}
+\newcommand{\bbP}{\mathbb{P}}
+\newcommand{\bbQ}{\mathbb{Q}}
+\newcommand{\bbR}{\mathbb{R}}
+\newcommand{\bbS}{\mathbb{S}}
+\newcommand{\bbT}{\mathbb{T}}
+\newcommand{\bbU}{\mathbb{U}}
+\newcommand{\bbV}{\mathbb{V}}
+\newcommand{\bbW}{\mathbb{W}}
+\newcommand{\bbX}{\mathbb{X}}
+\newcommand{\bbY}{\mathbb{Y}}
+\newcommand{\bbZ}{\mathbb{Z}}
+
+%% script math capitals
+\newcommand{\sA}{\mathscr{A}}
+\newcommand{\sB}{\mathscr{B}}
+\newcommand{\sC}{\mathscr{C}}
+\newcommand{\sD}{\mathscr{D}}
+\newcommand{\sE}{\mathscr{E}}
+\newcommand{\sF}{\mathscr{F}}
+\newcommand{\sG}{\mathscr{G}}
+\newcommand{\sH}{\mathscr{H}}
+\newcommand{\sI}{\mathscr{I}}
+\newcommand{\sJ}{\mathscr{J}}
+\newcommand{\sK}{\mathscr{K}}
+\newcommand{\sL}{\mathscr{L}}
+\newcommand{\sM}{\mathscr{M}}
+\newcommand{\sN}{\mathscr{N}}
+\newcommand{\sO}{\mathscr{O}}
+\newcommand{\sP}{\mathscr{P}}
+\newcommand{\sQ}{\mathscr{Q}}
+\newcommand{\sR}{\mathscr{R}}
+\newcommand{\sS}{\mathscr{S}}
+\newcommand{\sT}{\mathscr{T}}
+\newcommand{\sU}{\mathscr{U}}
+\newcommand{\sV}{\mathscr{V}}
+\newcommand{\sW}{\mathscr{W}}
+\newcommand{\sX}{\mathscr{X}}
+\newcommand{\sY}{\mathscr{Y}}
+\newcommand{\sZ}{\mathscr{Z}}
+
+
+\renewcommand{\phi}{\varphi}
+\renewcommand{\emptyset}{\O}
+
+\newcommand{\abs}[1]{\lvert #1 \rvert}
+\newcommand{\norm}[1]{\lVert #1 \rVert}
+\newcommand{\sm}{\setminus}
+
+
+\newcommand{\sarr}{\rightarrow}
+\newcommand{\arr}{\longrightarrow}
+
+\newcommand{\hide}[1]{{\color{red} #1}} % for instructor version
+%\newcommand{\hide}[1]{} % for student version
+\newcommand{\com}[1]{{\color{blue} #1}} % for instructor version
+%\newcommand{\com}[1]{} % for student version
+\newcommand{\meta}[1]{{\color{green} #1}} % for making notes about the script that are not intended to end up in the script
+%\newcommand{\meta}[1]{} % for removing meta comments in the script
+
+\DeclareMathOperator{\ext}{ext}
+\DeclareMathOperator{\ho}{hole}
+
+%----------Theorems----------
+
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{examples}[theorem]{Examples}
+\newtheorem{example}[theorem]{Example}
+
+\newtheorem{axiom}{Axiom}
+\setcounter{axiom}{4}
+\newtheorem*{axiom4}{Axiom 4}
+
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem*{definition*}{Definition}
+\newtheorem{nondefinition}[theorem]{Non-Definition}
+\newtheorem{exercise}[theorem]{Exercise}
+\newtheorem{remark}[theorem]{Remark}
+\newtheorem{warning}[theorem]{Warning}
+\newtheorem{question}[theorem]{Question}
+
+
+\newcommand{\head}[1]{
+	\begin{center}
+		{\large #1}
+		\vspace{.2 in}
+	\end{center}
+	
+	\bigskip 
+}
+\newcommand{\hint}[2][Hint]{
+	
+	(#1: #2)
+}
+\numberwithin{equation}{subsection}
+
+\begin{document}
+	
+
+\head{ MATH 161/162, Autumn 2024/Winter 2025\\
+	SCRIPT 6: Construction of the Real Numbers }
+
+
+
+
+\setcounter{section}{6}
+\setcounter{theorem}{0}
+
+In this sheet we define the real numbers, $\bbR.$  
+
+\begin{definition} 
+	A subset $A$ of $\bbQ$ is said to be a \emph{cut} (or \emph{Dedekind cut}) if it satisfies the following: 
+	\begin{enumerate}[(a)]
+		\item $A \neq \emptyset$ and $A \neq {\mathbb Q}$.
+		\item If $r \in A$ and $s \in \bbQ$ satisfies $s < r$, then $s \in A$.
+		\item $A$ does not have a last point; i.e., if $r\in A$ then there is some $s \in A$ with $s > r$.
+	\end{enumerate}
+	We denote the collection of all cuts by $\bbR$.
+\end{definition}
+
+\begin{lemma}
+	Let $A$ be a Dedekind cut and $x\in \bbQ.$ Then $x \notin A$ if, and only if, $x$ is an upper bound for $A$.
+\end{lemma}
+\begin{proof}
+Let $x \in \bbQ$ such that $x \notin A$. Then, $x \geq r$ for all $r \in A$ by part (b) of Definition 6.1. Hence, $x$ is an upper bound of $A$.
+
+Let $x \in \bbQ$ such that $x$ is an upper bound of $A$. Then, for all $r \in A, r \leq x$. If $x \in A$, then there exists some $y \in A$ such that $y >x$, by part (c) of Definition 6.1. This contradicts the initial assumption that $x$ is an upper bound of $A$. Hence, $x \notin A$.
+
+\renewcommand\qedsymbol{QED}
+\end{proof}
+
+\begin{corollary}
+Let $A$ be a Dedekind cut. Then $A$ is bounded above in $\bbQ,$ but is not bounded below.
+\begin{proof}
+We know that $A \subset \bbQ, A \neq \bbQ$, hence there exists some $m \in \bbQ$ such that $m \notin A$. By Lemma 6.2, $m$ is an upper bound of $A$, hence $A$ is bounded above in $\bbQ$.
+
+Suppose $k \in \bbQ$ is a lower bound of $A$. If $k \notin A$, then $k$ must be an upper bound of $A$ and this is a contradiction. If $k \in A$, then there exists $k_0 \in A$ such that $k_0 < k$, hence $k$ is not a lower bound and this is a contradiction.
+
+\renewcommand\qedsymbol{QED}
+\end{proof}
+\end{corollary}
+
+\begin{exercise}
+	\begin{enumerate}[(a)]
+		\item Prove that, for any $q\in \bbQ,$ the set $$D_q = \{x\in\bbQ\mid x< q\}$$ is a Dedekind cut. We call $D_q$ a {\em rational cut}.  We also define  $\mathbf{0} = D_0.$
+\begin{proof}
+$\bbQ$ has no first or last point, hence $D_q$ is nonempty and $D_q \neq \bbQ$. 
+
+If $r \in D_q$ and $s < r$, then $s < q$, hence $s \in D_q$.
+
+Let $m \in D_q$. Then, we know that $m < \frac{m+q}{2} < q$, hence $\frac{m+q}{2} \in D_q$, hence $D_q$ does not have a last point. 
+
+\renewcommand\qedsymbol{QED}
+\end{proof}
+		\item Prove that $\{x \in \bbQ \mid x \leq 0\}$ is not a Dedekind cut.
+\begin{proof}
+If $q \in \bbQ$ is such that $q > 0$, then $q \notin \{x \in \bbQ \mid x \leq 0\}$. Hence, $0$ is the last point of $\{x \in \bbQ \mid x \leq 0\}$. 
+
+\renewcommand\qedsymbol{QED}
+\end{proof}
+		\item Prove that $\{x\in\bbQ\mid x<0\}\cup\{x\in\bbQ\mid x^2<2\}$ is a Dedekind cut. 
+\begin{proof}
+Let $A = \{x\in\bbQ\mid x<0\}\cup\{x\in\bbQ\mid x^2<2\}$. We want to show that $A$ is a Dedekind cut.
+
+$-1 \in A$, hence $A \neq \emptyset$. $10 \notin A$, hence $A \neq \bbQ$. This satisfies condition (a).
+
+We want to show that if $r \in A$ and $s < r$, then $s \in A$. 
+
+Case 1: if $r<0$, then $s<r<0$, hence $s <0$ and $s \in A$.
+
+Case 2: if $r \geq 0$ and $r^2 <2$, then
+
+Subcase 2a: if $s<0$ then $s \in A$.
+
+Subcase 2b: if $0 \leq s<r$, then $s^2 < r^2 < 2$, hence $s \in A$.
+
+Next we want to show that $A$ has no last point, i.e., for every $r \in A$, we want to construct $s \in A$ such that $s>r$.
+
+Case 1: $r\leq 1$, then let $s = \frac{5}{4}$, and we are done ($1< (\frac{5}{4})^2 = \frac{25}{16} < 2)$. 
+
+Case 2: $r>1$. Let $s = r + \frac{1}{n}$ for some $n \in \bbN$. We want to show that $r^2 < (r+\frac{1}{n})^2 < 2$. 
+
+We know that $(r+\frac{1}{n})^2 = r^2 + \frac{2r}{n} + \frac{1}{n^2}$. Given that $r>1$ and $n \geq 1$, we have that $\frac{1}{n^2} \leq \frac{1}{n} < \frac{r}{n}$. 
+
+Hence, $r^2 + \frac{2r}{n} + \frac{1}{n^2} < r^2 + \frac{3r}{n}$. Thus, we want to construct $n$ such that $r^2 + \frac{3r}{n} < 2$. Hence, we have that $r^2 < (r + \frac{2-r^2}{3r})^2 < 2$. 
+
+This completes the proof.
+
+\renewcommand\qedsymbol{QED}
+\end{proof}
+		
+	\end{enumerate}
+\end{exercise}
+
+
+
+\begin{definition}
+	If $A, B \in \bbR$, we say that $A < B$ if $A$ is a proper subset of $B$. (Recall from Script 1 that $A$ is a proper subset of $B$ if $A \subset B$ but $A \neq B$.)
+\end{definition}
+
+
+
+
+
+
+
+
+\begin{exercise} 
+
+	Show that $\bbR$ satisfies Axioms 1, 2 and 3.
+\begin{proof}
+$D_q \in \bbR$ for $q = 1$, hence $\bbR \neq \emptyset$. This satisfies Axiom 1.
+
+If $A < B$ and $B<C$ such that $A \subset B, A \neq B$ and $B \subset C, B \neq C$, then we know that for all $a \in A, a \in B$, hence $a \in C$, thus $A \subset C$. Since $B \subset C, B \neq C$, we know that there exists $c_0 \in C$ such that $c_0 \notin B$ and this implies $c_0 \notin A$, hence $A \neq C$ and therefore $A<C$. Thus, the ordering satisfies transitivity.
+
+If $A < B$, then by definition of proper subset, $A \neq B$. Analogously, if $B < A$, then $A \neq B$. Next, if $A < B$, then there exists $b_0 \in B$ such that $b_0 \notin A$, hence $B \not \subset A$, hence $B \not < A$. This shows that the ordering satisfies at most one of the three.
+
+Next, suppose the ordering does not satisfy any of the three. Then, $A \not < B$, $B \not < A$ and $A \neq B$. Then, there exists $y \in B$ such that $y \notin A$ and there exists $x \in A$ such that $x \notin B$. By Lemma 6.2, $x$ is an upper bound of B so $x \leq y$ and $y$ is an upper bound of A so $y \leq x$. Hence, it must be that $x = y$, and this is a contradiction. This shows that the ordering satisfies at least one of the three. This satisfies Axiom 2, namely that the ordering satisfies trichotomy and transitivity.
+
+Given $A \in \bbR$, we want to construct $X,Y \in \bbR$ such that $X<A<Y$. This will show that $\bbR$ has no first or last point (Axiom 3).
+
+Since $A \neq \bbQ$, there exists $q \in \bbQ$ such that $q \geq a$ for all $a \in A$. Then, let $p = q+1 >q$, and consider $Y = D_p = \{x \in \bbQ \mid x<p\}$. We want to show that $A \subset Y, A\neq Y$. If $a \in A$, $a \leq q < p$, hence $a \in Y$, hence $A \subset Y$. If $y \in \bbQ$ is such that $q<y<p$, then $y\in Y, y\notin A$, hence $A \neq Y$.
+
+Next, take $q \in A$, and let $X = D_q = \{x \in \bbQ \mid x <q\}$. Then, $q \in A$, $q \notin X$, hence $X \subset A, X \neq A$, thus $X < A$. This satisfies Axiom 3.
+
+\renewcommand\qedsymbol{QED}
+\end{proof}
+\end{exercise}
+
+\begin{lemma}
+	A nonempty subset of $\bbR$ that is bounded above has a supremum.
+
+\begin{proof}
+Let $X$ be a nonempty subset of $\bbR$. Let $S = \bigcup \{Y \mid Y \in X\}$.
+
+$X$ is a nonempty collection of Dedekind cuts. Every cut $Y \in X$ is nonempty. Hence $S \neq \emptyset$.
+
+$X$ is bounded above, so let $U$ be an upper bound of $X$. Then, for all $Y \in X$ we have that $Y \leq U$, i.e., $Y \subset U$. We know that $U \subset \bbQ$ and $U \neq \bbQ$, hence there exists $p \in \bbQ$ such that $p \notin U$, hence $\forall Y: p \notin Y$, hence $p \notin S$. Hence, $S \neq \bbQ$. 
+
+Let $s \in S$ and $r<s$, then $s \in Y_0$ for some $Y_0 \in X$. Since $r<s, r \in Y_0$ hence $r \in S$. This shows that $S$ is closed downwards.
+
+Suppose $m \in S$ is the last point of $S$. Then, $m \in Y'$ for some $Y' \in X$. Since $Y'$ is a Dedekind cut, there exists $m' \in Y'$ such that $m'>m$, hence $m' \in S$ and this contradicts the assumption that $S$ has a last point. This demonstrates that $S$ is a Dedekind cut, i.e., $S \in \bbR$.
+
+Next, we want to show that $S$ is an upper bound of $X$. Let $Y \in X$, then $Y \subseteq \bigcup\{Y \mid Y \in X\}$, hence $Y \subseteq S$, hence $Y \leq S$.
+
+Next, we want to show that $S$ is the least upper bound of $X$. Suppose $S'<S$ is a smaller upper bound of $X$. Then, there exists $x \in S$ such that $x \notin S'$. Since $x \in S, x \in \bigcup\{Y \mid Y \in X\}$, hence $x \in Y_0$ for some $Y_0 \in X$. Then, $x \in Y_0, x \notin S'$, hence $Y_0 \not \subseteq S'$ and this is a contradiction.
+
+This completes the proof.
+
+\renewcommand\qedsymbol{QED}
+\end{proof}
+\end{lemma}
+
+\begin{exercise}
+	Show that $\bbR$ satisfies Axiom~4.{\em  (Hint: Additional Exercise 4 of Script 5 is very useful here.)} 
+
+    
+\begin{proof}
+We want to show that $\bbR$ is connected. We know by Lemma 6.7 that every nonempty subset of $\bbR$ that is bounded above has a supremum. Hence, we want to show that all regions in $\bbR$ are nonempty.
+
+Given $A,B \in \bbR$ such that $A<B$, we want to find $M \in \bbR$ such that $A<M<B$. 
+
+Since $B>A$, there exists some $b \in B \setminus A$. Since $B$ is a Dedekind cut, it has no last point, hence there exists $d \in B$ such that $d >b$. Then, let $M = \{q \in \bbQ \mid q<d\}$.
+
+First we want to show that $A<M$. Let $a \in A$, then we have that $a<b$, hence $a<d$, hence $a \in M$, thus $A \subset M$. We also know that $b \in M, b \notin A$, hence $A <M$.
+
+Second we want to show that $M<B$. Let $m \in M$, then $m <d \in B$ and $B$ is closed downwards, hence $m \in B$, thus $M\subset B$. We also know that $d \in B, d \notin M$, hence $M<B$.
+
+Thus, $A<M<B$. This completes the proof.
+
+\renewcommand\qedsymbol{QED}
+\end{proof}
+
+\end{exercise}
+
+
+
+
+
+Is there only one continuum satisfying Axioms~1--4? We have constructed one such continuum, but it turns out there are others. Consequently, we add one more axiom. There is only one continuum that satisfies all five axioms, and as we'll see, it's $\bbR$.
+
+
+\begin{definition}
+Let $C$ be a continuum satisfying Axioms 1-4.	Consider a subset $X \subset C.$ We say that $X$ is \emph{dense} in $C$ if every $a \in C$ is a limit point of $X$.
+\end{definition}
+
+\begin{lemma} Let $X$ be a subset of $C.$ Then the following are equivalent:
+\begin{enumerate}
+\item[a)] X is dense in $C$
+\item[b)]$\overline{X} = C$
+\item[c)] Given $a,b \in C$ such that $a<b$, there is some $x\in X$ such that $a<x<b.$
+\end{enumerate} 
+\begin{proof}
+First we want to show that a) implies b).
+
+$X \subset C$, hence $\overline{X} \subset \overline{C}$. The continuum is closed, hence $C = \overline{C}$, hence $\overline{X} \subset C$. This completes the first containment.
+
+For all $c \in C, c \in LP(X)$, hence $c \in X \cup LP(X)$, hence $c \in \overline{X}$. Thus, $C \subset \overline{X}$. This completes the second containment.
+
+Therefore, $\overline{X} = C$. 
+
+Second we want to show that b) implies a).
+
+Suppose there exists $c\in C$ that is not a limit point of $X$. Then there exists a region $R_c = \underline{ab}$ containing $c$ such that $R_c \cap X \setminus \{c\} = \emptyset$. Now consider the point $m \in \underline{cb}$. We know that $m \notin X$, but $m \in \overline{X}$, which implies that $m \in LP(X)$. This implies that $\underline{cb} \cap X \setminus \{m\} \neq \emptyset$, and since $m \notin X$, we can rewrite this as $\underline{cb} \cap X \neq \emptyset$. This is a contradiction.
+
+Third we want to show that a) implies c).
+
+Given $a,b \in C$, we know that there exists $y \in \underline{ab}$ since regions are nonempty. $C = LP(X)$ and $y \in C$, hence $y \in LP(X)$. Hence, there exists $x \in \underline{ab} \cap X \setminus \{y\}$. Thus, $x \in X$ such that $a<x<b$. 
+
+Fourth we want to show that c) implies a).
+
+Let $c \in C$, then we want to show that $c \in LP(X)$. It suffices to show that for all regions $R_c$ containing $c$, $R_c \cap X \setminus \{c\} \neq \emptyset$. Let $R_c = \underline{pq}$, then $p<c<q$ for $p,q \in C$. Then we know that there exists $x_0 \in X$ such that $p<x_0<c$, hence $x_0 \in R_c, x_0 \in X, x_0 \neq c$. Thus, $x_0 \in R_a \cap X \setminus \{c\}$, hence $R_a \cap X \setminus \{c\} \neq \emptyset$.
+
+We have demonstrated that a) and b) are equivalent, and separately that a) and c) are equivalent. This completes the proof.
+
+\renewcommand\qedsymbol{QED}
+\end{proof}
+\end{lemma}
+
+
+
+Our next goal is to prove that $\bbQ$ is dense in $\bbR$. Just to make sense of that statement, we need to decide how to think of $\bbQ$ as a subset of $\bbR$.  For every rational number $q\in\bbQ$, define the corresponding real number as the Dedekind cut
+\begin{align*}
+	i(q) = D_q =  \{x\in\bbQ\mid x<q\}.
+\end{align*}
+For example, $\mathbf{0} = i(0)$. Check that this gives a well-defined injective function $i\colon \bbQ \arr \bbR$. We identify $\bbQ$ with its image $i(\bbQ)\subset\bbR$ so that the rational numbers $\bbQ$ are a subset of the real numbers $\bbR$. (Similarly $\bbN $ and $\bbZ$ can also be understood as subsets of $\bbR$.)
+
+
+
+\begin{theorem}\label{density}
+	$i(\bbQ)$ is dense in $\bbR$.
+
+\begin{proof}
+We want to show that for $A,B \in \bbR$ such that $A<B$, there exists $q \in \bbQ$ such that $A<i(q)<B$.
+
+Since $A <B$, we have that $A \subset B$ (proper subset), hence there exists $p \in B\setminus A$.
+
+Since $B$ is a Dedekind cut, it has no last point, hence there exists $p' \in B$ such that $p' > p$. Then, for all $x \in i(p'), x <p' \in B$, hence $x \in B$. Also, $p' \notin i(p')$, hence $i(p') \subset B$ (proper subset), hence $i(p') < B$.
+
+Next, for all $a \in A, a<p<p'$, hence $a \in i(p')$. Since $p <p'$, we have that $p \in i(p')$, hence $A <i(p')$. 
+
+Thus, $A<i(p')<B$ for $p' \in \bbQ$. This completes the proof.
+
+\renewcommand\qedsymbol{QED}
+\end{proof}
+\end{theorem}
+
+
+
+
+We finish this section with several useful consequences of the density of the rationals in the reals. 
+
+\begin{corollary}[The Archimedean Property]
+	Let $A \in \bbR$ be a positive real number. Then there exist nonzero natural numbers $m, n \in \bbN$ such that  $i(\frac{1}{n}) < A <i(m)$.
+	
+	Similarly, if $A\in\bbR$ is a negative real number, then there exist nonzero natural numbers $m,n\in\bbN$ such that $i(-m)<A<i(-\frac{1}{n}).$
+
+\begin{proof}
+We know by Theorem 6.11 that there exists $p \in \bbQ$ such that $i(0)<D_p<A$. Since $p \in \bbQ$, we can write $p = \frac{a}{b}$ for $a,b \in \bbN$. Since $a \geq 1$, we have that $\frac{1}{b} \leq \frac{a}{b}$, hence $\frac{1}{b} \leq p$. Then, let $n=b$, and we have that $i(\frac{1}{n}) < A$.
+
+Since $\bbR$ has no last point, there exists some $B \in \bbR$ such that $A<B$. Then, by Theorem 6.11, there exists $q \in \bbQ$ such that $i(0)<A<D_q<B$, and $q = \frac{c}{d}$. Then $c \geq \frac{c}{d}$. Let $m=c$ and we have that $i(m)>A$. 
+
+Then, $i(\frac{1}{n})<A<i(m)$. Analogous reasoning for the negative case completes the proof.
+
+\renewcommand\qedsymbol{QED}
+\end{proof}
+
+\end{corollary}
+
+\begin{corollary}
+	$i(\bbN)$ is an unbounded subset of $\bbR$.
+
+\begin{proof}
+We know that $i(\bbN)$ has no lower bound. Suppose $A$ is an upper bound for $i(\bbN)$, but by the Archimedean Property there exists $m \in \bbN$ such that $i(m) > A$ and this is a contradiction.
+
+\renewcommand\qedsymbol{QED}
+\end{proof}
+
+\end{corollary}
+
+
+\begin{corollary}
+	If $A \in \bbR$ is a real number, then there is a unique  integer $n$ such that $i(n-1) \leq A<i(n)$. Similarly, there is a unique integer $m$ such that $i(m-1)<A\leq i(m).$ 
+
+\begin{proof}
+We claim that every non-empty subset of $\bbZ$ that is bounded below has a minimum. We will first use this claim to prove Corollary 6.14, and then provide an independent proof for this claim.
+
+Let $X = \{n \in \bbZ \mid A<i(n)\}$. By the Archimedean Property for positive $A$, there exists $n \in \bbZ$ such that $A < i(n)$, hence $X \neq \emptyset$. By the Archimedean Property for negative $A$, there exists $m \in \bbZ$ such that $A > i(m)$, hence $X$ is bounded below.
+
+By our claim, $X$ has a minimum, so call this $n_0$. By definition, $A < i(n_0)$. Moreover, we know that since $n_0 = min(X)$, $n_0 - 1 \notin X$, hence $A \not < i(n_0 -1)$, hence by trichotomy $i(n_0 -1) \leq A$. Combining the inequalities, we get $i(n_0 -1) \leq A<i(n_0)$, as desired.
+
+To prove uniqueness, suppose there are $n_0, n_1 \in \bbZ$ such that $i(n_0 -1) \leq A < i(n_0)$ and $i(n_1 -1) \leq A < i(n_1)$ and $n_0 \neq n_1$. Without loss of generality, suppose $n_0 <n_1$. Then, $n_0 \leq n_1 -1$. Then, $i(n_0 -1) \leq A < i(n_0) \leq i(n_1 -1) \leq A < i(n_1)$ and this is a contradiction. 
+
+Analogous reasoning for rounding up completes the proof.
+
+
+\renewcommand\qedsymbol{QED}
+\end{proof}
+
+\begin{proof}[Proof of Claim]
+Let $A \subseteq \bbZ$ be a nonempty subset of $\bbZ$ that is bounded below. We want to show that $min (A)$ exists.
+
+Let $b \in \bbZ$ be a lower bound of $A$. Let $X = \{n \in \bbN \mid b+n-1 \in A\}$. We want to show that $X \neq \emptyset$, since this would imply that there is a minimum element of $X$.
+
+We know that $A \neq \emptyset$, so let $a \in A$ and $b+n-1 = a$, which implies $n = a-b+1$. Since $b$ is a lower bound of $A$, we have that $b \leq a$, which implies $a-b \geq 0$, i.e, $a-b+1\geq 1$, which implies $n \geq 1$, i.e., $n \in \bbN$. Hence $X \neq \emptyset$. Hence, $X$ has a minimum element, define this to be $n_0$.
+
+Then, define $b+n_0-1 = a_0$. Suppose $a_0 \neq min(A)$. Then, there exists $a' \in A$ such that $a' <a_0$. Then, $a' - b +1 < a_0 - b+1$, i.e. $n' = a
+-b+1$ is an element of $X$ that is lesser than $n_0$ and this is a contradiction.
+
+\renewcommand\qedsymbol{QED}
+\end{proof}
+
+\end{corollary}
+
+Since $\bbQ$ is a countable set, Theorem~\ref{density} motivates one more (and last) axiom.
+
+\setcounter{axiom}{4}
+\begin{axiom}
+	The continuum contains a countable dense subset.
+\end{axiom}
+
+
+We just showed that $\bbR$ satisfies Axiom~5. In the rest of this sheet, we will show that the real numbers $\bbR$ are the {\em ``only''} continuum. Exactly what we mean by this is specified in Theorem~\ref{6.18}.
+
+
+\begin{definition}
+	Let $X$ and $Y$ be sets with orderings $<_X$ and $<_Y$, respectively. A function $f\colon X \arr Y$ is \emph{order-preserving} if for all $r, s \in X$,
+	\begin{align*}
+		r <_X s \Longrightarrow f(r) <_Y f(s).
+	\end{align*}
+\end{definition}
+
+Note that the function $i\colon \bbQ \arr \bbR$ discussed above is order-preserving.
+
+\begin{exercise}
+	Let $C$ satisfy Axioms~1--5. Let $K \subset C$ be a countable dense subset of $C$. Construct an order-preserving bijection $f\colon \bbQ \arr K$. 
+\begin{proof}
+Since $\bbQ, K$ are countable, we can enumerate them by writing $\bbQ = \{q_n \mid n\in \bbN\}$ and $K = \{k_n \mid n\in \bbN\}$.
+
+We will construct a sequence of functions $f_n \colon X_n \rightarrow Y_n$ satisfying the following properties:
+
+\begin{enumerate}
+    \item $X_n \subseteq \bbQ$ and $Y_n \subseteq K$ are finite sets.
+    \item We have $q_1,\ldots, q_{\lceil n/2\rceil}\in X_n$ and $k_1,\ldots,k_{\lfloor n/2\rfloor}\in Y_n$.
+    \item $f_n$ is an order-preserving bijection.
+    \item $f_n$ extends $f_{n-1}$ in the sense that $X_{n-1}\subseteq X_n$, $Y_{n-1}\subseteq Y_n$ and for every $x\in X_{n-1}$, we have $f_n(x) = f_{n-1}(x)$.
+    
+\end{enumerate} 
+
+We start with $n=0$ by taking $X_0 = Y_0 = \emptyset$ and $f_0\colon\emptyset\to\emptyset$ to be the trivial function. It is clear that this definition satisfies all promises.
+
+We now suppose $n\geq 1$ and that $f_{n-1}$, $X_{n-1}$ and $Y_{n-1}$ have already been constructed and satisfy the promises. Consider two cases:
+
+Case 1: $n$ is odd, that is, we have $n = 2m-1$ for some $m\in\mathbb{N}$. 
+
+By comparing the promise of item (2) of stage $n$ with that of stage $n-1$, we see that $q_1,\dots,q_{\lceil \frac{2m-1}{2} \rceil} \in X_n$. We have that $\lceil \frac{2m-1}{2} \rceil = \lceil m-\frac{1}{2} \rceil = m$. Thus, $q_1,\dots,q_m \in X_n$.
+
+We also see that $q_1,\dots,q_{\lceil \frac{2m-2}{2} \rceil} \in X_{n-1}$, which implies that $q_1,\dots,q_{m-1} \in X_{n-1}$. 
+
+Therefore, the difference is exactly $q_m$ appears in that of $n$ but not of $n-1$. 
+
+If $q_m$ is already an element of $X_{n-1}$, then we simply set $X_n = X_{n-1}$, $Y_n = Y_{n-1}$ and $f_n = f_{n-1}$.
+
+If $q_m$ is not in $X_{n-1}$, then we set $X_n = X_{n-1}\cup\{q_m\}$ and we find an appropriate point $y\in K\setminus Y_{n-1}$ and set $Y_n = Y_{n-1}\cup\{y\}$. To find this $y$, we do the following.
+
+Let $J$ be the set $\{j \in K \mid \forall q_i \in X_{n-1}, q_m>q_i \text{ implies } j >f(q_i) \text{ and } q_m<q_i \text{ implies } j<f(q_i)\}$. Then, $J$ can be written as $\{j_n \mid n \in \bbN\}$, and we set $y = j_1$ (take the $j$ with least index). 
+
+We define $f_n$ by letting $f_n(x) = f_{n-1}(x)$ for every $x\in X_{n-1}$ and letting $f_n(q_m) = y$.
+
+Note that our definition of $f_n$, $X_n$ and $Y_n$ ensures that all promised items hold for them. To see this, consider the following. If $q_m \in X_{n-1}$, then $X_n = X_{n-1}$, $Y_n = Y_{n-1}, f_n=f_{n-1}$ and we are done. Hence, the only non-trivial case we need to consider for each property is when $q_m \notin X_{n-1}$.
+
+First, $X_{n-1} \subseteq \bbQ$ and $Y_{n-1} \subseteq K$ are finite. If $q_m \notin X_{n-1}$, then $X_n = X_{n-1}\cup\{q_m\}$ and $\{q_m\} \subset \bbQ$, hence $X_n \subseteq \bbQ$ is finite; similarly, $Y_n = Y_{n-1}\cup\{y\}$ and $\{y\} \subset K$, hence $Y_n \subseteq K$ is finite. 
+
+Second, we have that $q_1,\dots,q_{m-1} \in X_{n-1}$, hence $q_1,\dots,q_{m} \in X_{n}$ by definition of $X_n$. Also, we have that $k_1,\dots,k_{m-1} \in Y_{n-1}$, hence $k_1,\dots,k_{m-1} \in Y_{n}$ by definition of $Y_n$.
+
+Third, we know that $f_{n-1}$ is an order-preserving bijection. $f_n(q_m)=y$ also preserves order, by the definition of how we have constructed the appropriate point $y$. Additionally, $y \notin f_{n-1}(X_{n-1})$, hence $f_n$ is injective. Also, $f_{n-1}$ is surjective, and $y=f_n(q_m)$ ($y$ gets mapped by $q_m$), hence $f_n$ is surjective. Therefore, $f_n$ is an order-preserving bijection.
+
+The fourth promised property is obvious from how we have defined $f_n$. 
+
+Case 2: $n$ is even, that is, we have $n = 2m$ for some $m\in\mathbb{N}$. 
+
+By comparing the promise of item (2) of stage $n$ with that of stage $n-1$, we see that $k_1,\dots,k_{\lfloor \frac{2m}{2} \rfloor} \in Y_n$. We have that $\lfloor \frac{2m}{2} \rfloor = \lfloor m \rfloor = m$. Thus, $k_1,\dots,k_m \in Y_n$.
+
+We also see that $k_1,\dots,k_{\lfloor \frac{2m-1}{2} \rfloor} \in Y_{n-1}$, which implies that $k_1,\dots,k_{m-1} \in Y_{n-1}$. 
+
+Therefore, the difference is exactly $k_m$ appears in that of $n$ but not of $n-1$. 
+
+If $k_m$ is already an element of $Y_{n-1}$, then we simply set $X_n = X_{n-1}$, $Y_n = Y_{n-1}$ and $f_n = f_{n-1}$.
+
+If $k_m$ is not in $Y_{n-1}$, then we set $Y_n = Y_{n-1}\cup\{k_m\}$ and we find an appropriate point $z\in Q\setminus X_{n-1}$ and set $X_n = X_{n-1}\cup\{z\}$. To find this $z$, we do the following.
+
+Let $S$ be the set $\{s \in \bbQ \mid \forall k_i \in Y_{n-1}, k_m>k_i \text{ implies } s >f^{-1}(k_i) \text{ and } k_m<k_i \text{ implies } s<f^{-1}(k_i)\}$. Then, $S$ can be written as $\{s_n \mid n \in \bbN\}$, and we set $z = s_1$ (take the $s$ with least index). 
+
+We define $f_n$ by letting $f_n(x) = f_{n-1}(x)$ for every $x\in X_{n-1}$ and letting $f_n(z) = k_m$.
+
+Note that our definition of $f_n$, $X_n$ and $Y_n$ ensures that all promised items hold for them. To see this, consider the following. If $k_m \in Y_{n-1}$, then $X_n = X_{n-1}$, $Y_n = Y_{n-1}, f_n=f_{n-1}$ and we are done. Hence, the only non-trivial case we need to consider for each property is when $k_m \notin Y_{n-1}$.
+
+First, $X_{n-1} \subseteq \bbQ$ and $Y_{n-1} \subseteq K$ are finite. If $k_m \notin Y_{n-1}$, then $Y_n = Y_{n-1}\cup\{k_m\}$ and $\{k_m\} \subset K$, hence $Y_n \subseteq K$ is finite; similarly, $X_n = X_{n-1}\cup\{z\}$ and $\{z\} \subset \bbQ$, hence $X_n \subseteq \bbQ$ is finite. 
+
+Second, we have that $q_1,\dots,q_{m} \in X_{n-1}$, hence $q_1,\dots,q_{m} \in X_{n}$ by definition of $X_n$. Also, we have that $k_1,\dots,k_{m-1} \in Y_{n-1}$, hence $k_1,\dots,k_{m} \in Y_{n}$ by definition of $Y_n$.
+
+Third, we know that $f_{n-1}$ is an order-preserving bijection. $f_n(z)=k_m$ also preserves order, by the definition of how we have constructed the appropriate point $z$. Additionally, $z \notin X_{n-1}$, hence $f_n$ is injective. Also, $f_{n-1}$ is surjective, and $f_n(z)=k_m$ ($k_m$ gets mapped by $z$), hence $f_n$ is surjective. Therefore, $f_n$ is an order-preserving bijection.
+
+The fourth promised property is obvious from how we have defined $f_n$. 
+
+Finally, we define a function $f\colon\mathbb{Q}\to K$ by letting $f(q_n) = f_{2n}(q_n)$ for every $n\in\mathbb{N}$. Let us now prove that $f$ is order-preserving and surjective.
+
+First, we want to show that $f$ is order-preserving. Suppose $q_n<q_m$. Let $t=\max(n,m)$. Then, we note that
+\[
+f(q_n)=f_{2n}(q_n)=f_{2t}(q_n)<f_{2t}(q_m) = f_{2m}(q_m) = f(q_m).
+\]
+
+Hence, $f(q_n)<f(q_m)$ follows from $q_n<q_m$. It is easy to see how order-preserving property implies injectivity. Suppose there exist $a,b \in \bbQ$ such that $a \neq b$ and $f(a)=f(b)$. Then, suppose without loss of generality that $a<b$, then order-preserving property suggests that $f(a)<f(b)$, hence $f$ is injective.
+
+Next, we want to show that $f$ is surjective. Let $k \in K$. We know that there exists $n \in \bbN$ such that $k = k_n$. We note that $k_n \in Y_{2n}$, thus there exists $x \in X_{2n}$ such that $f_{2n}(x) = k_n$, hence $f(x)=k_n$.
+
+We have thus shown that $f$ is both order-preserving and bijective, which demonstrates that $\bbQ$ is isomorphic to $K$. This completes the proof.
+
+\renewcommand\qedsymbol{QED}
+\end{proof}
+
+\end{exercise}
+
+\begin{exercise}
+	Let $f\colon \bbQ \arr K$ be an order-preserving bijection, as found in the previous exercise. Let $A \in \bbR$. Then $A \subset \bbQ$ and so $f(A) \subset K \subset C$. Define $F\colon \bbR \arr C$ by 
+	\begin{align*}
+		F(A) = \sup f(A).
+	\end{align*}
+	\begin{enumerate}[(a)]
+		\item Show $\sup f(A)$ exists, so $F$ is well-defined.
+\begin{proof}
+We want to show that $f(A)$ is non-empty and bounded above.
+
+$A$ is a Dedekind cut, hence $A \neq \emptyset$, hence there exists $q \in \bbQ$ such that $q \in A$. Then, $f(q) \in f(A) \neq \emptyset$.
+
+We know that $\bbR$ has no last point, hence there exists $B\in \bbR$ such that $B>A$. Then, $A \subsetneq B$, hence there exists $b \in B$ such that $b \notin A$. Thus, $b$ is an upper bound of $A$. Hence, for all $a \in A, b \geq a$. Since $f$ is order-preserving, we have that for all $a \in A, f(b) \geq f(a)$. Hence, $f(b)$ is an upper bound of $f(A)$.
+
+Thus, $f(A)$ is non-empty and bounded above, hence $\sup f(A)$ exists. 
+
+This completes the proof.
+
+
+\renewcommand\qedsymbol{QED}
+\end{proof}
+		
+		\item Show $F$ is injective and order-preserving.
+\begin{proof}
+It suffices to show that $F$ is order-preserving.
+
+We want to show that if $A<B$, then $F(A)<F(B)$, that is $\sup f(A) < \sup f(B)$. 
+
+We know that $A \subsetneq B$, hence there exists $b \in B$ such that $b \notin A$. Thus, $b$ is an upper bound of $A$. Hence, for all $a \in A, b \geq a$. Since $f$ is order-preserving, we have that for all $a \in A, f(b) \geq f(a)$. Hence, $f(b)$ is an upper bound of $f(A)$. This implies that $f(b) \geq \sup f(A)$.
+
+We know that $B$ is a Dedekind cut, hence it has no last point. Hence, there exists $b' \in B$ such that $b'>b$, hence $f(b')>f(b)$, hence $\sup f(B)>f(b')>f(b)$. 
+
+Combining inequalities, we have that $\sup f(A) \leq f(b) < \sup f(B)$. 
+
+This completes the proof.
+
+\renewcommand\qedsymbol{QED}
+\end{proof}
+		
+	\end{enumerate}
+\end{exercise}
+
+\begin{theorem}\label{6.18}
+	Suppose that $C$ is a continuum satisfying Axioms~1--5. Then $C$ is isomorphic to the real numbers $\bbR$; i.e.,
+	there is an order-preserving bijection $F\colon \bbR \arr C$.
+	\label{thm:Axioms 1-5 isomorphic to real numbers}
+\begin{proof}
+Consider $F\colon \bbR \rightarrow C$ as defined above. We want to show that $F$ is surjective.
+
+Let $j \in C$, then we want to show that there exists $A \in \bbR$ such that $j=F(A)=\sup f(A)$. 
+
+We define $A = \{m \in \bbQ \mid f(m)<j\} = \{f^{-1}(h) \mid h \in K, h<j\}$ and we will show that this works. First, we want to show that $A$ is a Dedekind cut.
+
+$K$ is dense, thus there exists $h \in K$ such that $h<j$. We know that $f^{-1}$ is bijective, which implies that in particular it is surjective. Hence, there exists $m \in \bbQ$ such that $m = f^{-1}(h)$. Thus, $A \neq \emptyset$. $K$ is dense, thus there exists $u \in K$ such that $u>j$, then $f^{-1}(u) \notin A$, hence $A \neq \bbQ$.
+
+Suppose $r \in A$ and $s<r$, then since $f$ is order-preserving, we have that $f(s)<f(r)<j$, hence $s \in A$.
+
+Suppose $v$ is any point of $A$. Then, we know that $f(v)<j$. Since $\bbQ$ is dense, we have that there exists $v' \in \bbQ$ such that $f(v)<v'<j$, hence $f^{-1}(v') \in A$ such that $f^{-1}(v') > v$ and this implies that $A$ does not have a last point.
+
+Next, we want to show that $j = \sup f(A)$. Firstly, for all $x \in A, f(x)<j$, hence $j$ is an upper bound of $f(A)$. Secondly, suppose $j'$ is an upper bound of $f(A)$ such that $j'<j$. Then, there exists $k \in K$ such that $j'<k<j$ (since $K$ is dense), hence $k \in f(A)$, and this contradicts the assumption that $j'$ is an upper bound.
+
+We have demonstrated that $F$ is order-preserving and surjective. This completes the proof.
+
+\renewcommand\qedsymbol{QED}
+\end{proof}
+\end{theorem}
+
+
+
+Theorem~\ref{thm:Axioms 1-5 isomorphic to real numbers} says that Axioms~1--5 completely characterize the continuum, so we can say that the real numbers are the ``only'' continuum. As a consequence, we will no longer refer to $C$ as anything but $\bbR$. 
+
+\bigskip
+
+
+\begin{center}
+{\em Additional Exercises}
+\end{center}
+
+\begin{enumerate}
+\item
+	Show that if $A \in \bbR$ and $\mathbf{0} < A$, then $0 \in A$.
+	
+\item Let $X=\{\frac{m}{2^n}\mid m,n\in\bbZ\}.$ Prove that $X$ is dense in $\bbR.$  ($X$ is called the set of {\em dyadic rationals}.)	
+
+\begin{proof}
+We know that $\bbQ$ is dense in $\bbR$, hence it suffices to show that $X$ is dense in $\bbQ$. This is because, for $r_1, r_2 \in \bbR$, we know that there exists $q \in \bbQ$ such that $r_1<q<r_2$. Then, consider $r_3 = D_q \in \bbR$, then we have that there exists $p \in \bbQ$ such that $r_1<p<r_3$. If $X$ is dense in $\bbQ$, then there exists $x \in X$ such that $p<x<q$, which implies $r_1<x<r_2$, thus demonstrating that $X$ is dense in $\bbR$. 
+
+Let $A, B \in \bbQ$ such that $A<B$. We want to show that there exists $k \in X$ such that $A<k<B$.
+
+We know that $B - A >0$. By the Archimedean property, there exists $n \in \bbN$ such that $\frac{1}{n}<B-A$. Then, $\frac{1}{2^n}<\frac{1}{n}<B-A$. 
+
+By Corollary 6.14, pick $m \in \bbZ$ such that $m-1 \leq A \cdot 2^n < m$. Then, we have that $A \cdot 2^n < m$. 
+
+Moreover, $m-1\leq A \cdot 2^n$ implies \[
+m\leq 1+ A \cdot 2^n.
+\]
+
+Also, $\frac{1}{2^n}<B-A$ implies $A < B - \frac{1}{2^n}$, i.e., $A \cdot 2^n < B \cdot 2^n -1$, i.e., \[
+1+A \cdot 2^n < B \cdot 2^n.
+\]
+
+Combining these, we get \[
+A\cdot 2^n<m<B\cdot 2^n \text{, which implies } A < \frac{m}{2^n} <B.
+\]
+
+This completes the proof.
+
+\renewcommand\qedsymbol{QED}
+\end{proof}
+
+
+\item 	
+Define the {\em frontier} of a subset $X\subset \bbR$ to be the set $\partial X=\overline{X}\cap \overline{(\bbR\setminus X)}.$
+\begin{enumerate}
+\item Show that $\partial X$ is closed.
+\begin{proof}
+
+We know that $\overline{X}$ is closed and $\overline{(\bbR \setminus X)}$ is closed. Hence, $\partial X$ is an intersection of closed sets, hence it is closed.
+
+
+\renewcommand\qedsymbol{QED}
+\end{proof}
+\item Find examples where $\partial X$ is finite, infinite, and empty. 
+\begin{proof}
+
+If $X = \emptyset$, then $\partial X = \emptyset \cap \overline{\bbR} = \emptyset$. This also accounts for the finite case.
+
+If $X$ is the set of dyadic rationals, then by additional exercise 2, $\overline{X} = \bbR$. Also, $\bbQ \setminus X \subset \bbR \setminus X \subset \overline{(\bbR \setminus X)}$. Since there are infinitely many rationals that are not dyadic rationals, $\partial X = \bbR \cap \overline{(\bbR \setminus X)}$ and $\bbR \cap (\bbQ \setminus X) \subset \partial X$. Since the LHS is infinite, the RHS, i.e., $\partial X$, must also be infinite.
+
+\renewcommand\qedsymbol{QED}
+\end{proof}
+\item Is it true that $\partial X\supset \overline{X}\setminus X$ or $\partial X\subset \overline{X}\setminus X?$ 
+\begin{proof}
+Let $m \in \overline{X}\setminus X$. Then, $m \in LP(X), m \notin X$. Since $m \notin X$, $m \in \bbR \setminus X$, hence $m \in \overline{(\bbR \setminus X)}$. Hence, $m \in \partial X$. Therefore, $\overline{X}\setminus X \subset \partial X$. 
+
+Let $X$ be the set of dyadic rationals. Then, \[
+\partial X = \bbR \cap \overline{(\bbR \setminus X)} = \bbR \cap [(\bbR \setminus X) \cup LP(\bbR \setminus X)].
+\]
+
+We also know that $\overline{X} \setminus X = \bbR \setminus X$. Hence, if we can find a dyadic rational that is a limit point of $\bbR \setminus X$, we will have found a counterexample to the claim that $\partial X\subset \overline{X}\setminus X$.
+
+Consider the dyadic rational $j$, and let $\underline{ab}$ be a region that contains $j$. We want to construct an element of $\bbR \setminus X$ that is contained in the region $\underline{ab}$, since this would imply that $j \in X, j\in LP(\bbR \setminus X)$. Since $b-a >0$, we know that there exists $n \in \bbN$ such that $0<\frac{1}{n}<b-a$. 
+
+If $\frac{1}{n}$ is not a dyadic rational, then $a<a+\frac{1}{n}<b$, where $a+\frac{1}{n}$ is not a dyadic rational, and we are done. If $\frac{1}{n}$ is a dyadic rational, then we have that $0<\frac{1}{n+1}<\frac{1}{n}<b-a$, hence $a<a+\frac{1}{n+1}<b$, where $a+\frac{1}{n+1}$ is not a dyadic rational, and we are done. 
+
+{\em More generally, let $y \in \partial X$. It is possible that $y \in X, y \notin LP(X), y \notin \bbR \setminus X, y \in LP(\bbR \setminus X)$. Then, $y \notin \overline{X} \setminus X$. Hence, it is not true that $\partial X\subset \overline{X}\setminus X$.}
+
+\renewcommand\qedsymbol{QED}
+\end{proof}
+\item Can $\partial X$ be dense in $\bbR$?
+\begin{proof}
+Yes. Let $X$ be the set of dyadic rationals. Then, $\partial X = \bbR \cap \overline{(\bbR \setminus X)}$. We know that $\bbR \setminus X \subset \overline{(\bbR \setminus X)}$, hence it suffices to show that $\bbR \setminus X$ is dense in $\bbR$. 
+
+Replicating the proof for part c) without the condition that the region contains a dyadic rational $j$, we have showed that any time you have two real numbers $a<b$, there exists $m \in \bbR \setminus X$ such that $a<m<b$. 
+
+\renewcommand\qedsymbol{QED}
+\end{proof}
+\end{enumerate}
+
+	
+
+	
+\item In this exercise, we will prove that $\bbR$ is uncountable.
+  \begin{enumerate}
+  \item Prove that $\wp(\bbN)$ is uncountable (recall that $\wp(\bbN)$ is the set of all subsets of $\bbN$), if not done already in {\em Additional Exercise 1.12}.
+  \item For $A\subset\bbN$ and $n\in\bbN$, let
+    \begin{align*}
+      C_{A,n}
+      & =
+      \left\{p\in\bbQ\;\middle\vert\; p < \sum_{i\in[n]\cap A} 10^{-i}\right\}.
+    \end{align*}
+    (Note that the sum above is finite.)
+
+    Prove that the set $C_A=\bigcup_{n\in\bbN} C_{A,n}$ is a Dedekind cut.
+  \item Prove that if $A,B\subset\bbN$ are such that $A\neq B$, then $C_A\neq C_B$. Conclude that
+    $\bbR$ is uncountable.
+
+    \emph{Hint:} Let $m$ be the minimum element of the symmetric difference of $A$ and $B$, suppose
+    without loss of generality that $m\in A\setminus B$, let
+    \begin{align*}
+      q_m & = \frac{10^{-m}}{9}
+    \end{align*}
+    and prove that $q_m\in C_A\setminus C_B$.
+  \end{enumerate}
+  \com{Of course, the exercise above also works replacing $10$ with any other natural that is at
+    least $3$. Replacing $10$ with $2$ still yields an uncountable subset of $\bbR$, but one has to
+    be careful as there are countably many collisions: for a finite nonempty set $A$, we have $C_A =
+    C_B$ where $B = (A\setminus\{\max A\})\cup\{n\in\bbN \mid n > \max A\}$.}
+	
+	
+
+
+
+
+
+\end{enumerate}
+
+
+\end{document}

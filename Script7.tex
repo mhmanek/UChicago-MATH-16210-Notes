@@ -1,0 +1,1139 @@
+\documentclass[11pt]{article}
+\usepackage{color}
+%\input{rgb}
+
+%----------Packages----------
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{amsrefs}
+%\usepackage{dsfont}
+\usepackage{mathrsfs}
+%\usepackage{stmaryrd}
+%\usepackage[all]{xy}
+\usepackage[mathcal]{eucal} % changes meaning of \mathcal
+\usepackage{enumerate}
+\usepackage[shortlabels]{enumitem}
+\usepackage{verbatim}  %%includes comment environment
+\usepackage{fullpage}  %%smaller margins
+
+%----------Commands----------
+%%penalizes orphans
+\clubpenalty=9999
+\widowpenalty=9999
+
+%% blackboard bold math capitals
+\newcommand{\bbF}{\mathbb{F}}
+\newcommand{\bbN}{\mathbb{N}}
+\newcommand{\bbQ}{\mathbb{Q}}
+\newcommand{\bbR}{\mathbb{R}}
+\newcommand{\bbZ}{\mathbb{Z}}
+
+\renewcommand{\phi}{\varphi}
+\renewcommand{\emptyset}{\O}
+
+\newcommand{\abs}[1]{\lvert #1 \rvert}
+\newcommand{\norm}[1]{\lVert #1 \rVert}
+
+\newcommand{\sarr}{\rightarrow}
+\newcommand{\arr}{\longrightarrow}
+
+\DeclareMathOperator{\ext}{ext}
+\DeclareMathOperator{\ho}{hole}
+
+%----------Theorems----------
+
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{examples}[theorem]{Examples}
+\newtheorem{example}[theorem]{Example}
+
+\newtheorem{axiom}{Axiom}
+
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem*{definition*}{Definition}
+\newtheorem{nondefinition}[theorem]{Non-Definition}
+\newtheorem{exercise}[theorem]{Exercise}
+\newtheorem{remark}[theorem]{Remark}
+\newtheorem{warning}[theorem]{Warning}
+\newtheorem{question}[theorem]{Question}
+
+
+\newcommand{\head}[1]{
+	\begin{center}
+		{\large #1}
+		\vspace{.2 in}
+	\end{center}
+	
+	\bigskip
+}
+\newcommand{\hint}[2][Hint]{
+	
+	(#1: #2)
+}
+
+\numberwithin{equation}{subsection}
+
+%----------Editting----------
+
+%\newcommand{\hide}[1]{} % for student version
+%\newcommand{\com}[1]{} % for student version
+%\newcommand{\meta}[1]{} % for removing meta comments in the script
+
+\newcommand{\hide}[1]{{\color{red} #1}} % for instructor version
+\newcommand{\com}[1]{{\color{blue} #1}} % for instructor version
+\newcommand{\meta}[1]{{\color{green} #1}} % for making notes about the script that are not intended to end up in the script
+
+\begin{document}
+
+\head{MATH 162, Winter 2025\\
+SCRIPT 7: The Field Axioms} 
+
+
+
+%%---  sheet number for theorem counter
+\setcounter{section}{7}   
+
+We will formalize the notions of addition and multiplication in structures called fields.  A field with a compatible order is called an ordered field. We will see that $\bbQ$ and $\bbR$ are both examples of ordered fields.
+
+\begin{definition} 
+	A \emph{binary operation} on a nonempty set $X$ is a function 
+	\begin{align*}
+		f \colon X \times X \arr X.
+	\end{align*}
+	We say that $f$ is \emph{associative} if
+	\begin{align*}
+		f(f(x, y), z) = f(x, f(y, z)) \quad \text{for all $x, y, z \in X$.}
+	\end{align*}
+	We say that $f$ is \emph{commutative} if
+	\begin{align*}
+		f(x, y) = f(y, x) \quad \text{for all $x, y \in X$.}
+	\end{align*}
+	An \emph{identity element} of a binary operation $f$ is an element $e \in X$ such that
+	\begin{align*}
+		f(x, e) = f(e, x) = x \quad \text{for all $x \in X$.}
+	\end{align*}
+\end{definition}
+
+\begin{remark}
+	Frequently, we denote a binary operation differently. If $*\colon X\times X\arr X$ is the binary operation, we often write $a*b$ in place of $*(a,b)$. We sometimes indicate this same operation by writing $(a,b)\mapsto a*b$.
+\end{remark}
+
+\begin{exercise}
+	Rewrite Definition 7.1 using the notation of Remark 7.2.
+\begin{proof}
+
+
+\renewcommand\qedsymbol{QED}
+\end{proof}
+\end{exercise}
+
+\begin{examples}  \hspace{1in}
+	\begin{enumerate}
+		\item  The function $+ \colon \bbZ \times \bbZ \arr \bbZ$ which sends a pair of integers $(m, n)$ to $+(m, n) = m + n$ is a binary operation on the integers, called addition.  Addition is associative, commutative and has identity element $0$.
+		
+		\item  The maximum of $m$ and $n$, denoted $\max(m, n)$, is an associative and commutative binary operation on $\bbZ$.  Is there an identity element for $\max$? 
+
+        No.
+		
+		\item  Let $\wp(Y)$ be the power set of a set $Y$.  Recall that the power set consists of all subsets of $Y$.  Then the intersection of sets, $(A, B) \mapsto A \cap B$, defines an associative and commutative binary operation on $\wp(Y)$.  Is there an identity element for $\cap$?
+
+Yes. $Y$ is an identity element for $\cap$.
+
+        
+	\end{enumerate}
+\end{examples}
+
+\begin{exercise}  
+	Find a binary operation on a set that is not commutative.  
+	Find a binary operation on a set that is not associative.
+    
+\begin{proof}
+
+
+\renewcommand\qedsymbol{QED}
+\end{proof}
+
+\end{exercise}
+
+\begin{exercise}
+	Let $X$ be a nonempty finite set, and let $Y=\{f\colon X \arr X \mid \mbox{$f$ is bijective}\}$.  Consider the
+	binary operation of composition of functions, denoted $\circ\colon Y \times Y \arr Y$ and defined by
+	$(f \circ g)(x) = f(g(x))$, as seen in Definition~1.27.  Decide whether or not composition is commutative and/or associative and whether or not it has an identity.
+
+\begin{proof}
+For a counterexample, consider $X = \{1,2,3\}$. Define $f\colon X \rightarrow X$ as $f(1)=2,f(2)=3,f(3)=1$ and define $g\colon X \rightarrow X$ as $g(1)=3,g(2)=2,g(3)=1$. Then, $f(g(1))=1$ and $g(f(1))=2$. Hence, composition is not necessarily commutative (at least for $|X|\geq 3$).
+
+To prove that composition is associative, it will suffice to show that $((f\circ g)\circ h)(x)=(f\circ(g\circ h))(x)$. Consider the following algebra.
+        \begin{align*}
+            ((f\circ g)\circ h)(x) &= (f\circ g)(h(x))\\
+            &= f(g(h(x)))\\
+            &= f((g\circ h)(x))\\
+            &= (f\circ(g\circ h))(x)
+        \end{align*}\par
+
+Let $i \colon X \rightarrow X$ such that $i(x)=x$. Then, we want to show that for all $f\in Y$, $f\circ i=i\circ f=f$. Consider the following algebra.
+        \begin{align*}
+            (f\circ i)(x) &= f(i(x))\\
+            &= f(x)\\
+            &= i(f(x))\\
+            &= (i\circ f)(x)
+        \end{align*}
+
+\renewcommand\qedsymbol{QED}
+\end{proof}
+
+\end{exercise}
+
+
+
+\begin{theorem}
+	Identity elements are unique.  That is, suppose that $f$ is a binary operation on a set $X$ that has two identity elements $e$ and $e'$.  Then $e = e'$.
+
+\begin{proof}
+$e = f(e, e') = e'$. 
+
+\renewcommand\qedsymbol{QED}
+\end{proof}
+
+\end{theorem}
+
+
+
+\begin{definition}
+	A \emph{field} is a set $F$ with two binary operations  on $F$ called addition, denoted $+$, and multiplication, denoted $\cdot$\;, satisfying the following \emph{field axioms}:
+	\begin{enumerate}[{FA}1]
+		\item  (Commutativity of Addition)  For all $x,y\in F$, $x + y = y + x$.
+		\item  (Associativity of Addition)  For all $x,y,z\in F$, $(x + y) + z = x + (y + z)$.
+		\item  (Additive Identity)  There exists an element $0 \in F$ such that $x + 0 = 0 + x = x$ for all $x \in F$.
+		\item  (Additive Inverses)  For any $x \in F$, there exists $y \in F$ such that $x + y = y + x = 0$,  called an additive inverse of $x$.
+		\item  (Commutativity of Multiplication)  For all $x,y\in F$, $x \cdot y = y \cdot x$.
+		\item  (Associativity of Multiplication)  For all $x, y, z \in F$, $(x \cdot y) \cdot z = x \cdot (y \cdot z)$.
+		\item  (Multiplicative Identity)  There exists an element $1 \in F$ such that $x \cdot 1 = 1 \cdot x = x$ for all $x \in F$.
+		\item  (Multiplicative Inverses)  For any $x \in F$ such that $x \neq 0$, there exists $y \in F$ such that $x \cdot y = y \cdot x = 1$,  called a multiplicative inverse of $x$.
+		\item  (Distributivity of Multiplication over Addition)  For all $x, y, z \in F$,
+		$x \cdot(y + z) = x \cdot y + x \cdot z$. 
+		\item  (Distinct Additive and Multiplicative Identities)  $1 \neq 0$.
+\end{enumerate}
+
+\end{definition}
+
+\begin{exercise}
+	Consider the set $\bbF_{2} = \{0, 1\}$, and define binary operations $+$ and $\cdot$ on $\bbF_{2}$ by:
+	\begin{center}
+	$
+	\begin{array}{ccccccc}
+		0 + 0 = 0 & \phantom{MM} & 0 + 1 = 1 & \phantom{MM} & 1 + 0 = 1 & \phantom{MM} &1 + 1 = 0 \\
+		0 \cdot 0 = 0 & \phantom{MM} & 0 \cdot 1 = 0 & \phantom{MM}  & 1\cdot 0 =0 & \phantom{MM} &1 \cdot 1 = 1 
+	\end{array}
+	$
+	\end{center}
+	
+	Show that $\bbF_{2}$ is a field.  
+
+
+\begin{proof}
+        To prove that $\bbF_2$ obeys FA1, it will suffice to show that $0+0=0+0$, $0+1=1+0$, and $1+1=1+1$. The first and third of these are evidently true. For the second, we have $0+1=1=1+0$, so it is good, too.\par
+        To prove that $\bbF_2$ obeys FA2, the following casework will suffice.
+        \begin{align*}
+            (0+0)+0 &= 0 = 0+(0+0)&
+            (0+0)+1 &= 1 = 0+(0+1)\\
+            (0+1)+0 &= 1 = 0+(1+0)&
+            (1+0)+0 &= 1 = 1+(0+0)\\
+            (0+1)+1 &= 0 = 0+(1+1)&
+            (1+1)+0 &= 0 = 1+(1+0)\\
+            (1+0)+1 &= 0 = 1+(0+1)&
+            (1+1)+1 &= 1 = 1+(1+1)
+        \end{align*}
+        To prove that $\bbF_2$ obeys FA3, it will suffice to find an element $0\in\bbF_2$ such that $x+0=0+x=x$. Since $0+0=0$, $1+0=0$, and by commutativity, it is clear that 0 is an additive identity in $\bbF_2$.\par
+        To prove that $\bbF_2$ obeys FA4, it will suffice to show that for all $x\in\bbF_2$, there exists a $y\in\bbF_2$ such that $x+y=y+x=0$. For 0, this object is 0 (since $0+0=0+0=0$), and for 1, this object is 1 (since $1+1=1+1=0$).\par
+        To prove that $\bbF_2$ obeys FA5, it will suffice to show that $0\cdot 0=0\cdot 0$, $0\cdot 1=1\cdot 0$, and $1\cdot 1=1\cdot 1$. The first and third of these are evidently true. For the second, we have $0\cdot 1=0=1\cdot 0$, so it is good, too.\par
+        To prove that $\bbF_2$ obeys FA6, the following casework will suffice.
+        \begin{align*}
+            (0\cdot 0)\cdot 0 &= 0 = 0\cdot (0\cdot 0)&
+            (0\cdot 0)\cdot 1 &= 0 = 0\cdot (0\cdot 1)\\
+            (0\cdot 1)\cdot 0 &= 0 = 0\cdot (1\cdot 0)&
+            (1\cdot 0)\cdot 0 &= 0 = 1\cdot (0\cdot 0)\\
+            (0\cdot 1)\cdot 1 &= 0 = 0\cdot (1\cdot 1)&
+            (1\cdot 1)\cdot 0 &= 0 = 1\cdot (1\cdot 0)\\
+            (1\cdot 0)\cdot 1 &= 0 = 1\cdot (0\cdot 1)&
+            (1\cdot 1)\cdot 1 &= 1 = 1\cdot (1\cdot 1)
+        \end{align*}
+        To prove that $\bbF_2$ obeys FA7, it will suffice to find an element $1\in\bbF_2$ such that $x\cdot 1=1\cdot x=x$. Since $0\cdot 1=0$, $1\cdot 1=1$, and by commutativity, it is clear that 1 is a multiplicative identity in $\bbF_2$.\par
+        To prove that $\bbF_2$ obeys FA8, it will suffice to show that for all $x\in\bbF_2$ such that $x\neq 0$, there exists a $y\in\bbF_2$ such that $x\cdot y=y\cdot x=1$. For 1, this object is 1 (since $1\cdot 1=1\cdot 1=1$).\par
+        To prove that $\bbF_2$ obeys FA9, the following casework will suffice.
+        \begin{align*}
+            0\cdot(0+0) &= 0 = 0\cdot 0+0\cdot 0&
+            0\cdot(0+1) &= 0 = 0\cdot 0+0\cdot 1\\
+            0\cdot(1+0) &= 0 = 0\cdot 1+0\cdot 0&
+            1\cdot(0+0) &= 0 = 1\cdot 0+1\cdot 0\\
+            0\cdot(1+1) &= 0 = 0\cdot 1+0\cdot 1&
+            1\cdot(1+0) &= 1 = 1\cdot 1+1\cdot 0\\
+            1\cdot(0+1) &= 1 = 1\cdot 0+1\cdot 1&
+            1\cdot(1+1) &= 0 = 1\cdot 1+1\cdot 1
+        \end{align*}
+        To prove that $\bbF_2$ obeys FA10, it will suffice to show that $0\neq 1$. Clearly this is true.
+
+This completes the proof.
+
+\renewcommand\qedsymbol{QED}
+\end{proof}
+
+\end{exercise}
+
+
+
+\begin{theorem}
+	Suppose that $F$ is a field.  Then additive inverses are unique.  This means:
+
+ Let $x \in F$.  If $y, y' \in F$ satisfy $x + y = 0$ and $x + y' = 0$, then $y = y'$.
+\begin{proof}
+$y=y+0=y+(x+y')=(y+x)+y'=(x+y)+y'=0+y'=y'$.
+
+\renewcommand\qedsymbol{QED}
+\end{proof}
+
+\end{theorem}
+
+
+We usually write $-x$ for the additive inverse of $x$.
+
+\begin{corollary}
+	If $x\in F$, then $-(-x)=x$.
+
+\begin{proof}
+$(-x)+x=0$ and $(-x)+(-(-x))=0$, hence $x=-(-x)$. 
+
+\renewcommand\qedsymbol{QED}
+\end{proof}
+
+\end{corollary}
+
+
+
+\begin{theorem}
+	Let $F$ be a field, and let $a,b,c\in F$. If $a + b = a + c$, then $b = c$.
+    
+\begin{proof}
+$a+b=a+c$ implies $(-a)+(a+b)=(-a)+(a+c)$, hence $((-a)+a)+b=((-a)+a)+c$, hence $0+b=0=c$, which implies $b=c$.
+
+\renewcommand\qedsymbol{QED}
+\end{proof}
+
+\end{theorem}
+
+
+
+\begin{theorem}
+	Let $F$ be a field. If $a\in F$, then $a \cdot 0 = 0$.
+    
+\begin{proof}
+We claim that if $x+x=x$, then $x=0$. To see this, consider $(-x)+(x+x)=(-x)+x=(-x+x)+x=(-x+x)$. Hence, $x=0$.
+
+$a\cdot0+a\cdot0=a\cdot(0+0)=a\cdot0$. Hence, by the claim, $a\cdot0=0$.
+
+\renewcommand\qedsymbol{QED}
+\end{proof}
+
+
+\end{theorem}
+
+
+
+
+\begin{theorem}
+	Suppose that $F$ is a field.  Then multiplicative inverses are unique.  This means: 
+	
+	Let $x \in F$.  If $y, y' \in F$ satisfy $x \cdot y = 1$ and $x \cdot y' = 1$, then $y = y'$.
+    
+\begin{proof}
+$x\cdot y=1=x\cdot y'$. Then, $y\cdot (x+y)=y\cdot (x+y')$. Then, $(y \cdot x)\cdot y=(y \cdot x)\cdot y'$. Then, $(x \cdot y)\cdot y=(x \cdot y)\cdot y'$. Then, $1\cdot y=1\cdot y'$. Hence, $y=y'$.
+
+\renewcommand\qedsymbol{QED}
+\end{proof}
+
+
+\end{theorem}
+
+We usually write $x^{-1}$ or $\frac{1}{x}$ for the multiplicative inverse of $x$.
+
+\begin{corollary}\com{ Note that you need 7.13 to justify the existence of $(x^{-1})^{-1}.$}
+
+	If $x\in F$ and $x\neq 0$, then $(x^{-1})^{-1}=x$.
+    
+\begin{proof}
+First, we claim that $x^{-1}=0$. Suppose $x^{-1}\neq 0$. Then, $x \cdot x^{-1} = 0$, and this is a contradiction. 
+
+Hence, $(x^{-1})^{-1}\cdot x^{-1}=1$. Hence, $x \cdot x^{-1}=1$. Hence, $x=(x^{-1})^{-1}$.
+
+\renewcommand\qedsymbol{QED}
+\end{proof}
+
+
+\end{corollary}
+
+
+\begin{theorem}
+	Let $F$ be a field, and let $a, b, c \in F$. If $a \cdot b = a \cdot c$ and $a \neq 0$, then $b = c$.
+    
+\begin{proof}
+$\frac{1}{a}\cdot a \cdot b= \frac{1}{a}\cdot a \cdot c$. Hence, $1 \cdot b=1 \cdot c$. Hence, $b=c$.
+
+
+
+\renewcommand\qedsymbol{QED}
+\end{proof}
+
+
+\end{theorem}
+
+
+\begin{theorem}
+	Let $F$ be a field, and let $a, b\in F$.  If $a \cdot b = 0$, then $a = 0$ or $b = 0$.
+    
+\begin{proof}
+Suppose $a \neq 0$. Then, $a\cdot b=0$, hence $\frac{1}{a}\cdot a\cdot b=\frac{1}{a}\cdot 0$. Hence, $1\cdot b=\frac{1}{a}\cdot 0$, hence $1 \cdot b=0$, hence $b=0$.
+
+Thus, if one of the elements is non-zero, then the other must be zero.
+
+
+\renewcommand\qedsymbol{QED}
+\end{proof}
+
+
+\end{theorem}
+
+\begin{lemma}
+	Let $F$ be a field. If $a\in F,$ then $-a=(-1)a.$
+    
+\begin{proof}
+$0=0\cdot a=((-1)+1)\cdot a=(-1)\cdot a + 1 \cdot a=(-1)\cdot a + a$.
+
+Hence $(-1)\cdot a + a = 0$, which implies that $-a=(-1)\cdot a$.
+
+\renewcommand\qedsymbol{QED}
+\end{proof}
+
+
+\end{lemma}
+
+\begin{lemma}
+	Let $F$ be a field. If $a, b\in F$, then $a \cdot (-b )= -(a \cdot b) = (-a) \cdot b$.
+
+        
+\begin{proof}
+$\underline{a\cdot(-b)}=a\cdot((-1)\cdot b)=a\cdot(b\cdot(-1))=(a\cdot b)\cdot(-1)=(-1)\cdot(a \cdot b)=\underline{-(a\cdot b)}=(-1)\cdot(a \cdot b)=((-1)\cdot (a))\cdot b=\underline{(-a)\cdot b}$. 
+
+\renewcommand\qedsymbol{QED}
+\end{proof}
+
+
+\end{lemma}
+
+\begin{lemma}
+	Let $F$ be a field. If $a, b\in F$, then $a\cdot b=(-a)\cdot (-b)$.
+        
+\begin{proof}
+$(-a)\cdot (-b)=-(a \cdot (-b)) = -(-(a \cdot b))=a \cdot b$.
+
+\renewcommand\qedsymbol{QED}
+\end{proof}
+
+
+\end{lemma}
+
+Next, we discuss the notion of an ordered field.
+
+\begin{definition}
+	An \emph{ordered field} is a field $F$ equipped with an ordering $<$ (satisfying Definition 3.1) such that also:
+	\begin{itemize}
+		\item  Addition respects the ordering: if $x < y$, then $x + z < y + z$ for all $z \in F$.
+		\item  Multiplication respects the ordering: if $0 < x$ and $0 < y$, then $0 < x \cdot y$.
+	\end{itemize}
+\end{definition}
+
+\begin{definition}
+	Suppose $F$ is an ordered field and $x\in F$.  If $0 < x$, we say that $x$ is \emph{positive}. If $x < 0$, we say that $x$ is \emph{negative}.
+\end{definition}
+
+For the remaining theorems, let $F$ be an ordered field.
+
+\begin{lemma}
+	If $0 < x$, then $-x < 0$.  Similarly, if $x < 0$, then $0 < -x$.
+        
+\begin{proof}
+If $0<x$, then $0+(-x)<x+(-x)$, hence $-x<0$.
+
+If $x<0$, then $x+(-x)<0+(-x)$, hence $0<-x$. 
+
+\renewcommand\qedsymbol{QED}
+\end{proof}
+
+
+\end{lemma}
+
+
+\begin{lemma}
+	Let $x,y,z \in F$. 
+	\begin{enumerate}
+		\item If $x > 0$ and $y < z$, then $x \cdot y < x \cdot z$.
+\begin{proof}
+$y+(-y)<z+(-y)$, hence $0<z+(-y)$. Thus, $x\cdot (z+(-y))>0$, then $x\cdot z + x \cdot(-y) > 0$. Hence, $x \cdot z+(-(x \cdot y))>0$, hence $x\cdot z > x \cdot y$. 
+
+\renewcommand\qedsymbol{QED}
+\end{proof}
+		\item If $x < 0$ and $y < z$, then $x \cdot z < x \cdot y$.
+\begin{proof}
+Applying item 1, we get that $(-x)\cdot y < (-x) \cdot z$. Then, $0<(-(x \cdot z))+(x \cdot y)$. Hence, $x\cdot z<x \cdot y$.
+
+\renewcommand\qedsymbol{QED}
+\end{proof}
+	\end{enumerate}
+	
+        
+
+
+
+\end{lemma}
+
+\begin{remark} An immediate consequence of this lemma is the fact that if $x$ and $y$ are both positive or both negative, their product is positive.
+\end{remark}
+
+
+\begin{lemma}
+	If $x \in F$, then $0 \leq x^2$.  Moreover, if $x \neq 0$, then $0 < x^2$.
+        
+\begin{proof}
+If $x = 0$, then $x^2 = 0$, hence $x^2 \geq 0$.
+
+If $x \neq 0$, then by Remark 7.25, we have that $x^2>0$. 
+
+\renewcommand\qedsymbol{QED}
+\end{proof}
+
+
+\end{lemma}
+
+\begin{corollary}
+	$0 < 1$.
+        
+\begin{proof}
+We know that $0 \neq 1$, and $1=1^2$, hence $1>0$.
+
+\renewcommand\qedsymbol{QED}
+\end{proof}
+
+
+\end{corollary}
+
+\begin{theorem}
+	If $F$ is an ordered field, then $F$ has no first or last point.  
+        
+\begin{proof}
+We know that $0<1$, hence $0+(-1)<1+(-1)$, hence $-1<0$. 
+
+Let $x \in F$ be any element of the ordered field. Then, $x+(-1)<x+0<x+1$, hence $x+(-1)<x<x+1$.
+
+\renewcommand\qedsymbol{QED}
+\end{proof}
+
+
+\end{theorem}
+
+\begin{theorem}
+	
+	The rational numbers $\bbQ$ form an ordered field.
+\begin{proof}
+First, we want to show that addition respects the ordering.
+
+Let $[\frac{a}{b}],[\frac{c}{d}],[\frac{x}{y}]$ be arbitrary elements of $\bbQ$ with $b,d,y>0$ such that $[\frac{a}{b}]<[\frac{c}{d}]$. 
+
+Since $[\frac{a}{b}]<[\frac{c}{d}]$, we have that $ad<bc$. It follows that
+        \begin{align*}
+            ad &< bc\\
+            adyy &< bcyy\\
+            adyy+bdxy &< bcyy+bdxy\\
+            aydy+bxdy &< bycy+bydx\\
+            (ay+bx)(dy) &< (by)(cy+dx)\\
+            [\frac{ay+bx}{by}] &< [\frac{cy+dx}{dy}]\\
+            [\frac{a}{b}]+[\frac{x}{y}] &< [\frac{c}{d}] + [\frac{x}{y}].
+        \end{align*}
+
+Next, we want to show that multiplication respects the ordering.
+
+Let $[\frac{0}{1}]<[\frac{a}{b}]$ and let $[\frac{0}{1}]< [\frac{c}{d}]$, with $b,d>0$.
+
+Then, we have that $0\cdot b<1\cdot a$ and $0\cdot d<1\cdot c$, hence $0<a$ and $0<c$, hence $0<a\cdot c$. Thus, $0\cdot b\cdot d<1 \cdot a \cdot c$, thus, $[\frac{0}{1}]<[\frac{a\cdot c}{b \cdot d}]$. Therefore, $[\frac{0}{1}]<[\frac{a}{b}] \cdot [\frac{c}{d}]$.
+
+
+\renewcommand\qedsymbol{QED}
+\end{proof}
+    
+\end{theorem}
+
+
+There is an important sense in which every ordered field contains a ``copy" of the rational numbers. Let $F$ be an ordered field with additive identity $0_F$ and multiplicative identity $1_F$. To prevent ambiguity, denote the additive identity in the rational numbers by $0_\bbQ$ and the multiplicative identity in the rational numbers by $1_\bbQ$.\medskip
+
+
+
+\begin{theorem}
+	Any ordered field $F$ contains  a copy of the rational numbers $\bbQ$ in the following sense.  There exists an injective map $i\colon \bbQ \arr F$ that respects all of the axioms for an ordered field. In particular:
+	\begin{itemize}
+		\item $i(0_\bbQ) = 0_F$.
+		\item $i(1_\bbQ) = 1_F$.
+		\item If $a, b\in \bbQ$, then $i(a+b) = i(a) + i(b)$.
+		\item If $a, b\in \bbQ$, then $i(a\cdot b)=i(a)\cdot i(b)$.
+		\item If $a, b\in \bbQ$ and $a < b$, then $i(a)< i(b)$.
+	\end{itemize}
+	
+	    Hint: start by defining a function $j\colon\bbZ\arr F$ satisfying the properties above, then use
+    $j$ to define $i$.
+
+
+\begin{proof}
+
+Define $j$ inductively by $j(0)=0, j(n)=j(n-1)+1$ and $j(-n)=-j(n)$ for all $n \in \bbN$.
+
+Now, we want to check that the above properties, along with the property that $j(-z)=-j(z)$, hold.
+
+\begin{enumerate}
+    
+
+\item $j(0)=0$ and we are done.
+
+\item $j(1)=j(0)+1=0+1=1$ and we are done.
+
+\item $j(-n)=-j(n)$ for all $n\in \bbN$.
+
+$0=j(-0)=-j(0)$.
+
+$j(-(-n))=j(n)$, hence $-j(-(-n))=-j(n)=j(-n)$, hence $j(-(-n)) = -j(-n)=j(n)$.
+
+\item For addition, case 1 is that $a\geq 0, b \geq 0$, then we want to show that $j(a+b)=j(a)=j(b)$ by induction in $a$. 
+
+If $a=0$, then $j(0+b)=j(b)=0+j(b)=j(0)+j(b)=j(a)+j(b)$.
+
+If $a \geq 1$, then $j(a+b)=j((a-1)+(b+1))=j(a-1)+j(b+1)=j(a-1)+j(b)+1=j(a-1)+1+j(b)=j(a)+j(b)$.
+
+Case 2 is that $a <0, b \geq 0$. Then, $a=-n$ for some $n \in \bbN$. We want to show that $j(-n+b)=j(-n)+j(b)$ by induction on $n$. 
+
+If $n=1$, then $j(-1+b)=j(b-1)=(-1)+j(b)=j(-1)+j(b)$. 
+
+If $n \geq 2$, then $j(-n+b)=j(b-n)=j(-1+b-n)+1=j(-1)+j(b)+j(-n)+1=j(-1)+j(b)+j(-n)+j(1)=j(b)+j(n)$.
+
+Case 3 is that $b <0, a \geq 0$. This is analogous to case 2.
+
+Case 4 is that $a<0,b<0$. Then $a=-p, b=-q$ for some $p,q \in \bbN$. We want to show that $j(-p-q)=j(-p)+j(-q)$. We have that $j(-p-q)=-j(p+q)=-j(p)-j(q)=j(-p)+j(-q)$.
+
+\item For multiplication, case 1 is that $a\geq 0, b\geq 0$. We want to show that $j(a \cdot b)=j(a)\cdot j(b)$ by induction on $a$. 
+
+For $a=0$, we have that $j(a\cdot b)=j(0)=0=j(0)\cdot j(b)$.
+
+For $a \geq 1$, we have that $j(a \cdot b)=j(((a-1)+1)\cdot b)=j((a-1)\cdot b + b)=j((a-1)\cdot b)+j(b)=j(a-1)\cdot j(b)+j(b)=j((a-1)+1)\cdot j(b)=(j(a-1)+j(1))\cdot j(b) = j(a-1+1)\cdot j(b)=j(a) \cdot j(b)$.
+
+Case 2 is that $a<0, b \geq 0$. Then, $a=-n$ for some $n \in \bbN$. Then, we want to show that $j(-n \cdot b) = j(-n) \cdot j(b)$. We have that $j(-n \cdot b)=-j(n \cdot b)=-(j(n) \cdot j(b))=-j(n) \cdot j(b)=j(-n) \cdot j(b)$. 
+
+Case 3 is that $a\geq 0, b < 0$. This is analogous to case 2.
+
+Case 4 is that $a<0,b<0$. Then, $j(a\cdot b)=j(-(-(a\cdot b)))=-j((-a)\cdot b)=-j((-a)\cdot j(b))=(-j(-a))\cdot j(b)=j(a) \cdot j(b)$.
+
+\item We want to show order-preserving property.
+
+If $a<b$, then there exists $n \in \bbN$ such that $a+n=b$. Then $j(a)+j(n)=j(b)$. Thus, it suffices to show that $j(n)>0$. We will show this by induction on $n$.
+
+If $n=1$, then $j(1)=1>0$. 
+
+If $n\geq 2$, then $j(n)=j((n-1)+1)=j(n-1)+j(1)>0$, where the last step follows since $j(n-1)>0$ (by inductive hypothesis) and $j(1)>0$ (by definition of $j$).
+
+\end{enumerate}
+
+Now, we proceed to define $i \colon \bbQ \rightarrow F$ as $i(\frac{a}{b})=\frac{j(a)}{j(b)}$.
+
+First, we want to show that $i$ is well-defined. Since $b \neq 0$, we have that $j(b) \neq 0$. Suppose $\frac{a}{b}=\frac{c}{d}$, then we have that $ad=cb$, hence $j(ad)=j(cb)$, hence $j(a)\cdot j(b)=j(c) \cdot j(b)$, hence $\frac{j(a)}{j(b)}=\frac{j(c)}{j(d)}$.
+
+Next, we want to check that all the desired properties hold.
+
+\begin{enumerate}
+\item 
+$i(0)=\frac{j(0)}{j(1)}=j(0)=0$.
+
+\item 
+$i(1)=\frac{j(1)}{j(1)}=j(1)=1$.
+
+\item 
+$i(\frac{a}{b}+\frac{c}{d})=i(\frac{ad+bc}{bd})= \frac{j(ad+bc)}{j(bd)}=\frac{j(ad)+j(bc)}{j(bd)}=\frac{j(a)}{j(b)}+\frac{j(c)}{j(d)}=i(\frac{a}{b}) + i(\frac{c}{d})$. 
+
+\item 
+$i(\frac{a}{b}\cdot \frac{c}{d})=i(\frac{ac}{bd})= \frac{j(ac)}{j(bd)}=\frac{j(a)\cdot j(c)}{j(b)\cdot j(d)}=\frac{j(a)}{j(b)}\cdot \frac{j(c)}{j(d)}=i(\frac{a}{b}) \cdot i(\frac{c}{d})$. 
+
+\item 
+If $\frac{a}{b}<\frac{c}{d}$, then $ad<cb$, hence $j(ad)<j(cb)$, hence $j(a) \cdot j(d) < j(c) \cdot j(b)$, hence $\frac{j(a)}{j(b)}<\frac{j(c)}{j(d)}$, hence $i(\frac{a}{b})<i(\frac{c}{d})$.
+
+This completes the proof.
+
+\end{enumerate}
+
+
+
+
+\renewcommand\qedsymbol{QED}
+\end{proof}
+
+\end{theorem}
+
+
+Since we know that $\bbQ$ is an ordered field, this result says that $\bbQ$ is the ``minimal'' ordered field.\bigskip
+
+
+\begin{center}
+{\em Appendix: The Real Numbers are an Ordered Field}
+\end{center} 
+This appendix is concerned with proving that the continuum $\bbR$ is an ordered field.  Addition and multiplication on $\bbR$ are defined in terms of addition and multiplication on $\bbQ$, so we will use $\oplus$ and $\otimes$ for addition and multiplication of real numbers, to make sure that there is no confusion with $+$ and $\cdot$ on $\bbQ$.
+
+
+
+\begin{definition}
+	We define $\oplus $ on $\bbR$ as follows. Let $A,B\in\bbR$ be Dedekind cuts. Define
+	\begin{align*}
+		A \oplus B = \{a + b \mid a \in A\text{ and }b \in B\}.
+	\end{align*}
+\end{definition}
+
+\begin{exercise}
+	\begin{enumerate}[(a)]
+		\item Prove that $A \oplus B$ is a Dedekind cut.        
+\begin{proof}
+First, $A \neq \emptyset$, hence there exists $a \in A$ and likewise $B \neq \emptyset$, hence there exists $b \in B$, hence there exists $a+b \in A \oplus B$. Hence $A \oplus B \neq \emptyset$. 
+
+Also, by trichotomy, either $A<B$ or $A>B$ or $A=B$, hence without loss of generality suppose $A \subseteq B$. There exists $c \in \bbQ \setminus B$, hence $2c \notin A \oplus B$, hence $A \oplus B \neq \bbQ$.
+
+Second, if $a+b \in A \oplus B$, then we want to show that $a+b-m \in A \oplus B$, for $m \in \bbQ, m>0$. We can write $a+b-m=(a-m)+b$, then $a-m \in A$ since $A$ is closed downwards (it is a Dedekind cut), hence $a+b-m \in A \oplus B$.
+
+Suppose $a+b \in A \oplus B$. Then, since $A$ has no last point, there exists $a' \in A$ such that $a'>a$. Then, $a'+b \in A \oplus B$ and $a'+b>a+b$. Hence $A \oplus B$ has no last point.
+
+Therefore $A \oplus B$ is a Dedekind cut.
+
+
+\renewcommand\qedsymbol{QED}
+\end{proof}
+
+		\item Prove that $\oplus$ is commutative and associative. 
+
+\begin{proof}
+$A \oplus B = \{a + b \mid a \in A\text{ and }b \in B\} = \{b + a \mid a \in A\text{ and }b \in B\} = B \oplus A$, since $A \subset \bbQ$ and $B \subset \bbQ$ and addition on $\bbQ$ is commutative.
+
+$(A \oplus B)\oplus C = \{(a + b)+c \mid a \in A\text{ and }b \in B \text{ and }c \in C\} = \{a + (b+c) \mid a \in A\text{ and }b \in B \text{ and }c \in C\} = A \oplus (B \oplus C)$, since $A \subset \bbQ$ and $B \subset \bbQ$ and $C \subset \bbQ$, and addition on $\bbQ$ is associative.
+
+\renewcommand\qedsymbol{QED}
+\end{proof}
+
+		\item Prove that if $A \in \bbR$ then $A = \mathbf{0} \oplus A$. 
+                
+\begin{proof}
+$\mathbf{0}=i(0)=D_0=\{q \in \bbQ \mid q<0\}$.
+
+Let $m \in D_0$. Then, $m<0$, hence for all $a \in A, a+m<a$. Since $A$ is closed downwards, $a\in A$ implies $a+m \in A$, hence $\mathbf{0} \oplus A=A$.
+
+\renewcommand\qedsymbol{QED}
+\end{proof}
+
+\end{enumerate}
+\end{exercise}
+
+\begin{lemma}
+	\label{lem:in A close to not in A}
+	If $A\in\bbR$, $r\in\bbQ$, and $r>0$, then there exists $s\in A$ such that $s+r\not\in A$.
+        
+\begin{proof}
+Suppose there does not exist $s \in A$ such that $s+r \notin A$. Then, for all $s\in A, s+r \in A$ and by the property of being closed downwards, if $q \in \bbQ$ such that $q<s+r$ then $q \in A$. Since $s+r \in A$ for all $s \in A$, we have that $A$ has no upper bound. This implies that $A =\bbQ$ and this is a contradiction.
+ 
+\renewcommand\qedsymbol{QED}
+\end{proof}
+\end{lemma}
+
+\begin{lemma}
+	Let $A\in\bbR$. Let
+	\begin{align*}
+	B= \{r \in \bbQ \mid -r \notin A\text{ but } {-r} \text{ is not a first point of }\bbQ \setminus A\}.
+	\end{align*}
+	Then,
+	\begin{enumerate}[(a)]
+		\item $B \in \bbR$.
+                
+\begin{proof}
+If $A = \mathbf{0}$, then $A=B$ and we are done. (This is because, for all $a \in A, -a \notin A$, and $0$ is the first point of $\bbQ \setminus A$, hence $-a$ is not a first point of $\bbQ \setminus A$).
+
+Case 1: $A < \mathbf{0}$. Then there exists $q \in \mathbf{0}$ such that $q \notin A$. Then $q<-q$, hence $-q \notin A$ and $-q$ is not a first point of $\bbQ \setminus A$, hence $q \in B$, hence $B \neq \emptyset$.
+
+Let $a \in A$, then $a<0$, hence $-a \in \bbQ \setminus B$, since $-(-a)=a \in A$. Hence, $B \neq \bbQ$.
+
+Let $b \in B$, and let $b' \in \bbQ$ be such that $b'<b$. Then, we have that $-b'>-b$, hence $-b' \notin A$ (since $-b \notin A$ which implies $-b$ is an upper bound of $A$, and $-b'>-b$  which implies $-b'$ is an upper bound of $A$). Also, $-b$ is not a first point of $\bbQ \setminus A$, and $-b'>-b$, hence $-b'$ is not a first point of $\bbQ \setminus A$. Thus, $b' \in B$.
+
+Let $b \in B$, then we have that $-b \notin A$ and $-b$ is not a first point of $\bbQ \setminus A$. Since $\bbQ$ is dense, there exists $c \in B$ such that $c<-b$, $c \notin A$ and $c$ is not a first point of $\bbQ \setminus A$. Then, $-c\in B, -c>b$, hence $B$ has no last point.
+
+Case 2: $A>\mathbf{0}$. We know that $\bbQ \setminus A$ is non-empty, hence let $d \in \bbQ \setminus A$ such that $d$ is not a first point of $\bbQ \setminus A$. Then, $-d \in B$, hence $B \neq \emptyset$.
+
+Let $q \in A \setminus \mathbf{0}$, then $-q<q$ and since $A$ is closed downwards, $-q \in A$, hence $q \notin B$, hence $B \neq \bbQ$.
+
+Let $b \in B$, and let $b' \in \bbQ$ be such that $b'<b$. Then, $-b'>-b$, and since $-b \notin A$ ($-b$ is an upper bound of $A$) and $-b$ is not a first point of $\bbQ \setminus A$, by $-b'>-b$ we have that $-b' \notin A$ and $-b'$ is not a first point of $\bbQ \setminus A$. Hence, $b' \in B$. 
+
+Let $b \in B$, then $-b \notin A$ and $-b$ is not a first point of $\bbQ \setminus A$. Since $\bbQ$ is dense, there exists $c \in \bbQ \setminus A$ such that $c<-b$, $c \notin A$ and $c$ is not a first point of $\bbQ \setminus A$. Then, $-c\in B, -c>b$, hence $B$ has no last point.
+
+This demonstrates that $B$ is a Dedekind cut, i.e., $B \in \bbR$.
+
+\renewcommand\qedsymbol{QED}
+\end{proof}
+		\item $A \oplus B = \mathbf{0}$.
+            
+\begin{proof}
+For the first containment, let $m \in A \oplus B$, then $m=a+b$ for some $a\in A, b\in B$. We have that $-b \notin A$, hence $-b$ is an upper bound of $A$, hence $a<-b$. Then, $a+b<-b+b=0$, hence $m \in \mathbf{0}$. Thus, $A \oplus B \subseteq \mathbf{0}$.
+
+For the second containment, we want to show that if $m<0$, then there exist $a\in A, b\in B$ such that $m=a+b$. 
+
+Since $m<0, -m>0$. Hence, there exists $a \in A$ such that $a+(-m) \notin A$. Since $A$ has no last point, there exists $a' \in A$ such that $a'>a$ and $a'+(-m) \notin A$. 
+
+Then, $a'+(-m)>a+(-m)$. From this we know that $a'+(-m)$ is not the first point of $\bbQ \setminus A$. Hence, $-(a'+(-m)) \in B$.
+
+Then, $a'+(-(a'+(-m))) = a' - (a' -m) = m$, hence $m \in A \oplus B$. Thus, $\mathbf{0} \subseteq A \oplus B$.
+
+Therefore, $A \oplus B = \mathbf{0}$. This completes the proof.
+
+\renewcommand\qedsymbol{QED}
+\end{proof}
+		
+	\end{enumerate}
+
+\end{lemma}
+\begin{theorem}
+	Every $A \in \bbR$ has an additive inverse $-A$ such that $A \oplus (-A) = \mathbf{0}$. 
+        
+\begin{proof}
+Consider the construction of $B$ above and set $B =-A$, then we are done.
+
+\renewcommand\qedsymbol{QED}
+\end{proof}
+\end{theorem}
+
+\begin{exercise}
+	Show that $A < \mathbf{0} \Longleftrightarrow \mathbf{0} < -A$.
+        
+\begin{proof}
+First, we want to show that $\mathbf{0} \subset -A$. Let $x \in \mathbf{0}$, then $-x>0$ hence $-x \notin A$. Also, $0<-x$ and $0\in \bbQ \setminus A$, hence $-x$ is not the first point of $\bbQ \setminus A$. Hence, $x \in -A$. 
+
+
+Second, we want to show that $-A \setminus \mathbf{0} \neq \emptyset$. We know that $A \subsetneq \mathbf{0}$, hence there exists $b \in \mathbf{0} \setminus A$. Since $\bbQ$ is dense, we can find $b' \in \mathbf{0} \setminus A$ such that $b' \notin A$ and $b'>b$ which implies that $b'$ is not the first point of $\bbQ \setminus A$. Then, $-b' \in -A$ and since $b'<0$, we have that $-b' > 0$. Hence, $-b' \in -A \setminus \mathbf{0}$. 
+
+This completes the proof.
+
+\renewcommand\qedsymbol{QED}
+\end{proof}
+\end{exercise}
+
+\begin{exercise}
+	Show that if $p\in\bbQ$ and $A=\{x\in\bbQ\mid x<p\}$, then $-A=\{x\in\bbQ\mid x<-p\}$.
+        
+\begin{proof}
+For the first containment, if $a' \in -A$, then $-a'\notin A$, hence $-a'>p$, hence $a'<-p$.
+
+For the second containment, if $a<-p$, then $-a>p$, hence $-a \notin A$, hence $a \in -A$.
+
+(We note that the first point of $\bbQ \setminus A$ is $p$).
+
+\renewcommand\qedsymbol{QED}
+\end{proof}
+\end{exercise}
+
+
+
+\begin{exercise}
+	Show that $<$ satisfies additivity; i.e., if  $A,B,C\in\bbR$ with $A<B$ then $A\oplus C<B\oplus C$. 
+        
+\begin{proof}
+We have that $A<B$, hence there exists $b \in B$ such that $b \notin A$, then $b\geq a$ for all $a \in A$. Since $B$ has no last point, there exists $b' \in B$ such that $b'>b$, hence $b'>a$ for all $a \in A$.
+
+Then, $b'+c\in B \oplus C$, but $b'+c>a+c$ for all $a \in A, c \in C$, hence $b'+c \notin A \oplus C$.
+
+Hence, $A \oplus C < B \oplus C$.
+
+\renewcommand\qedsymbol{QED}
+\end{proof}
+\end{exercise}
+
+
+\begin{definition}
+	For $A,B\in\bbR$, $\mathbf{0}<A$, $\mathbf{0}<B$, we define
+	\begin{align*}
+		A \otimes B = \{r \in \bbQ \mid r \leq 0\} \cup \{ab \mid a\in A, b\in B, a > 0, b > 0\}.
+	\end{align*}
+	If $A = \mathbf{0}$ or $B = \mathbf{0}$ we define $A \otimes B = \mathbf{0}$.
+	If $A<\mathbf{0}$ but $\mathbf{0}<B$ we replace $A$ with $-A$ and use the definition of multiplication of positive elements. Hence, in this case,
+	\begin{align*}
+		A\otimes B=-[(-A)\otimes B].
+	\end{align*}
+	Similarly, if $\mathbf{0}<A$ but $B<\mathbf{0}$, then 
+	\begin{align*}
+		A\otimes B=-[A\otimes (-B)],
+	\end{align*}
+	and 
+	if $A<\mathbf{0}, B<\mathbf{0}$ then
+	\begin{align*}
+		A \otimes B= (-A) \otimes (-B).
+	\end{align*}
+\end{definition}
+
+\begin{exercise}
+	\begin{enumerate}[(a)]
+		\item Show that if $A, B \in \bbR$, then $A \otimes B \in \bbR$.
+        
+\begin{proof}
+$-1 \in \{r \in \bbQ \mid r \leq 0\}$, hence $-1 \in A \otimes B$, hence $A \otimes B \neq \emptyset$.
+
+$A\neq \bbQ$ and $B \neq \bbQ$, hence there exist $a',b' \in \bbQ$ such that $a'$ is an upper bound of $A$ and $b'$ is an upper bound of $B$. Then, $a'b'$ is an upper bound of $A \otimes B$, hence $a'b' \notin A \otimes B$, hence $A \otimes B \neq \bbQ$.
+
+Suppose $s \in A \otimes B$ and $t\in \bbQ$ such that $t<s$, then we want to show that $t \in A\otimes B$.
+
+Case 1: if $t\leq0$, then $t\in A \otimes B$.
+
+Case 2: if $t>0$, then $s>0$, hence $s=ab$ for $a\in A, b\in B$. Then, $t=s-q=ab-q=b(a-\frac{q}{b})$ such that $q\in \bbQ, q >0$. Since $A$ is closed downwards, we have that $(a-\frac{q}{b})\in A$, hence $b(a-\frac{q}{b})=ab-q=s-q=t \in A\otimes B$. This shows that $A\otimes B$ is closed downwards.
+
+Suppose $m \in A \otimes B$, then we want to show that there exists $m' \in A\otimes B$ such that $m'>m$.
+
+Case 1: $m\leq 0$. Since $A,B$ have no last point, there exists $x \in A \otimes B$ such that $x>m$. 
+
+Case 2: $m>0$. Then, $m=ab$ for some $a\in A, b\in B$. Since $A$ has no last point, there exists $a'\in A$ such that $a'>a$, then $m'=a'b>ab=m$. 
+
+\renewcommand\qedsymbol{QED}
+\end{proof}
+
+		\item Show that $\otimes$ is commutative and associative. 
+		        
+\begin{proof}
+First, we want to show that $A\otimes B=B \otimes A$. 
+
+We have that \begin{align*}
+            A\otimes B &= \{r\in\bbQ\mid r\leq 0\}\cup\{ab\mid a\in A,b\in B,a>0,b>0\}\\
+            &= \{r\in\bbQ\mid r\leq 0\}\cup\{ba\mid b\in B,a\in A,b>0,a>0\}\\
+            &= B\otimes A.
+        \end{align*}
+
+Next, we want to show that $(A\otimes B)\otimes C=A \otimes (B \otimes C)$. Let $x \in (A\otimes B)\otimes C$. 
+
+Case 1: $x \leq 0$. Then, $x \in \{r\in\bbQ\mid r\leq 0\}$, hence $x \in A \otimes (B \otimes C)$. 
+
+Case 2: $x>0$. Then, $x=dc$, where $d\in A \otimes B, c\in C$, $d>0,c>0$. Further, $d=ab$ for $a\in A,b\in B$ such that $a,b>0$. Let $y=bc$, then $y \in B\otimes C$. Then, $x=ay$, hence $x\in A \otimes (B\otimes C)$. 
+
+This completes the first containment. The second containment is analogous.
+
+\renewcommand\qedsymbol{QED}
+\end{proof}
+
+        \item Show that if $A, B \in \bbR$, $\mathbf{0} < A$, and $\mathbf{0} < B$, then $\mathbf{0} < A\otimes B$. 
+		        
+\begin{proof}
+We have that $0 \subsetneq A, 0 \subsetneq B$, hence there exist $a\in A,b\in B$ such that $a,b>0$. Then $ab>0$ and $ab\in A \otimes B$, hence $\mathbf{0}<A \otimes B$.
+
+\renewcommand\qedsymbol{QED}
+\end{proof}
+
+        \item Let $\mathbf{1} = \{x \in \bbQ \mid x < 1\}$. Show that if $A \in \bbR$, then $\mathbf{1} \otimes A = A$. 
+	        
+\begin{proof}
+Let $a \in A$, then let $a'\in A$ such that $a'=a+\epsilon$ and $\epsilon << a'$. Then, \[
+a=a'-\epsilon = a'(1-\frac{\epsilon}{a'}) = a'(\frac{a'-\epsilon}{a'}).
+\]
+
+Then, we have that $a' \in A$ by definition, and $\frac{a'-\epsilon}{a'} \in \mathbf{1}$ such that $\frac{a'-\epsilon}{a'}>0$. This completes the first containment, namely $A \subset \mathbf{1} \otimes A$.
+
+Let $a \in \mathbf{1} \otimes A$. Then, $a = jk$, for $j\in \mathbf{1},j>0$ and $k \in A, k>0$. Then, $a<k$ and $k\in A$, which implies $a \in A$ by the property of being closed downwards. This completes the first containment, namely $\mathbf{1} \otimes A \subset A$.
+
+\renewcommand\qedsymbol{QED}
+\end{proof}
+
+    \end{enumerate}
+\end{exercise}
+
+\begin{lemma}
+	If $A \in \bbR$, $A > 0$, $r \in \bbQ$, and $r > 1$, then there exist $s\in A$ such that $rs\not\in A$.
+	
+
+	(Hint: Prove that $\{r^n \mid n \in \bbN\}$ is unbounded in $\bbQ$.)
+
+        
+\begin{proof}
+First, we want to show that $\{r^n \mid n \in \bbN\}$ has no upper bound. Let $r^k \in \{r^n \mid n \in \bbN\}$, then $r^{k+1} \in \{r^n \mid n \in \bbN\}$ and $r^{k+1}>r^k$.
+
+Suppose there does not exist $s \in A$ such that $sr \notin A$. Then, for all $s\in A, sr \in A$ and by the property of being closed downwards, if $q \in \bbQ$ such that $q<sr$ then $q \in A$. Since $sr \in A$ for all $s \in A$, we have that $A$ has no upper bound. This implies that $A =\bbQ$ and this is a contradiction.
+
+\renewcommand\qedsymbol{QED}
+\end{proof}
+
+\end{lemma}
+
+
+
+\begin{lemma}
+	Let $A\in\bbR$ with $\mathbf{0}<A$. Let
+	\begin{align*}
+		B = \{r \in \bbQ \mid r \leq 0\} \cup \left\{r \in \bbQ \mathrel{}\middle|\mathrel{} r > 0\text{ and }\frac{1}{r} \notin A, \text{ but } \frac{1}{r} \text{ is not a first point of }\bbQ \setminus A\right\}.
+	\end{align*}
+	Then,
+	\begin{enumerate}[(a)]
+		\item $B \in \bbR$.
+                
+\begin{proof}
+$-1\in \{r \in \bbQ \mid r \leq 0\}$, hence $-1\in B$, hence $B \neq \emptyset$.
+
+There exists $a\in A$ such that $a>0$. Then, there exists $n\in \bbN$ such that $0<\frac{1}{n}<a$. Hence, $\frac{1}{n} \in A$ by the property of being closed downwards. Then, $[\frac{n}{1}] \notin B$, hence $B \neq \bbQ$.
+
+Suppose $b \in B$ and $c<b$. If $c \leq 0$, then $c \in B$ and we are done. If $c>0$, then we have that $\frac{1}{c}>\frac{1}{b}$, $\frac{1}{b} \notin A$ and $\frac{1}{b}$ is not a first point of $\bbQ \setminus A$. From this it follows that $\frac{1}{c} \notin A$ and $\frac{1}{c}$ is not a first point of $\bbQ \setminus A$. Hence, $c \in B$.
+
+Let $b \in B$. If $b\leq 0$ then we know there exists $b'\in B$ such that $b'>b$ and we are done. 
+
+If $b>0$, then $\frac{1}{b} \notin A$ and $\frac{1}{b}$ is not a first point of $\bbQ \setminus A$. Suppose $p$ is the first point of $\bbQ \setminus A$. Then, by the Archimedean property, there exists $c \in \bbN$ such that $p<\frac{1}{c}<\frac{1}{b}$, hence $c>b$ and $c\in B$. 
+
+This proves that $B \in \bbR$.
+
+
+
+\renewcommand\qedsymbol{QED}
+\end{proof}
+
+		\item $A \otimes B = \mathbf{1}$.
+	        
+\begin{proof}
+Let $a\in A, b\in B$. Then, we know that $\frac{1}{b} \notin A$ and $\frac{1}{b}$ is not a first point of $\bbQ \setminus A$. Hence, for all $a\in A$, we have that $a< \frac{1}{b}$, hence $ab<1$. This completes the first containment, namely $A \otimes B \subset \mathbf{1}$.
+
+Let $m \in \mathbf{1}$. If $m\leq 0$ then $m \in A\otimes B$ and we are done. If $m>0$, that is if $0<m<1$, then since $\mathbf{0}<A$, there exists $a\in A$ such that $a>0$. Then, $ab>0$ and by the above reasoning, $ab<1$. Hence, we can set $m=ab$, that is, we know that $m$ can be written as $ab$ for some $a\in A, b\in B$. This completes the first containment, namely $\mathbf{1} \subset A \otimes B$.
+
+This completes the proof.
+
+
+\renewcommand\qedsymbol{QED}
+\end{proof}
+
+    \end{enumerate}
+\end{lemma}
+
+\begin{lemma}
+	Every $A \in \bbR$ with $\mathbf{0} < A$ has a multiplicative inverse $A^{-1}$ such that $A \otimes A^{-1} = \mathbf{1}$.
+        
+\begin{proof}
+Consider the above construction of $B$ and set $B=A^{-1}$, then we are done.
+
+\renewcommand\qedsymbol{QED}
+\end{proof}
+
+\end{lemma}
+
+\begin{lemma}
+	Let $A \in \bbR$ with $A < \mathbf{0}$. Then, $(-A)^{-1}$ has already been defined, and $A \otimes (-(-A)^{-1}) = \mathbf{1}$.
+        
+\begin{proof}
+If $A<0$ then $-A>0$, hence $(-A)^{-1}$ has already been defined above. We have that $(-A)\otimes (-A)^{-1}=\mathbf{1}=A\otimes (-(-A)^{-1})$ by commutativity of $\otimes$.
+
+
+\renewcommand\qedsymbol{QED}
+\end{proof}
+
+\end{lemma}
+
+\begin{theorem}
+	Every $A \in \bbR$ with $A \neq \mathbf{0}$ has a multiplicative inverse $A^{-1}$ such that $A \otimes A^{-1} = \mathbf{1}$. 
+        
+\begin{proof}
+Since $A\neq \mathbf{0}$, either $A<\mathbf{0}$ or $A>\mathbf{0}$. 
+
+If $A<\mathbf{0}$ then consider Lemma 7.44 and we are done.
+
+If $A > \mathbf{0}$ then consider Lemma 7.43 and we are done.
+
+\renewcommand\qedsymbol{QED}
+\end{proof}
+
+\end{theorem}
+
+\begin{exercise}
+	Show that if $p \in \bbQ$ with $p \neq 0$ and $A= \{x \in \bbQ \mid x < p\}$, then $A^{-1} = \{x \in \bbQ \mid x < \frac{1}{p}\}$.
+        
+\begin{proof}
+Let $m \in \{x \in \bbQ \mid x < \frac{1}{p}\}$, then $m<\frac{1}{p}$. Hence, $\frac{1}{m}>p$, hence $\frac{1}{m} \notin A$. We also know that $p$ is the first point of $\bbQ \setminus A$, and since $\frac{1}{m}>p$, we have that $\frac{1}{m}$ is not the first point of $\bbQ \setminus A$. Hence, $m \in A^{-1}$. This completes the first containment, namely $\{x \in \bbQ \mid x < \frac{1}{p}\} \subset A^{-1}$.
+
+Let $m \in A^{-1}$. Then, $\frac{1}{m} \notin A$ and $\frac{1}{m}$ is not the first point of $\bbQ \setminus A$, hence $\frac{1}{m}>p$. Hence $m<\frac{1}{p}$, hence $m \in \{x \in \bbQ \mid x < \frac{1}{p}\}$. This completes the second containment, namely $A^{-1} \subset \{x \in \bbQ \mid x < \frac{1}{p}\}$.
+
+This completes the proof.
+
+\renewcommand\qedsymbol{QED}
+\end{proof}
+
+\end{exercise}
+
+\begin{theorem}
+	$\bbR$ is an ordered field. 
+        
+\begin{proof}
+First, we want to show that $\oplus$ respects the ordering. Suppose $A<B$, then $A\oplus C = \{r\in \bbQ \mid r\leq 0\} \cup \{a+c \mid a\in A, c\in C, a>0, c>0\}$. And similarly, $B\oplus C = \{r\in \bbQ \mid r\leq 0\} \cup \{b+c \mid b\in B, c\in C, b>0,c>0\}$. 
+
+Since $A<B$, we know that for all $a \in A, a\in B$. Hence, for all $d \in A\oplus C, d \in B \oplus C$. However, there exists $b \in B$ such that $b \notin A$, i.e., $b$ is an upper bound of $A$. Then, $a\leq b$ for all $a \in A$. Then, there exists $b' \in B$ such that $b'>b$, hence $a< b'$ for all $a\in A$. Hence $a+c<b'+c$, hence $A\oplus C < B \oplus C$.
+
+Second, we want to show that $\otimes$ respects the ordering.
+
+Suppose $A,B \in \bbR$ such that $A>\mathbf{0},B>\mathbf{0}$. Then, there exist $a\in A$ and $b\in B$ such that $a>0,b>0$, hence $ab>0$. Hence, $A \otimes B >\ \mathbf{0}$.
+
+This completes the proof.
+
+\renewcommand\qedsymbol{QED}
+\end{proof}
+
+\end{theorem}
+\newpage
+
+\begin{center}
+{\em Additional Exercises}
+\end{center}
+
+{\em In these exercises you should assume the results from the Appendix, whether or not you proved these in class. Also, the function $i:\bbQ\to\bbR$ referred to in exercises 1 and 2 is the function defined in Script 6 - so $i(q)=\{x\in\bbQ\mid x<q\}.$}
+
+\begin{enumerate}
+
+\item
+\begin{enumerate}
+\item[a)] Let $q\in\bbQ.$
+Prove that  $i(q) \oplus i(-q)=\bf{0.}$ 
+\item[b)] Show that for $q_1,q_2\in \bbQ, $
+ $$i(q_1)\otimes i(q_2)=i(q_1 q_2).$$
+
+ \end{enumerate}
+
+
+
+
+
+
+
+\item 
+\begin{enumerate}
+\item[a)] Define $\sqrt{2}=\{x\in\bbQ\mid x< 0\}\cup\{x\in \bbQ\mid x^2<2\}.$ We saw in class that $\sqrt{2}\in\bbR.$\\Show that
+$\sqrt{2}$ is not a rational cut, i.e. there is no $p\in\bbQ$ such that $\sqrt{2}=\{x\in\bbQ\mid x<p\}.$
+\item[b)] Show that $\sqrt{2} \otimes i(x)\in \bbR\setminus i(\bbQ),$ for $x\in\bbQ, x>0.$ (Note that in fact this holds for all $x\neq 0,$ but you need only show it for $x>0.$)
+\item[c)] Show that the irrationals are dense in the reals - more precisely, show that $\bbR\setminus i(\bbQ) $ is dense in $\bbR.$
+\item[d)] {\em (Challenge)} Show that $\sqrt{2}\otimes \sqrt{2}=\{x\in\bbQ\mid x<2\}.$ 
+\end{enumerate}
+
+\item Let $A \subset \bbR$ and assume that $\sup A$ exists.  Define $-A := \{ x \in \bbR : -x \in A\}$.  Is it true that $-\sup A = \sup -A$?
+
+\item 
+\begin{enumerate}
+		\item Let $A,B$ be bounded subsets of $\bbR.$
+		
+			Define $A+B = \{c \in \bbR: c = a+b$ for some $a\in A, b\in B\}$.  Is it true that $\sup A + \sup B = \sup(A+B)$?
+		\item Let $f,g: \bbR \to \bbR$ be functions.  Is it true that $\sup f(\bbR) + \sup g(\bbR)= \sup (f+g)(\bbR)$?  (Note: here we define $f+g:\bbR \to \bbR$ to be the function $(f+g)(c) = f(c) + g(c)$ for all $c\in \bbR$.)
+	\end{enumerate}
+
+
+
+\end{enumerate}
+\end{document}
+

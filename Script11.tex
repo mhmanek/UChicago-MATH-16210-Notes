@@ -1,0 +1,553 @@
+\documentclass[11pt]{article}
+\usepackage{color}
+%\input{rgb}
+
+%----------Packages----------
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{amsrefs}
+%\usepackage{dsfont}
+\usepackage{mathrsfs}
+\usepackage{mathtools}
+%\usepackage{stmaryrd}
+%\usepackage[all]{xy}
+\usepackage[mathcal]{eucal} % changes meaning of \mathcal
+\usepackage{enumerate}
+\usepackage[shortlabels]{enumitem}
+\usepackage{verbatim}  %%includes comment environment
+\usepackage{fullpage}  %%smaller margins
+
+%----------Commands----------
+%%penalizes orphans
+\clubpenalty=9999
+\widowpenalty=9999
+
+%% blackboard bold math capitals
+\newcommand{\bbF}{\mathbb{F}}
+\newcommand{\bbN}{\mathbb{N}}
+\newcommand{\bbQ}{\mathbb{Q}}
+\newcommand{\bbR}{\mathbb{R}}
+\newcommand{\bbZ}{\mathbb{Z}}
+
+\renewcommand{\phi}{\varphi}
+\renewcommand{\emptyset}{\O}
+
+\renewcommand{\_}[1]{\underline{ #1 }}
+\DeclarePairedDelimiter{\abs}{\lvert}{\rvert}
+\DeclarePairedDelimiter{\norm}{\lVert}{\rVert}
+
+\DeclareMathOperator{\ext}{ext}
+\DeclareMathOperator{\bridge}{bridge}
+
+\newcommand{\head}[1]{
+	\begin{center}
+		{\large #1}
+		\vspace{.2 in}
+	\end{center}
+	
+	\bigskip 
+}
+\newcommand{\hint}[2][Hint]{
+	
+	(#1: #2)
+}
+
+%----------Theorems----------
+
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{examples}[theorem]{Examples}
+\newtheorem{example}[theorem]{Example}
+
+\newtheorem{axiom}{Axiom}
+
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem*{definition*}{Definition}
+\newtheorem{nondefinition}[theorem]{Non-Definition}
+\newtheorem{exercise}[theorem]{Exercise}
+\newtheorem{remark}[theorem]{Remark}
+\newtheorem{warning}[theorem]{Warning}
+\newtheorem{question}[theorem]{Question}
+
+\numberwithin{equation}{subsection}
+
+\begin{document}
+
+\head{MATH 162, Winter 2025\\
+SCRIPT 11: Limits and Continuity}
+
+%%---  sheet number for theorem counter
+\setcounter{section}{11}
+\setcounter{theorem}{0}
+
+Throughout this sheet, we let $f, g\colon A \to \bbR$
+be real-valued functions with domain $A \subset \bbR$, unless otherwise specified.
+
+\begin{definition}
+	Let $a \in LP(A) \subset \bbR$. A \emph{limit} of $f$ at $a$ is a number $L \in \bbR$ satisfying the following condition: for every $\epsilon > 0$, there exists a $\delta > 0$ such that
+	\begin{center}
+		if $x \in A$ and $0 < \abs{x - a} < \delta$, \quad then $\abs{f(x) - L} < \epsilon$.
+	\end{center}
+{\em (See Additional Exercise 2 for one-sided limits.)}
+\end{definition}
+
+\begin{lemma}
+	Limits are unique: if $L$ and $L'$ are both limits of $f$ at a point $a$, then $L = L'$. 
+
+
+\begin{proof}
+Suppose for sake of contradiction that $L \neq L'$. Let $\epsilon = \frac{|L-L'|}{2}$, then we know that there exist $\delta_1, \delta_2 >0$ such that if $0<|x-a|<\delta_1$ then $|f(x)-L|<\frac{|L-L'|}{2}$ and if $0<|x-a|<\delta_2$ then $|f(x)-L'|<\frac{|L-L'|}{2}$.
+
+Let $\delta = \min(\delta_1, \delta_2)$. If $0<|x-a|<\delta$, then $|L-L'|=|(L-f(x))+(f(x)-L')|\leq |f(x)-L| + |f(x)-L'|<|L-L'|$ (we used the Triangle Inequality). This contradicts trichotomy of the ordering. 
+
+This completes the proof.
+
+\renewcommand\qedsymbol{QED}
+\end{proof}
+
+    
+\end{lemma}
+
+\begin{definition}
+	If $L$ is the limit of $f$ at $a$, we write
+	\[
+		\lim_{x \to a} f(x) = L.
+	\]
+\end{definition} 
+
+\begin{exercise} 
+	Give an example of a set $A \subset \bbR$, a function $f\colon A \to \bbR$, and a point $a \in LP(A)$ such that $\lim\limits_{x \to a} f(x)$ does not exist.
+
+\begin{proof}
+Let $A=(0,1)\cup(1,2)$ and let $f$ be defined as $f(x)=1$ if $x\in (0,1)$ and $f(x)=-1$ if $x \in (1,2)$. Consider the point $1\in LP(A)$. Suppose for sake of contradiction that $L$ is a limit of $f(x)$ at $x=1$. 
+
+Case 1: $L=1$. Then, take $\epsilon = 0.5$. We note that for all $\delta>0$, there exists $x \in (1, 1+\delta)\cap (1,2)$. Then, $f(x)=-1$ and $|f(x)-L|=|-1-1|=2\not < 0.5 = \epsilon$. 
+
+Case 2: $L \neq 1$. Then, take $\epsilon = \frac{|1-L|}{2}$. We note that for all $\delta>0$, there exists $x \in (1-\delta,1)\cap (0,1)$. Then, $f(x)=1$ and $|f(x)-L|=|1-L|\not < \frac{|1-L|}{2} = \epsilon$. 
+
+This completes the proof.
+
+
+\renewcommand\qedsymbol{QED}
+\end{proof}
+
+
+\end{exercise}
+
+We now deduce a more concrete characterization of continuity at a point (Definition~9.9).
+
+\begin{theorem}
+	Let $x\in A$. Then the following are equivalent:
+	\begin{enumerate}[(i)]
+		\item $f$ is continuous at $x$.
+        
+
+
+		\item For every $\epsilon > 0$, there exists $\delta > 0$ such that 
+		\begin{center}
+			if $y \in A$ and $\abs{y - x} < \delta$,\qquad then $\abs{f(y) - f(x)} < \epsilon$.
+		\end{center}
+        
+
+
+		\item Either $x \notin LP(A)$ or $\displaystyle \lim_{y \to x} f(y) = f(x)$.
+    
+	\end{enumerate}
+    
+\begin{proof}
+First, we want to show that (i) implies (ii). Let $\epsilon>0$ and let $V = (f(x)-\epsilon, f(x)+\epsilon)$ be a region containing $f(x)$. Since $f$ is continuous at $x$, there exists an open set $U$ with $x \in U$ and $f(U\cap A) \subset V$. Since $U$ is open, there exists $\delta>0$ such that $(x-\delta,x+\delta)\subset U$. 
+
+Let $y \in A$ with $|y-x|<\delta$, then $y\in (x-\delta,x+\delta)\subset U$. Then, $y \in U \cap A$, hence $f(y) \in f(U \cap A) \subset V$. Then, $f(y) \in (f(x)-\epsilon, f(x)+\epsilon)$, thus $|f(y)-f(x)| < \epsilon$. This completes the implication (i) $\rightarrow$ (ii).
+
+Second, we want to show that (ii) implies (iii). If $x \notin LP(A)$ then we are done. 
+
+If $x \in LP(A)$, then pick $\epsilon>0$. For every region $R_x=(x-\delta,x+\delta)$ such that $x\in R_x$, we have that $R_x \cap A \setminus \{x\} \neq \emptyset$, so let $y\in R_x \cap A \setminus \{x\}$. 
+
+Then, we have that $y \in (x-\delta,x+\delta)$, hence $|y-x|<\delta$. Thus, by item (ii), $|f(y)-f(x)|<\epsilon$. 
+
+Also, $y \in A \setminus \{x\}$ implies $y\neq x$, hence $0<|y-x|<\delta$. Thus, we have that if $0<|y-x|<\delta$ then $|f(y)-f(x)|<\epsilon$. Hence, $\lim_{y \to x} f(y) = f(x)$. This completes the implication (ii) $\rightarrow$ (iii).
+
+Third, we want to show that (iii) implies (i). If $x \notin LP(A)$, then there exists a region $S$ such that $x\in S$ and $S\cap A\setminus \{x\}=\emptyset$, hence $S \cap A = \{x\}$. Let $R$ be any region such that $f(x) \in R$, then $f(S \cap A) = f(\{x\}) \subset R$, where $S$ is open. Thus, $f$ is continuous at $x$.
+
+If $\displaystyle \lim_{y \to x} f(y) = f(x)$, then let $R$ be a region such that $f(x) \in R$. Pick $\epsilon>0$ such that $(f(x)-\epsilon, f(x)+\epsilon) \subset R$ (we can do this because $R$ is open). Then, there exists $\delta>0$ such that if $y\in A$ and $|y-x|<\delta$ then $|f(y)-f(x)|<\epsilon$. Then, consider the open set $V = (x-\delta, x+\delta)$. Then, we see that $f(V \cap A) \subset (f(x)-\epsilon, f(x)+\epsilon) \subset R$. This completes the implication (iii) $\rightarrow$ (i).
+
+This completes the proof.
+
+\renewcommand\qedsymbol{QED}
+\end{proof}
+
+\end{theorem}
+
+\begin{exercise}
+	\begin{enumerate}[(a)]
+		\item Let $a, b\in \bbR$ and let $f\colon \bbR \to \bbR$ be given by $f(x) = ax + b$. Show that $f$ is continuous at every $x \in \bbR$.
+        
+\begin{proof}
+Let $x \in \bbR$. Then we want to show that for all $\epsilon >0$, there exists $\delta>0$ such that if $|y-x|<\delta$ then $|f(y)-f(x)|<\epsilon$. 
+
+We have that $|f(y)-f(x)|=|(ay+b)-(ax+b)|=|ay-ax|=|(a)(y-x)|=|a||y-x|$. Thus, let $\delta = \frac{\epsilon}{|a|+1}$. Then, $|f(y)-f(x)|=|a||y-x|<|a|\cdot \delta=|a|\cdot\frac{\epsilon}{|a|+1}<\epsilon$. 
+
+This completes the proof.
+
+\renewcommand\qedsymbol{QED}
+\end{proof}
+
+
+		\item Let $f\colon \bbR \to \bbR$ be given by $f(x) = 
+		\begin{cases}
+			1 & \text{if } x \neq 0 \\
+			0 & \text{if }x = 0.
+		\end{cases}$ \hspace{10pt}
+		Show that $f$ is not continuous at $0$.
+        
+\begin{proof}
+
+Suppose for sake of contradiction that $\lim_{x \to 0} f(x) = 0 = f(0)$. Consider $\epsilon = 0.5$ and $y = \frac{\delta}{2}$, then $|y-0|=\frac{\delta}{2}<\delta$ but $|f(y)-f(0)|=|1-0|=1\not < 0.5= \epsilon.$ This completes the proof.
+
+
+\renewcommand\qedsymbol{QED}
+\end{proof}
+
+
+	\end{enumerate}
+\end{exercise} 
+
+\begin{exercise}
+	Show that the absolute value function $f\colon \bbR \to \bbR$, $f(x) = \abs{x}$ is continuous.
+    
+\begin{proof}
+We want to show that for all $x'\in \bbR$, $\lim_{x \to x'} f(x) = f(x')=|x'|$. Let $\epsilon>0$ and let $\delta = \frac{\epsilon}{2}$ (we have that $|x-x'|<\delta)$. 
+
+Then, $|f(x)-f(x')|=||x|-|x'||\leq |x-x'|<\delta=\frac{\epsilon}{2}<\epsilon$. This completes the proof.
+
+\renewcommand\qedsymbol{QED}
+\end{proof}
+
+
+\end{exercise}
+
+Given real-valued functions $f$ and $g$, we define new functions $f + g$, $fg$ and $\frac{1}{f}$ by
+\begin{itemize}
+	\item $(f + g)(x) = f(x) + g(x)$;
+	\item $(f g)(x) = f(x) \cdot g(x)$; and
+	\item $\frac{1}{f}(x) = \frac{1}{f(x)}$, provided that $f(x) \neq 0$.
+\end{itemize}
+We wish to understand the limits of $f + g$, $fg$ and $\frac{1}{f}$ in terms of the limits of $f$ and $g$. 
+
+
+\begin{lemma} \label{lemma10.7}
+ If $\displaystyle \lim_{x\to a} f(x)=L>0$ then there exists a $\delta>0$ such that $f(x)>\frac{L}{2}$ for all
+$x\in A \cap [(a-\delta,a+\delta)\setminus\{a\}].$  The analogous statement is true if $\displaystyle \lim_{x\to a} f(x)=L< 0$. 
+    
+\begin{proof}
+For all $\epsilon>0$, there exists $\delta>0$ such that if $x\in A$ and $0<|x-a|<\delta$ then $|f(x)-L|<\epsilon$.
+
+We know that $0<|x-a|<\delta$ is equivalent to $-\delta<x-a<\delta$ with $x-a \neq 0$ (hence $x\neq a$), which is equivalent to $x \in A \cap [(a-\delta,a+\delta)\setminus\{a\}]$. 
+
+Since $L>0,$ we have that $\frac{L}{2}>0$, hence let $\epsilon=\frac{L}{2}$. Then, $|f(x)-L|<\frac{L}{2}$. Thus, $L-\frac{L}{2}<f(x)<L+\frac{L}{2}$, thus $\frac{L}{2}<f(x)$ as desired. 
+
+For $L<0$, let $\epsilon = \frac{|L|}{2}$, then the analogous result follows. This completes the proof.
+
+\renewcommand\qedsymbol{QED}
+\end{proof}
+
+
+\end{lemma}
+
+
+
+
+\begin{theorem}
+	Suppose that $\lim\limits_{x \to a} f(x) = L$ and $\lim\limits_{x \to a} g(x) = M$. Then,
+	\begin{enumerate}[(a)]
+		\item $\displaystyle\lim_{x \to a} (f + g)(x) = L + M$.
+            
+\begin{proof}
+We want to show that for all $\epsilon>0$, there exists $\delta>0$ such that if $x\in A$ and $0<|x-a|<\delta$ then $|(f+g)(x)-(L+M)|<\epsilon$. 
+
+Since $\lim\limits_{x \to a} f(x) = L$, we let $\frac{\epsilon}{2}$ be the `desired precision'. Then, we know that there exists $\delta_1>0$ such that if $x \in A$ and $0<|x-a|<\delta_1$ then $|f(x)-L|<\frac{\epsilon}{2}$. Similarly, there exists $\delta_2>0$ such that if $x \in A$ and $0<|x-a|<\delta_2$ then $|g(x)-M|<\frac{\epsilon}{2}$.
+
+Then, $|(f+g)(x)-(L+M)|\leq |f(x)-L|+|g(x)-M|<\frac{\epsilon}{2}+\frac{\epsilon}{2}=\epsilon$. 
+
+This completes the proof.
+
+\renewcommand\qedsymbol{QED}
+\end{proof}
+
+
+		\item $\displaystyle\lim_{x \to a} (f g)(x) = L \cdot M$.
+            
+\begin{proof}
+We want to show that $\displaystyle\lim_{x \to a} (f g)(x) = L \cdot M$. Let $\epsilon>0$ be the `desired precision' for $\lim_{x \to a} (f g)(x)$. 
+
+Since $\lim\limits_{x \to a} f(x) = L$, we pick the `desired precision' $\epsilon_0=1$. Then, we know that there exists $\delta_1>0$ such that if $x \in A$ and $0<|x-a|<\delta_1$ then $|f(x)-L|<\epsilon_0=1$. Then, $|f(x)|=|f(x)-L+L|\leq |f(x)-L|+|L|<\epsilon_0+|L|=1+|L|$. Then, let $K=|L|+1$, then we see that $f(x)<K$.
+
+Also, there exists $\delta_2>0$ such that if $x \in A$ and $0<|x-a|<\delta_2$ then $|g(x)-M|<\frac{\epsilon}{2K}$. 
+
+Moreover, we can pick a new $\epsilon_1=\frac{\epsilon}{2|M|+1}$, then there exists $\delta_3>0$ such that if $x \in A$ and $0<|x-a|<\delta_3$ then $|f(x)-L|<\epsilon_1=\frac{\epsilon}{2|M|+1}$.
+
+Having completed the necessary constructions, we now proceed to prove for $\lim_{x \to a} (f g)(x)$. Let $\delta = \min (\delta_1,\delta_2,\delta_3)$. Then we see that $|(fg)(x)-LM|=|f(x)g(x)-LM|=|f(x)g(x)-Mf(x)+Mf(x)-LM|=|f(x)(g(x)-M)+M(f(x)-L)| \leq |f(x)(g(x)-M)|+|M(f(x)-L)| = |f(x)|\cdot |(g(x)-M)|+|M|\cdot |(f(x)-L)|<K\cdot \frac{\epsilon}{2K} +|M|\cdot \frac{\epsilon}{2|M|+1}<\frac{\epsilon}{2}+\frac{\epsilon}{2}=\epsilon$. 
+
+Thus, we have shown that $|(fg)(x)-LM|<\epsilon$. This completes the proof.
+
+
+\renewcommand\qedsymbol{QED}
+\end{proof}
+
+
+		\item Suppose that $\lim\limits_{x \to a} \, f(x) = L \neq 0$. Then $\lim\limits_{x \to a} \frac{1}{f}(x) = \frac{1}{L}$.
+            
+\begin{proof}
+Let $\epsilon>0$ be the `desired precision'. 
+
+We know that there exists $\delta_1>0$ such that if $x \in A$ and $0<|x-a|<\delta_1$ then by Lemma 11.8, $|f(x)|>\frac{|L|}{2}$. Then, $|\frac{1}{f(x)}-\frac{1}{L}|=|\frac{L-f(x)}{f(x)\cdot L}|=\frac{|f(x)-L|}{|f(x)|\cdot |L|} <\frac{|f(x)-L|}{|L|\cdot |\frac{L}{2}|} =\frac{2|f(x)-L|}{L^2}$.   
+
+We know that $\frac{\epsilon\cdot L^2}{2}>0$, hence there exists $\delta_2>0$ such that if $x \in A$ and $0<|x-a|<\delta_2$ then $|f(x)-L|<\frac{\epsilon\cdot L^2}{2}$. Let $\delta = \min(\delta_1, \delta_2)$. 
+
+Then, we see that $|\frac{1}{f(x)}-\frac{1}{L}|<\frac{2|f(x)-L|}{L^2}<\frac{\epsilon \cdot L^2}{L^2}=\epsilon$. 
+
+This completes the proof.
+
+\renewcommand\qedsymbol{QED}
+\end{proof}
+
+
+	\end{enumerate}
+\end{theorem}
+
+\begin{corollary}
+	If $f$ and $g$ are continuous at $a$, then $f + g$ and $fg$ are continuous at $a$. Also, $\frac{1}{f}$ and $\frac{g}{f}$ are continuous at $a$, provided that $f(a) \neq 0$.
+        
+\begin{proof}
+First, we want to show that $\lim\limits_{x \to a} (f+g)(x) = (f+g)(a)$. We know that $f,g$ are continuous at $a$, hence $\lim\limits_{x \to a} f(x) = f(a)$ and $\lim\limits_{x \to a} g(x) = g(a)$. Then, by Theorem 11.9, $\lim\limits_{x \to a} (f+g)(x) = f(a)+g(a)=(f+g)(a)$. 
+
+Second, we want to show that $\lim\limits_{x \to a} (fg)(x) = (fg)(a)$. We know that $f,g$ are continuous at $a$, hence $\lim\limits_{x \to a} f(x) = f(a)$ and $\lim\limits_{x \to a} g(x) = g(a)$. Then, by Theorem 11.9, $\lim\limits_{x \to a} (fg)(x) = f(a)\cdot g(a)=(fg)(a)$. 
+
+Third, we want to show that $\lim\limits_{x \to a} \frac{1}{f}(x) = \frac{1}{f}(a)$. We know that $f$ is continuous at $a$, hence $\lim\limits_{x \to a} f(x) = f(a) \neq 0$. Then, by Theorem 11.9, $\lim\limits_{x \to a} \frac{1}{f}(x) = \frac{1}{f(a)}=\frac{1}{f}(a)$. 
+
+Fourth, we want to show that $\lim\limits_{x \to a} \frac{g}{f}(x) = \frac{g}{f}(a)$. We know that $f,g, \frac{1}{f}$ are continuous at $a$, hence $\lim\limits_{x \to a} f(x) = f(a)$ and $\lim\limits_{x \to a} g(x) = g(a)$ and $\lim\limits_{x \to a} \frac{1}{f}(x) =\frac{1}{f}(a)$. Then, by Theorem 11.9, $\lim\limits_{x \to a} \frac{g}{f}(x) = g(a)\cdot \frac{1}{f}(a)=\frac{g}{f}(a)$. 
+
+This completes the proof.
+
+
+\renewcommand\qedsymbol{QED}
+\end{proof}
+
+
+\end{corollary}
+
+\begin{definition}
+	A \emph{polynomial in one variable with real coefficients} is a function $f$ of the form 
+	\[
+		f(x) = a_n x^n+a_{n-1}x^{n-1}+\cdots+a_1 x+a_0
+	\]
+	for some $n \in \bbN \cup \{0\}$, where $a_i \in \bbR$ for $0\leq i\leq n$. A \emph{rational function in one variable with real coefficients} is a function of the form $h(x) = \frac{f(x)}{g(x)}$ where $f$ and $g$ are polynomials in one variable with real coefficients.
+\end{definition}
+
+\begin{corollary}
+	Polynomials in one variable with real coefficients are continuous. A rational function in one variable with real coefficients $h(x) = \frac{f(x)}{g(x)}$ is continuous at all $a \in \bbR$ where $g(a) \neq 0$.
+        
+\begin{proof}
+Claim 1: $f(x)=x^n$ is continuous for all $n \in \bbN \cup \{0\}$. We show this by induction on $n$. For the base case, $n=0$, then $f(x)=x^0=1$ is continuous because it is affine. For the inductive step, $x^{n+1}=x^n\cdot x$ is continuous by Corollary 11.10, because $x^n$ is continuous by inductive hypothesis and $x$ is continuous because it is affine.
+
+Claim 2: $f(x)=a\cdot x^n$ is continuous for all $n \in \bbN \cup \{0\}$. We know that $a$ is affine and $x^n$ is continuous by Claim 1, hence $f(x)=a\cdot x^n$ is continuous for all $n \in \bbN \cup \{0\}$ by Corollary 11.10.
+
+To show that polynomials are continuous, we use induction on $n$. For the base case, $n=0$, then $f(x)=\sum_{i=0}^{n} a_i\cdot x^i=a_0$ is affine hence it is continuous. For the inductive step, $f(x)=\sum_{i=0}^{n+1} a_i\cdot x^i=a_{n+1}\cdot x^{n+1} + \sum_{i=0}^{n} a_i\cdot x^i$. We know that $a_{n+1}\cdot x^{n+1}$ is continuous by Claim 2, and $\sum_{i=0}^{n} a_i\cdot x^i$ is continuous by inductive hypothesis. Hence, $f(x)=\sum_{i=0}^{n+1} a_i\cdot x^i$ is continuous by Corollary 11.10.
+
+Let $h(x)=\frac{f(x)}{g(x)}$ be a rational function, then $h(x)$ is continuous by Corollary 11.10, because both $f(x)$ and $g(x)$ are polynomials hence they are continuous, and $g(a)\neq 0$. 
+
+This completes the proof.
+
+\renewcommand\qedsymbol{QED}
+\end{proof}
+
+
+\end{corollary} 
+
+Now we want to look at limits of the composition of functions. We assume here (for \ref{comp1} - \ref{comp3}) that  $a\in A,$ $g\colon A\to \bbR$ and $f\colon I\to \bbR$, where $I$ is an open interval containing $\overline{g(A)}.$  
+It is not quite true in general that if
+$\lim\limits_{x\to a} g(x) = M$ and $\lim\limits_{y\to M} f(y) = L$,
+then $\lim\limits_{x\to a} f(g(x)) = L$, but it is true in some cases. 
+\begin{theorem} \label{comp1}
+	If $\lim\limits_{x\to a} g(x) = M$ and $f$ is continuous at $M$, then
+	$\lim\limits_{x\to a} f(g(x)) = f(M)$. 
+        
+\begin{proof}
+We know that for all $\epsilon>0$, there exists $\delta_1>0$ such that if $y \in A$ and $|y-M|<\delta_1$ then $|f(y)-f(M)|<\epsilon$.
+
+Since $\lim\limits_{x\to a} g(x) = M$, there exists $\delta_2>0$ such that if $x \in A$ and $0<|x-a|<\delta_2$ then $|g(x)-M|<\delta_1$. 
+
+Then, setting $y=g(x)$, we see that $|g(x)-M|<\delta_1$, hence $|f(g(x))-f(M)|<\epsilon$. This completes the proof.
+
+\renewcommand\qedsymbol{QED}
+\end{proof}
+
+
+\end{theorem}
+
+\begin{remark} \label{comp2}
+	This theorem can also be rewritten as
+	\[
+		\lim\limits_{x\to a} f(g(x)) = f\left(\lim\limits_{x\to a} g(x)\right),
+	\]
+	which can be remembered as ``limits pass through continuous functions.''
+\end{remark}
+
+\begin{corollary}\label{comp3}
+	If $g$ is continuous at $a$ and $f$ is continuous at $g(a)$, then $f\circ g$ is continuous at $a$.
+
+
+\begin{proof}
+Since $g$ is continuous at $a$, we have that $\lim\limits_{x\to a} g(x) = g(a)$. Since $f$ is continuous at $g(a)$, we have that $\lim\limits_{y\to g(a)} f(y) = f(g(a))$. 
+
+Then, $\lim\limits_{m\to a} (f\circ g) (m) = f(\lim\limits_{m\to a} g(m)) = f(g(a)) = (f\circ g)(a)$. This completes the proof.  
+
+\renewcommand\qedsymbol{QED}
+\end{proof}
+
+
+\end{corollary}\newpage
+
+\begin{center}
+{\em Additional Exercises}
+\end{center}
+
+\begin{enumerate}
+
+\item Find the following limits, stating clearly which results you are using.
+\begin{enumerate}
+\item[a)] $\displaystyle \lim_{x\to 2} \frac{x^3-8}{x-2}.$
+\item[b)] $\displaystyle\lim_{h\to 0} \frac{\sqrt{a+h}-\sqrt{a}}{h}.$
+\end{enumerate}
+
+
+
+\item Let $A\subset \bbR$ be an open set, $f\colon A\to\bbR,$ and $a\in A.$ Since $A$ is open there is a region $R\subset A$ containing $a.$ Prove that 
+$$\lim_{x\to a} f(x) = \lim_{x\to a} f|_R (x).$$
+(Note that this should be interpreted as meaning that one limit exists if, and only if, the other limit exists, and if the limits exist, they are equal.) 
+
+
+\item {\em (The Sandwich/Squeeze Theorem)} Let $A\subset \bbR$ be an open set. Let $a\in A.$ Suppose that $f,g,h\colon A\to \bbR$ satisfy
+$$f(x)\leq g(x)\leq h(x),\quad \text{for all } x\in A,$$
+and $\displaystyle \lim_{x\to a}f(x)$ and $\displaystyle \lim_{x\to a} h(x)$ both exist and equal $L.$ Then $\displaystyle \lim_{x\to a} g(x)$ also exists and equals $L.$
+
+
+\begin{proof}
+Let $\epsilon>0$ be the `desired precision' for $\lim_{x\to a} g(x)$, then there exist $\delta_1,\delta_2$ such that if $x\in A$ and $0<|x-a|<\delta_1$ then $|f(x)-L|<\epsilon$ and if $x\in A$ and $0<|x-a|<\delta_2$ then $|h(x)-L|<\epsilon$. 
+
+Let $\delta = \min(\delta_1,\delta_2)$, so that it satisfies both constraints. We want to show that if $x\in A$ and $0<|x-a|<\delta$ then $|g(x)-L|<\epsilon$. We see that $f(x)\leq g(x)\leq h(x)$ can be written as $f(x)-L\leq g(x)-L\leq h(x)-L$. Then, we have that $-\epsilon<f(x)-L<\epsilon$ and $-\epsilon<h(x)-L<\epsilon$. 
+
+We note that $-\epsilon<f(x)-L\leq g(x)-L\leq h(x)-L<\epsilon$, hence $-\epsilon<g(x)-L<\epsilon$. Thus, $|g(x)-L|<\epsilon$. This completes the proof.
+
+\renewcommand\qedsymbol{QED}
+\end{proof}
+
+
+
+\item
+Let $f:A\longrightarrow \bbR$ be a real-valued function with domain $A\subset \bbR,$ $A$ an open set. Let $a\in\bbR$ and let 
+$b\in\bbR$ be such that $(a,b)\subset A.$ The {\it right-hand limit} of $f$ at $a$ is a real number $L$ satisfying the following condition: for all $ \epsilon>0,$ there is some $\delta>0$ such that if $x\in A$ and $0<x-a<\delta,$ then $|f(x)-L|<\epsilon.$
+If such an $L$ exists we write this as 
+$$\lim_{x\longrightarrow a^+} f(x)=L.$$
+\begin{enumerate}
+\item[a)] Formulate an analogous definition for the limit from below/left-hand limit of $f$ at $b,$ written $\displaystyle \lim_{x\longrightarrow b^-} f(x).$ 
+
+\begin{proof}
+Let $f:A\longrightarrow \bbR$ be a real-valued function with domain $A\subset \bbR,$ $A$ an open set. Let $a\in\bbR$ and let 
+$b\in\bbR$ be such that $(a,b)\subset A.$ The {\it left-hand limit} of $f$ at $a$ is a real number $L$ satisfying the following condition: for all $ \epsilon>0,$ there is some $\delta>0$ such that if $x\in A$ and $0<a-x<\delta,$ then $|f(x)-L|<\epsilon.$
+If such an $L$ exists we write this as 
+$\lim_{x\rightarrow a^-} f(x)=L$.
+
+
+
+\renewcommand\qedsymbol{QED}
+\end{proof}
+
+
+\item[b)] Let $x_0\in A.$ Prove that $\displaystyle \lim_{x\longrightarrow x_0} f(x)$ exists and equals $L$ if, and only if, $\displaystyle \lim_{x\longrightarrow x_0^+} f(x)$ and
+$\displaystyle \lim_{x\longrightarrow x_0^-}f(x)$ both exist and equal $L.$
+
+\begin{proof}
+If \( \lim_{x\rightarrow x_0} f(x) \) exists and equals \( L \), then we have that for all \( \epsilon>0 \), there exists some \(\delta>0\) such that if \(x\in A\) and \(0<|x-x_0|<\delta\), then \(|f(x)-L|<\epsilon\). 
+
+This implies that for all \( \epsilon>0 \), there exists some \(\delta>0\) such that if \(x\in A\) with $x>x_0$ and \(0<x-x_0<\delta\), then \(|f(x)-L|<\epsilon\), and similarly, for all \( \epsilon>0 \), there exists some \(\delta'>0\) such that if \(x\in A\) with $x<x_0$ and \(0<x_0-x<\delta'\), then \(|f(x)-L|<\epsilon\). Thus, \(\lim_{x\rightarrow x_0^+}f(x)\) and \(\lim_{x\rightarrow x_0^-}f(x)\) both exist and equal \(L\). This completes the first direction.
+
+If \(\lim_{x\rightarrow x_0^+}f(x)\) and \(\lim_{x\rightarrow x_0^-}f(x)\) both exist and equal \(L\), then for all \( \epsilon>0 \), there exists some \(\delta_1>0\) such that if \(x\in A\) and \(0<x-x_0<\delta_1\), then \(|f(x)-L|<\epsilon\), and similarly, for all \( \epsilon>0 \), there exists some \(\delta_2>0\) such that if \(x\in A\) and \(0<x_0-x<\delta_2\), then \(|f(x)-L|<\epsilon\). Choose \(\delta=\min(\delta_1, \delta_2)\) so that it satisfies both constraints, and we note that $\delta>0$. Thus, for all \( \epsilon>0 \), we have that if \(x\in A\) and \(0<|x-x_0|<\delta\), then \(|f(x)-L|<\epsilon\). Hence, \(\lim_{x\rightarrow x_0}f(x)\) exists and equals \(L\). This completes the second direction.
+
+This completes the proof.
+
+\renewcommand\qedsymbol{QED}
+\end{proof}
+
+
+\end{enumerate}
+
+\item 
+\begin{enumerate}
+\item Show that $f(x)=\sqrt{x}$ is continuous at $x=1.$
+\item Show that $f(x)=x^2$ is continuous at $x=2.$
+\end{enumerate}
+
+\item Consider functions $f,g,h:\bbR\to\bbR$ such that, for all $x\neq 1,$ 
+$$|f(x)-2|<|x-1|^2,\quad |g(x)-3|<2|x-1|,\quad |h(x)-5|<|x-1|.$$
+\begin{enumerate}
+\item Find a $\delta>0$ such that if $0<|x-1|<\delta,$ then $|f(x)g(x)-h(x)-1|<\frac{1}{1000}.$
+\item Prove that $\displaystyle \lim_{x\to 1} (f(x)g(x)-h(x))=1.$
+\end{enumerate}
+
+\item (From Spivaks' Calculus)
+In each of the following, justify your answer fully.
+\begin{enumerate}
+\item[a)] If $\displaystyle \lim_{x\longrightarrow a} f(x)$ and $\displaystyle \lim_{x\longrightarrow a}g(x)$ do not exist, can $\displaystyle \lim_{x\longrightarrow a}[f(x)+g(x)] $ exist? Can $\displaystyle \lim_{x\longrightarrow a}[f(x)g(x)] $ exist?
+\item[b)] If $\displaystyle \lim_{x\longrightarrow a} f(x)$ exists and $\displaystyle \lim_{x\longrightarrow a}[f(x)+g(x)]$ exists, must $\displaystyle \lim_{x\longrightarrow a}g(x)$ exist?
+\item[c)] If $\displaystyle \lim_{x\longrightarrow a}f(x)$ exists and $\displaystyle \lim_{x\longrightarrow a}[f(x)g(x)]$ exists, does it follow that $\displaystyle \lim_{x\longrightarrow a}g(x)$ exists?
+\end{enumerate}
+
+\item
+Give an example to show that 
+$\displaystyle\lim_{x\longrightarrow a}f(g(x))=f (\displaystyle\lim_{x\longrightarrow a}g(x))$ need not hold when
+$f$ is not continuous.
+
+\item
+	Define the function $f: \bbR \to \bbR$ as
+	\[
+		f(x) := 
+		\begin{cases}
+			0, \qquad &\text{ if } x \in \bbR\setminus \bbQ,\\
+			\frac{1}{q}, \qquad &\text{ if } x = \frac{p}{q} \text{ where } q \in \bbN \text{ and } \gcd(p,q) = 1,\\
+			1, \qquad & \text{ if } x=0.
+		\end{cases}\]
+	(Note that $\gcd(p,q) = 1$ implies that $x= p/q$ is in its most reduced form.)  Where is $f$ continuous?
+
+\begin{proof}
+We claim that $f$ is continuous for $x \in \bbR \setminus \bbQ$ and not continuous for $x \in \bbQ$. Suppose $f$ is continuous at $m$. Then, $\lim\limits_{x\to m} f(x) = f(m)$.  
+
+Suppose for sake of contradiction that $m \in \bbQ$ and let $\epsilon = \frac{f(m)}{2} > 0$. Since there exists $z \in (m-\delta, m+\delta)$ such that $z \in \bbR \setminus \bbQ$, then $f(z) = 0$ and $|f(z)-f(m)|=f(m)>\frac{f(m)}{2} = \epsilon$. This shows that $f$ is not continuous for $x \in \bbQ$. 
+
+Next, suppose $m \in \bbR \setminus \bbQ$ (note that $f(m)=0$) and let $\epsilon > 0$. Also, without loss of generality suppose that $m>0$ (the argument is symmetric for $m<0$). By the Archimedean Property, there exists $k \in \bbN$ such that $\frac{1}{k}<\epsilon$. 
+
+We want to pick $\delta$ such that for all $x \in \bbR$ with $|x-m|<\delta$, $|f(x)-f(m)|=|f(x)|=f(x)<\epsilon$. Consider an arbitrary point $y \in (m-\delta, m+\delta)$. 
+
+If $y \in \bbQ$, then we can write $y = \frac{p}{q}$, and we want $q>k$ so that $\frac{1}{q}<\frac{1}{k}<\epsilon$. There exist $n, n+1 \in \bbN$ such that $n<m<n+1$, then consider the interval $(n,n+1)$. 
+
+We claim that $S = \{x \in \mathbb{Q} \cap (n,n+1) \mid x = \frac{p}{q}, \gcd(p,q)=1, q < k\}$ is finite. Since $q < k$, there are at most $k-1$ possible denominators. For each denominator $q$, if $x = \frac{p}{q} \in (n,n+1)$, then $qn < p < q(n+1)=qn+q$, implying $p \in \{qn+1, qn+2, \dots, qn+q-1\}$. Thus, for each $q$, there are finitely many valid numerators, hence $S$ is finite.
+
+Let $a = \max\{x \in S \mid x < m\}$ and $b = \min\{x \in S \mid x > m\}$. Then, we claim that $\delta = \min (|m-a|, |m-b|)$ works. Let $j \in (m-\delta, m+\delta)$. If $j \in \bbR \setminus \bbQ$, then $f(j)=0$, hence $|f(j)-f(m)|=0<\epsilon$ and we are done. If $j \in \bbQ$, then we can write $j =\frac{p}{q}$ such that $q\geq k$ (this must be the case, by construction). Then, $|f(j)-f(m)|<|f(\frac{p}{q})-0|=\frac{1}{q}\leq \frac{1}{k}<\epsilon$.
+
+This completes the proof.
+
+\renewcommand\qedsymbol{QED}
+\end{proof}
+
+
+
+\item Consider an increasing function $f\colon \mathbb{R} \longrightarrow \mathbb{R}.$ Prove that the set of points, where $f$ is not continuous, is countable.
+\end{enumerate}
+
+
+
+\end{document}
