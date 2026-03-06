@@ -1,0 +1,589 @@
+\documentclass[12pt]{article}
+
+\usepackage{amsmath} %Advanced math typing
+\usepackage{amsthm} %For theorem styles
+\usepackage{amsfonts} %For \mathbb
+\usepackage{amssymb} %For more math symbols
+\usepackage{stmaryrd} %For even more math symbols (like \llbracket)
+\usepackage{mathtools} %For extensible math symbols
+
+\usepackage{array} %For special commands in tables
+\usepackage[inline]{enumitem} %For enumerate styles
+
+\usepackage[in]{fullpage} %Gets rid of stupidly large margins leaving 1 inch on every side
+
+\usepackage[hypcap=true]{subcaption} % For captions in subfloats
+
+\usepackage[%
+  pdftex,% For direct pdf compilation compatibility
+  plainpages=false,% Usage of not only arabic numbers
+  pdfpagelabels,% Enable page labels
+%  pagebackref,% Bibliographic back links to pages
+  colorlinks,% Colored links
+  citecolor=black,% Citation color
+  linkcolor=black,% Link color
+  urlcolor=black,% URL color
+  filecolor=black,% File color
+  bookmarksopen=false% For starting document with bookmarks tree closed
+]{hyperref} %For pdf links
+\usepackage[all]{hypcap} %Fixes figures and tables anchors for hyperref
+
+% Theorem styles
+%----------------------------------------------------------------
+\newtheoremstyle{thmstyle}%style name
+  {\medskipamount}%space before
+  {\smallskipamount}%space after
+  {\slshape}%font used
+  {0pt}%indentation
+  {\bfseries}%modifier theorem head
+  {.}%punctuation between theorem head and body
+  { }%space after punctuation
+  {\thmname{#1}\thmnumber{ #2}{\normalfont\thmnote{ (#3)}}}%theorem specifier
+
+\newtheoremstyle{bigskipthmstyle}%style name
+  {\medskipamount}%space before
+  {\bigskipamount}%space after
+  {\slshape}%font used
+  {0pt}%indentation
+  {\bfseries}%modifier theorem head
+  {.}%punctuation between theorem head and body
+  { }%space after punctuation
+  {\thmname{#1}\thmnumber{ #2}{\normalfont\thmnote{ (#3)}}}%theorem specifier
+  
+\newtheoremstyle{plainstyle}%style name
+  {\medskipamount}%space before
+  {\smallskipamount}%space after
+  {\rmfamily}%font used
+  {0pt}%indentation
+  {\bfseries}%modifier theorem head
+  {.}%punctuation between theorem head and body
+  { }%space after punctuation
+  {\thmname{#1}\thmnumber{ #2}{\normalfont\thmnote{ (#3)}}}%theorem specifier
+
+\theoremstyle{bigskipthmstyle}
+\newtheorem{topic}{Topic}
+
+\theoremstyle{thmstyle}
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{claim}{Claim}[topic]
+\newtheorem{fact}[theorem]{Fact}
+\newtheorem{axiom}[theorem]{Axiom}
+
+
+\theoremstyle{plainstyle}
+\newtheorem{definition}[theorem]{Definition}
+%----------------------------------------------------------------
+
+\newenvironment{proofof}[1]{\begin{proof}[Proof of #1.]}{\end{proof}}
+
+\newcommand{\floor}[1]{\lfloor #1\rfloor}
+\newcommand{\ceil}[1]{\lceil #1\rceil}
+
+\setlist[enumerate]{label={\roman*.}, ref={(\roman*)}}
+
+\AddToHook{cmd/part/before}{\clearpage} % Forces each part to be in a new page
+\AddToHook{cmd/section/before}{\clearpage} % Forces each section to be in a new page
+
+% General symbols
+\newcommand{\df}{\stackrel{\text{def}}{=}}
+\newcommand{\rest}{\mathord{\vert}}
+\newcommand{\divides}{\mathbin{\vert}}
+
+% Common operators
+\DeclareMathOperator{\LP}{LP}
+\DeclareMathOperator{\dom}{dom}
+
+% Math-bold symbols
+\newcommand{\FF}{\mathbb{F}}
+\newcommand{\NN}{\mathbb{N}}
+\newcommand{\QQ}{\mathbb{Q}}
+\newcommand{\RR}{\mathbb{R}}
+\newcommand{\ZZ}{\mathbb{Z}}
+
+% Calligraphic symbols
+\newcommand{\cB}{\mathcal{B}}
+\newcommand{\cC}{\mathcal{C}}
+\newcommand{\cF}{\mathcal{F}}
+\newcommand{\cG}{\mathcal{G}}
+\newcommand{\cH}{\mathcal{H}}
+\newcommand{\cK}{\mathcal{K}}
+\newcommand{\cP}{\mathcal{P}}
+
+% Names
+\def\Schroder{Schr\"{o}der}
+\def\Bezout{B\'{e}zout}
+
+
+
+\begin{document}
+
+\section{Tychonoff's Theorem}
+
+The objective of this advanced topic is to introduce you to enough concepts of topology to be able
+to prove Tychonoff's Theorem on compactness.
+
+\subsection{Preliminaries}
+
+To prove Tychonoff's Theorem, we will need the Axiom of Choice, so we start by setting up some
+notation and reminding the axiom.
+\begin{definition}
+  If $I$ is a set and $(X_i)_{i\in I}$ is a collection of sets indexed by $I$, then $\prod_{i\in I}
+  X_i$ is the set of all functions $f\colon I\to\bigcup_{i\in I} X_i$ such that for every $i\in I$,
+  we have $f(i)\in X_i$.
+
+  We typically think of elements of $\prod_{i\in I} X_i$ as sequences indexed by $I$ whose $i$th
+  element is in $X_i$, that is, $f\in\prod_{i\in I} X_i$ corresponds to the sequence
+  $x\in\prod_{i\in I} X_i$ given by $x_i\df f(i)$.
+
+  Furthermore, with a small abuse of notation, if for every $i\in I$, we have $Y_i\subseteq X_i$,
+  then we think of $\prod_{i\in I} Y_i$ as a subset of $\prod_{i\in I} X_i$ by simply noting that if
+  $f\in\prod_{i\in I} Y_i$, then we can simply extend the codomain of $f$ to $\bigcup_{i\in I} X_i$
+  to think of $f$ as an element of $\prod_{i\in I} X_i$; in other words, $\prod_{i\in I} Y_i$ is the
+  subset of all $f\in\prod_{i\in I} X_i$ such that for every $i\in I$, we have $f(i)\in Y_i$.
+\end{definition}
+
+The Axiom of Choice below might seem obviously true but it does \emph{not} follow from basic
+set-theoretic axioms (the non-triviality of the Axiom of Choice is precisely when $I$ is infinite):
+\begin{axiom}[Axiom of Choice]
+  If $I$ is a set and $(X_i)_{i\in I}$ is a collection of sets indexed by $I$ such that every $X_i$
+  is non-empty, then $\prod_{i\in I} X_i$ is non-empty.
+\end{axiom}
+
+We will also need Zorn's Lemma, which is equivalent to the Axiom of Choice, so we recall the
+necessary definitions below.
+
+\begin{definition}
+  A \emph{partial order} on a set $X$ is a relation ${\lhd}\subseteq X\times X$ satisfying the
+  following (as usual, we make the small abuse of notation and write ``$x\lhd y$'' to mean
+  ``$(x,y)\in{\lhd}$''):
+  \begin{description}
+  \item[Reflexivity:] For every $x\in X$, we have $x\lhd x$.
+  \item[Antisymmetry:] For every $x,y\in X$, if $x\lhd y$ and $y\lhd x$, then $x = y$.
+  \item[Transitivity:] For every $x,y,z\in X$, if $x\lhd y$ and $y\lhd z$, then $x\lhd z$.
+  \end{description}
+
+  If $\lhd$ is a partial order on $X$ and $m\in X$, we say that $m$ is \emph{maximal} for $\lhd$ if
+  for every $x\in X$, if $m\lhd x$, then $m=x$.
+
+  If $\lhd$ is a partial order on $X$ and $A\subseteq X$, then the restriction of $\lhd$ to $A$ is
+  the set ${\lhd\rest_A}\df{\lhd}\cap A\times A$ (i.e., we simply ignore what $\lhd$ does on
+  points outside of $A$).
+
+  We say that a partial order $\lhd$ on $X$ is a \emph{linear order} if it further satisfies:
+  \begin{description}
+  \item[Totality:] For every $x,y\in X$, we have $x\lhd y$ or $y\lhd x$.
+  \end{description}
+
+  We say that a partial order $\lhd$ on $X$ satisfies \emph{Zorn's condition} if for every set
+  $A\subseteq X$, if $\lhd\rest_A$ is a linear order on $A$, then there exists $u\in X$ such that
+  for every $a\in A$, we have $a\lhd u$. (We abuse a bit the terminology in the above by saying that
+  $A$ is linearly ordered instead of saying that $\lhd\rest_A$ is a linear order on $A$.)
+\end{definition}
+
+\begin{lemma}[Zorn's Lemma]\label{lem:Zorn}
+  Let $\lhd$ be a partial order on $X$ satisfying Zorn's condition. Then (assuming the Axiom of
+  Choice holds) there exists $m\in X$ such that $m$ is maximal for $\lhd$.  
+\end{lemma}
+
+We start with the definition of topologies and topological spaces (which you might remember from one
+of the exams in IBL~1) and the abstract definition of compactness:
+\begin{definition}
+  A \emph{topology} on a set $X$ is a collection $\tau\subseteq\cP(X)$ of subsets of $X$ satisfying
+  the following properties:
+  \begin{description}
+  \item[Trivial open sets:] $\varnothing$ and $X$ are elements of $\tau$.
+  \item[Closure under unions:] If $(G_i)_{i\in I}$ is a collection of sets in $\tau$, then the union
+    $\bigcup_{i\in I} G_i$ is in $\tau$.
+  \item[Closure under finite intersections:] If $G_1,G_2\in\tau$, then $G_1\cap G_2\in\tau$.
+  \end{description}
+
+  Sets in $\tau$ are called \emph{open sets} (with respect to the topology $\tau$). A set
+  $F\subseteq X$ whose complement $X\setminus F$ is open is called \emph{closed} (with respect to
+  $\tau$).
+
+  A \emph{topological space} is a pair $(X,\tau)$, where $\tau$ is a topology on $X$.
+
+  Given a topological space $(X,\tau)$, as usual, an open cover of a set $Y\subseteq X$ is a
+  collection $\cG\subseteq\tau$ (i.e., a collection of open sets) such that $\bigcup_{G\in\cG}
+  G\supseteq Y$. A \emph{subcover} of $\cG$ is a set $\cG'\subseteq\cG$ that is also a cover of $Y$.
+
+  As usual, set $Y\subseteq X$ is \emph{compact} (with respect to $\tau$) if every open cover of $Y$
+  has a finite subcover.
+\end{definition}
+
+The two most simple topologies on a space $X$ are the \emph{discrete topology} $\cP(X)$ (in which
+every set is open) and the \emph{trivial topology} $\{\varnothing, X\}$ (in which only $\varnothing$
+and $X$ are open).
+
+Tychonoff's Theorem can be summarized by the sentence: products of compact sets are compact in the
+product topology. We define the product topology below.
+
+\begin{definition}
+  Let $I$ be a set and suppose $(X_i,\tau_i)_{i\in I}$ is a collection of topological spaces. A
+  \emph{cylinder open set} of $\prod_{i\in I} X_i$ is a subset of the form $\prod_{i\in I} U_i$ such
+  that each $U_i\in\tau_i$ is an open set of $X_i$ and
+  \begin{align*}
+    \{i\in I \mid U_i\neq X_i\}
+  \end{align*}
+  is finite (that is, all except for finitely many $U_i$ are equal to $X_i$).
+
+  A \emph{cylinder closed set} is defined analogously, but we require the $U_i$ to be closed sets.
+
+  A \emph{basic closed set} is any set that can be written as a finite union of cylinder closed sets.
+
+  The \emph{product topology} is the collection of all subsets of $\prod_{i\in I} X_i$ that can be
+  written as (finite or infinite) unions of cylinder open sets.
+\end{definition}
+
+\begin{lemma}
+  Cylinder closed sets and basic closed sets are closed sets (in the product topology).
+\end{lemma}
+
+\begin{lemma}\label{lem:compopen}
+  The complement of a cylinder open set is a basic closed set (in the product topology).
+\end{lemma}
+
+\begin{lemma}\label{lem:closed}
+  A set is closed in the product topology if and only if it can be written as a (finite or infinite)
+  intersection of basic closed sets.
+\end{lemma}
+
+\subsection{Main topic}
+
+First, we will see an alternative formulation of compactness via intersection properties.
+
+\begin{definition}
+  A collection of sets $\cF$ is said to have \emph{finite intersection property} if for every
+  \emph{finite} non-empty subcollection $\cF'\subseteq\cF$, the intersection $\bigcap_{F\in\cF'} F$
+  is non-empty (i.e., every finite non-empty subcollection of $\cF$ has a common point).
+
+  We say that $\cF$ has \emph{finite intersection property within $Y$} if $\cF\cup\{Y\}$ has finite
+  intersection property (note that this is equivalent to saying that every finite non-empty
+  subcollection of $\cF$ has a common point within $Y$).
+\end{definition}
+
+\begin{theorem}\label{thm:FIP}
+  Let $(X,\tau)$ be a topological space. The following are equivalent for set $Y\subseteq X$:
+  \begin{enumerate}
+  \item $Y$ is compact (with respect to $\tau$).
+  \item For every collection $\cF$ of closed sets with finite intersection property within $Y$, the
+    intersection $Y\cap\bigcap_{F\in\cF} F$ is non-empty.
+  \end{enumerate}
+  
+\begin{proof}
+\vspace{0.5em}
+\textbf{(i) $\Rightarrow$ (ii):} Assume $Y$ is compact. Let 
+\(\mathcal{F}\) be a collection of closed sets with the finite intersection property 
+within \(Y\). We wish to show that
+\[
+Y \cap \bigcap_{F\in \mathcal{F}} F \neq \varnothing.
+\]
+
+Suppose, for the sake of contradiction, that
+\[
+Y \cap \bigcap_{F\in \mathcal{F}} F = \varnothing.
+\]
+Then, for every \(y\in Y\) there exists some \(F\in \mathcal{F}\) such that 
+\(y\notin F\). Equivalently, \(y\in X\setminus F\). Since each \(F\) is closed, 
+\(X\setminus F\) is open. Hence, 
+\[
+\{\, X\setminus F \mid F\in \mathcal{F} \,\}
+\]
+forms an open cover of \(Y\).
+
+By the compactness of \(Y\), there exists a finite subcover; that is, there exist 
+\(F_1, F_2, \dots, F_n \in \mathcal{F}\) such that
+\[
+Y \subseteq \bigcup_{i=1}^n \Bigl(X \setminus F_i\Bigr).
+\]
+By De Morgan's Laws, we have
+\[
+\bigcup_{i=1}^n \Bigl(X \setminus F_i\Bigr)
+=
+X\setminus \Bigl(\bigcap_{i=1}^n F_i\Bigr).
+\]
+Thus, 
+\[
+Y \subseteq X \setminus \Bigl(\bigcap_{i=1}^n F_i\Bigr),
+\]
+which implies that
+\[
+Y \cap \Bigl(\bigcap_{i=1}^n F_i\Bigr) = \varnothing.
+\]
+This contradicts the assumption that \(\mathcal{F}\) has the finite intersection property within \(Y\). 
+
+\vspace{0.5em}
+\textbf{(ii) $\Rightarrow$ (i):} Now, assume that for every collection 
+\(\mathcal{F}\) of closed sets with the FIP within \(Y\) we have
+\[
+Y \cap \bigcap_{F\in \mathcal{F}} F \neq \varnothing.
+\]
+We want to show that \(Y\) is compact.
+
+Suppose, toward a contradiction, that \(Y\) is not compact. Then there exists an open 
+cover \(\mathcal{G}=\{G_i\}_{i\in I}\) of \(Y\) which does not admit any finite subcover.
+
+Since each \(G_i\) is open, the complement \(X\setminus G_i\) is closed. Define
+\[
+\mathcal{H} = \{\,X\setminus G_i \mid i\in I\,\}.
+\]
+We claim that \(\mathcal{H}\) has the finite intersection property within \(Y\).
+
+Indeed, take any finite subcollection \(\{X\setminus G_{i_1}, X\setminus G_{i_2}, \dots, X\setminus G_{i_n}\}\) of \(\mathcal{H}\). Then,
+\[
+\bigcap_{j=1}^n \Bigl(X\setminus G_{i_j}\Bigr)
+=
+X\setminus \Bigl(\bigcup_{j=1}^n G_{i_j}\Bigr).
+\]
+Since \(\{G_{i_j}\}_{j=1}^n\) is a finite subset of the open cover \(\mathcal{G}\), and by assumption no finite subcollection of \(\mathcal{G}\) covers \(Y\), it follows that
+\[
+Y \setminus \Bigl(\bigcup_{j=1}^n G_{i_j}\Bigr) \neq \varnothing.
+\]
+Hence,
+\[
+Y \cap \Bigl(\bigcap_{j=1}^n (X\setminus G_{i_j})\Bigr) \neq \varnothing.
+\]
+Thus, \(\mathcal{H}\) has the FIP within \(Y\).
+
+By our hypothesis (applied to the collection \(\mathcal{H}\) of closed sets), we have
+\[
+Y \cap \bigcap_{H\in \mathcal{H}} H \neq \varnothing.
+\]
+That is, there exists a point
+\[
+m \in Y \cap \bigcap_{i\in I} (X\setminus G_i).
+\]
+In other words, \(m\in Y\) and for all \(i\in I\),
+\[
+m \notin G_i.
+\]
+This contradicts the fact that \(\mathcal{G}\) is an open cover of \(Y\).
+
+Thus, \(Y\) must be compact.
+
+
+\renewcommand\qedsymbol{QED}
+\end{proof}
+
+
+\end{theorem}
+
+\begin{lemma}\label{lem:bcFIP}
+  Let $(X_i,\tau_i)_{i\in I}$ be a collection of topological spaces and let $Y\subseteq\prod_{i\in I} X_i$. Suppose every
+  collection $\cF$ of basic closed sets with finite intersection property within $Y$ has non-empty intersection.
+
+  Then $Y$ is compact.
+
+  
+\begin{proof}
+By Theorem 1.11 it suffices to show that every collection $\mathcal{F}$ of closed sets with the FIP within $Y$ satisfies
+\[
+Y \cap \bigcap_{F\in\mathcal{F}} F \neq \varnothing.
+\]
+
+Let $\mathcal{F}$ be any collection of closed sets in $\prod_{i\in I} X_i$ that has the FIP within $Y$. By Lemma 1.9, every closed set $F\in\mathcal{F}$ can be expressed as an (arbitrary) intersection of basic closed sets. That is, for each $F\in\mathcal{F}$ there exists an index set $J_F$ and basic closed sets $\{G^F_j : j\in J_F\}$ such that
+\[
+F = \bigcap_{j\in J_F} G^F_j.
+\]
+Now, define the collection
+\[
+\mathcal{G} = \bigcup_{F\in\mathcal{F}} \{G^F_j : j\in J_F\}.
+\]
+We claim that $\mathcal{G}$ has the FIP within $Y$.
+
+To see this, let $\{G_1, G_2, \dots, G_n\}$ be an arbitrary finite subcollection of $\mathcal{G}$. For each $k=1,\dots,n$, there exists some $F_k\in\mathcal{F}$ and an index $j_k\in J_{F_k}$ with 
+\[
+G_k = G^{F_k}_{j_k}.
+\]
+Then,
+\[
+\bigcap_{k=1}^n F_k \subseteq \bigcap_{k=1}^n G^{F_k}_{j_k} = \bigcap_{k=1}^n G_k.
+\]
+Since $\mathcal{F}$ has the FIP within $Y$, we have
+\[
+Y\cap \bigcap_{k=1}^n F_k \neq \varnothing.
+\]
+Thus, it follows that
+\[
+Y\cap \bigcap_{k=1}^n G_k \neq \varnothing.
+\]
+This verifies that every finite subcollection of $\mathcal{G}$ has nonempty intersection with $Y$.
+
+By hypothesis, since $\mathcal{G}$ is a collection of basic closed sets with the FIP within $Y$, we conclude that
+\[
+Y \cap \bigcap_{G\in \mathcal{G}} G \neq \varnothing.
+\]
+Let $x$ be any point in $Y \cap \bigcap_{G\in \mathcal{G}} G$. Now, fix an arbitrary $F\in \mathcal{F}$. By construction, 
+\[
+F = \bigcap_{j\in J_F} G^F_j,
+\]
+and each $G^F_j$ is an element of $\mathcal{G}$. Hence, $x$ lies in every $G^F_j$ and, consequently, in
+\[
+F = \bigcap_{j\in J_F} G^F_j.
+\]
+Since $F$ was arbitrary in $\mathcal{F}$, we deduce that
+\[
+x\in \bigcap_{F\in \mathcal{F}} F.
+\]
+It follows that
+\[
+Y\cap \bigcap_{F\in \mathcal{F}} F \neq \varnothing.
+\]
+
+By Theorem 1.11, this shows that $Y$ is compact.
+
+\renewcommand\qedsymbol{QED}
+\end{proof}
+
+
+\end{lemma}
+
+\begin{lemma}\label{lem:cylFIP}
+  Assume the Axiom of Choice holds. Let $(X_i,\tau_i)_{i\in I}$ be a collection of topological
+  spaces and for each $i\in I$, let $Y_i\subseteq X_i$ be a compact set (with respect to $\tau_i$).
+
+  Then every collection $\cF$ of cylinder closed sets of $\prod_{i\in I} X_i$ with finite intersection property within
+  $\prod_{i\in I} Y_i$ has non-empty intersection within $\prod_{i\in I} Y_i$.
+
+  Hint: Write each $F\in\cF$ as $\prod_{i\in I} K^F_i$ with $K^F_i\subseteq X_i$ closed and for each $i\in I$, show that the
+  family $\cF_i\df\{K^F_i \mid F\in\cF\}$ has finite intersection property within $Y_i$. Use compactness of $Y_i$ to
+  $Y_i\cap\bigcap_{F\in\cF_i}$ and use the Axiom of Choice to construct an element in $Y\cap\bigcap_{F\in\cF} F$.
+
+  
+\begin{proof}
+Let $\cF$ be a collection of cylinder closed sets with FIP in 
+\[
+\prod_{i\in I} Y_i.
+\]
+For any $F\in \cF$, we can write
+\[
+F = \prod_{i\in I} K^F_i,
+\]
+with $K^F_i \subseteq X_i$ closed.
+
+For each fixed $i\in I$, define
+\[
+\cF_i \df \{K^F_i \mid F\in \cF\}.
+\]
+Take a finite subcollection $\cF'_i\subseteq \cF_i$ and write
+\[
+\cF'_i = \{K^{F_1}_i, K^{F_2}_i, \dots, K^{F_n}_i\}.
+\]
+Since each $K^{F_m}_i$ comes from some $F_m\in \cF$, let
+\[
+\cG = \{F_1, F_2, \dots, F_n\},
+\]
+so that $\cG$ is a finite subcollection of $\cF$.
+
+By the FIP of $\cF$, we have
+\[
+\left( \bigcap_{G \in \cG} G \right) \cap \left( \prod_{i\in I} Y_i \right) \neq \varnothing.
+\]
+Thus, there exists an element 
+\[
+a \in \prod_{i\in I} Y_i
+\]
+such that
+\[
+a \in \bigcap_{G \in \cG} G.
+\]
+In particular, for each $i\in I$, if we denote the $i$th coordinate of $a$ by $a_i$, then
+\[
+a_i \in Y_i \quad \text{and} \quad a_i \in \bigcap_{m=1}^n K^{F_m}_i.
+\]
+This shows that $\cF_i$ has the finite intersection property within $Y_i$.
+
+Since each $Y_i$ is compact, it follows that for every $i\in I$,
+\[
+Y_i \cap \bigcap_{F\in \cF} K^F_i \neq \varnothing.
+\]
+Thus, for each $i\in I$, there exists an element 
+\[
+h_i \in Y_i \cap \bigcap_{F\in \cF} K^F_i.
+\]
+
+By the Axiom of Choice, we can select such an $h_i$ for every $i\in I$ and form
+\[
+h = (h_i)_{i\in I} \in \prod_{i\in I} Y_i.
+\]
+Since for each $F\in \cF$, we have $h_i \in K^F_i$ for all $i\in I$, it follows that
+\[
+h \in \bigcap_{F\in \cF} F.
+\]
+Thus,
+\[
+h \in \left( \prod_{i\in I} Y_i \right) \cap \left( \bigcap_{F\in \cF} F \right),
+\]
+showing that the intersection is non-empty.
+
+\renewcommand\qedsymbol{QED}
+\end{proof}
+
+
+\end{lemma}
+
+\begin{lemma}\label{lem:bccyl}
+  Assume the Axiom of Choice holds. Let $(X_i,\tau_i)_{i\in I}$ be a collection of topological
+  spaces and let $Y\subseteq\prod_{i\in I} X_i$.
+
+  Suppose $\cF$ is a collection of basic closed sets of $\prod_{i\in I} X_i$ with finite
+  intersection property within $Y$. Then there exists a function $h$ that maps each element $F$ of
+  $\cF$ to a cylinder closed set $h(F)\subseteq F$ such that $h(\cF)$ has finite intersection
+  property within $Y$.
+
+  Hint: Let $\cC$ be the set of all cylinder closed sets of $\prod_{i\in I} X_i$ and let $\cG$ be the set of all functions of
+  the form $g\colon\cK\to\cC$ with $\cK\subseteq\cF$ such that $g(F)\subseteq F$ for every $F\in\cF$ and
+  \begin{align*}
+    \cF_g & \df g(\cK)\cup(\cF\setminus\cK)
+  \end{align*}
+  has finite intersection property within $Y$. Equip $\cG$ with the partial order of function extension $\subseteq$, i.e.,
+  $g_1\subseteq g_2$ if $\dom(g_1)\subseteq\dom(g_2)$ and $g_2\rest_{\dom(g_1)} = g_1$. Prove that $\cG$ satisfies Zorn's
+  condition, apply Zorn's Lemma to get a maximal function $h$ and argue by contradiction that we must have $\dom(h) = \cF$, so
+  $h$ is our desired function.
+
+
+\end{lemma}
+
+\begin{theorem}[Tychonoff's Theorem]
+  Assume the Axiom of Choice holds. Let $(X_i,\tau_i)_{i\in I}$ be a collection of topological
+  spaces and for each $i\in I$, let $Y_i\subseteq X_i$ be a compact set (with respect to $\tau_i$).
+
+  Then $\prod_{i\in I} Y_i$ is a compact set in $\prod_{i\in I} X_i$ (with respect to the product
+  topology).
+  
+  
+\begin{proof}[Short Proof]
+By Lemma~1.12, it suffices to show that every collection of \emph{basic closed} sets in 
+\(\prod_{i\in I} X_i\) with the finite intersection property (FIP) within 
+\(\prod_{i\in I} Y_i\) has a nonempty intersection.
+
+By Lemma~1.14, given any such collection of basic closed sets with the FIP, we can assign 
+to each one a \emph{cylinder closed} subset so that the new family still has the FIP in 
+\(\prod_{i\in I} Y_i\).
+
+Then, Lemma~1.13 tells us that any collection of cylinder closed sets with the FIP in 
+\(\prod_{i\in I} Y_i\) has nonempty intersection. Hence every family of basic closed sets 
+with the FIP also has nonempty intersection, and by Lemma~1.12, \(\prod_{i\in I} Y_i\) is compact.
+
+\renewcommand\qedsymbol{QED}
+\end{proof}
+
+
+\end{theorem}
+
+A direct consequence of Tychonoff's Theorem is the Compactness Theorem for Propositional Logic,
+which says that if one has a system with infinitely many true/false variables and infinitely many
+constraints (each involving finitely many variables) such that every finite subsystem has a
+solution, then the full system has a solution. This essentially amounts to noticing that $\{0,1\}$
+equipped with the discrete topology is compact, so an infinite product $\prod_{i\in I}\{0,1\}$ is
+also compact, any constraint amounts to a cylinder closed set and finite subsystems having a
+solution amounts to finite intersection property.
+
+\end{document}
+
+%% Local Variables:
+%% mode: latex
+%% tab-width: 2
+%% End:
